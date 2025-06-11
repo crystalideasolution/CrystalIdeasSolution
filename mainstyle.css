@@ -162,11 +162,11 @@ html, body {
     min-height: 100vh;
   }
   .content {
-    background-color: #548af6;
+    background-color: #fff;
   }
   .footer-buttom {
-    background-color: #d0cece;
-    color: #262020;
+    background-color: #002060;
+    color: #fff;
     padding: 1rem;
     text-align: center;
     /* เปลี่ยนจาก margin-top: auto; */
