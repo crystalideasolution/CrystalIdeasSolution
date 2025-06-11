@@ -50,7 +50,8 @@ nav{
 }
 
 .maincontent{
-    background-color: #d0cece;
+    background-color: #002060;
+    color: #fff;
 }
 
 .maincontent-con{
@@ -163,6 +164,10 @@ html, body {
   }
   .content {
     background-color: #fff;
+  }
+
+  .contact{
+
   }
   .footer-buttom {
     background-color: #002060;
