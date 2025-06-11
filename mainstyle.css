@@ -3,6 +3,14 @@
     padding: 0;
     box-sizing: border-box;
 }
+html{
+     scroll-behavior: smooth;
+    }
+    
+section{
+    min-height: 30vh;
+    padding: 2rem;
+}
 
 .container{
     max-width: 1400px;
@@ -10,7 +18,7 @@
 }
 
 nav{
-    padding: 1rem;
+    padding: 0.5rem;
     background-color: #fff;
 }
 
@@ -85,7 +93,7 @@ nav{
 }
 
 .content-title{
-    margin: 2rem 0;
+    margin: 1rem 0;
 }
 
 .content-item img{
@@ -110,25 +118,25 @@ nav{
     border-radius: 5px;
 }
 
-.footer-top{
+.content-top{
     margin-top:  2rem;
     padding: 3rem 3rem 0rem 3rem;
     background-color: #262020;
     color: #ffffff;
 }
 
-.footer-top-con{
+.content-top-con{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 2rem;
 }
 
-.footer-top-item-con{
+.content-top-item-con{
     display: flex;
     margin: 1rem 0;
 }
 
-.footer-top-item-con .date{
+.content-top-item-con .date{
     background-color: #fff;
     color: #333;
     padding: 0.5rem;
@@ -137,8 +145,8 @@ nav{
     margin-right: 10px;
 }
 
-.footer-top-item:nth-child(2) h4,
-.footer-top-item:nth-child(3) h4{
+.content-top-item:nth-child(2) h4,
+.content-top-item:nth-child(3) h4{
     margin-bottom: 1rem;
 }
 
@@ -153,7 +161,9 @@ html, body {
     flex-direction: column;
     min-height: 100vh;
   }
-  
+  .content {
+    background-color: #548af6;
+  }
   .footer-buttom {
     background-color: #d0cece;
     color: #262020;
@@ -201,13 +211,13 @@ html, body {
     }
 
     .content-con,
-    .footer-top-con {
+    .content-top-con {
         grid-template-columns: 1fr; /* เปลี่ยนเป็น 1 คอลัมน์ */
     }
 
     /* อาจเพิ่ม padding ให้กับส่วนต่างๆ เพื่อให้มีช่องว่าง */
     .content,
-    .footer-top {
+    .content-top {
         padding-left: 1rem;
         padding-right: 1rem;
     }
@@ -227,15 +237,16 @@ html, body {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* เพิ่มเงา */
         transition: all 0.3s ease;
     }
-    .footer-top-item .fa-facebook {
+    .content-top-item .fa-facebook {
         color: rgb(48, 172, 244);
     }
-    .footer-top-item .fa-line {
+    .content-top-item .fa-line {
         color: rgb(41, 252, 83);
     }
-    .footer-top-item .fa-google-plus {
+    .content-top-item .fa-google-plus {
         color: rgb(255, 211, 68);
     }
-    .footer-top-item i { /* เพิ่มช่องว่างเล็กน้อยหากจำเป็น */
+    .content-top-item i { /* เพิ่มช่องว่างเล็กน้อยหากจำเป็น */
         margin-right: 5px;
     }
+  
