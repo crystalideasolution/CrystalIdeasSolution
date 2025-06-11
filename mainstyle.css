@@ -73,7 +73,7 @@ nav{
 
 .maincontent-info .maincontent-btn{
     background-color: #f09d18;
-    color: #fff;
+    color: #fefefe;
     padding: 1rem;
     border-radius: 5px;
     text-decoration: none;
@@ -93,6 +93,36 @@ nav{
     column-gap: 2rem;
 }
 
+.image-row {
+    display: flex;
+    gap: 20px; /* ระยะห่างระหว่างรูปภาพ */
+    justify-content: center;
+    flex-wrap: wrap; /* ให้รองรับหน้าจอแคบ */
+    margin-top: 1rem;
+    }
+
+.image-row img {
+    width: 45%; /* กว้างเท่าๆ กัน */
+    border-radius: 10px;
+    object-fit: cover;
+    }
+
+.about-detail {
+    padding: 2rem;
+}
+
+.about-text {
+    text-align: left; /* ชิดซ้ายเฉพาะข้อความ */
+    margin-top: 1rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.about-btn-container {
+    text-align: center; /* จัดปุ่มให้อยู่ตรงกลาง */
+    margin-top: 2rem;
+}
 .content-title{
     margin: 1rem 0;
 }
@@ -253,5 +283,11 @@ html, body {
     }
     .content-top-item i { /* เพิ่มช่องว่างเล็กน้อยหากจำเป็น */
         margin-right: 5px;
+    }
+
+    @media screen and (max-width: 768px) {
+    .image-row img {
+        width: 100%;
+        }
     }
   
