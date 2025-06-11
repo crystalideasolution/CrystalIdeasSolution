@@ -1,0 +1,241 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+nav{
+    padding: 1rem;
+    background-color: #fff;
+}
+
+.nav-con{
+    display: flex;
+    justify-content: space-between;
+}
+
+.logo img{
+    height: 80px;
+    width: auto;
+    color: #002060;
+    text-decoration: none;
+}
+
+.menu{
+    display: flex;
+    list-style: none;
+    align-items: center;
+}
+
+.menu li {
+    margin: 0 1rem;
+}
+
+.menu li a {
+    color: #002060;
+    text-decoration: none;
+}
+
+.maincontent{
+    background-color: #d0cece;
+}
+
+.maincontent-con{
+    display: flex;
+}
+
+.maincontent-info{
+    width: 100%;
+    padding: 2rem;
+}
+
+.maincontent-info h3{
+    font-size: 2rem;
+}
+
+.maincontent-info p{
+    margin: 1rem 0;
+}
+
+.maincontent-info .maincontent-btn{
+    background-color: #f09d18;
+    color: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.maincontent-img{
+    width: 100%;
+    padding: 2rem;
+    border-radius: 50px;
+    display: block;
+    object-fit: cover;
+}
+
+.content-con{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 2rem;
+}
+
+.content-title{
+    margin: 2rem 0;
+}
+
+.content-item img{
+    width: 100%;
+    border-radius: 5px;
+}
+
+.content-item h4{
+    margin-top: 1rem;
+}
+
+.content-item p{
+    margin: 1rem 0;
+}
+
+.content-item a{
+    display: inline-block;
+    color: #fff;
+    background-color: #f09d18;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.footer-top{
+    margin-top:  2rem;
+    padding: 3rem 3rem 0rem 3rem;
+    background-color: #262020;
+    color: #ffffff;
+}
+
+.footer-top-con{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 2rem;
+}
+
+.footer-top-item-con{
+    display: flex;
+    margin: 1rem 0;
+}
+
+.footer-top-item-con .date{
+    background-color: #fff;
+    color: #333;
+    padding: 0.5rem;
+    border-radius: 5px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.footer-top-item:nth-child(2) h4,
+.footer-top-item:nth-child(3) h4{
+    margin-bottom: 1rem;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .footer-buttom {
+    background-color: #d0cece;
+    color: #262020;
+    padding: 1rem;
+    text-align: center;
+    /* เปลี่ยนจาก margin-top: auto; */
+
+     /* 1. ทำให้ Element นี้ลอยอยู่บนหน้าจอ */
+    bottom: 0;       /* 2. กำหนดให้อยู่ที่ขอบล่างสุดของหน้าจอ */
+    left: 0;         /* 3. กำหนดให้อยู่ที่ขอบซ้ายสุดของหน้าจอ */
+    width: 100%;     /* 4. กำหนดให้มีความกว้างเต็มหน้าจอ */
+    z-index: 100;    /* 5. (ไม่บังคับ แต่แนะนำ) กำหนดลำดับการซ้อนทับ เพื่อให้ Footer อยู่เหนือเนื้อหาอื่น */
+}
+
+.footer-top-item:nth-child(3) p {
+    padding: 0.5rem;
+}
+.my-element {
+    position: relative;
+    /* สามารถเพิ่มคุณสมบัติ top, bottom, left, right เพื่อเลื่อนตำแหน่งได้ */
+    /* top: 20px; */
+    /* left: 10px; */
+}
+
+@media (max-width: 768px) {
+    .nav-con {
+        flex-direction: column;
+        align-items: center; /* จัดกึ่งกลางโลโก้และเมนู */
+    }
+    .menu {
+        flex-direction: column;
+        margin-top: 1rem;
+    }
+    .menu li {
+        margin: 0.5rem 0;
+    }
+
+    .maincontent-con {
+        flex-direction: column;
+    }
+    .maincontent-info,
+    .maincontent-img {
+        width: 100%;
+        padding: 1rem; /* ลด padding บนมือถือ */
+    }
+
+    .content-con,
+    .footer-top-con {
+        grid-template-columns: 1fr; /* เปลี่ยนเป็น 1 คอลัมน์ */
+    }
+
+    /* อาจเพิ่ม padding ให้กับส่วนต่างๆ เพื่อให้มีช่องว่าง */
+    .content,
+    .footer-top {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    }
+    .menu li a:hover,
+    .menu li a:focus {
+        color: #f09d18; /* สีส้มเมื่อเมาส์ชี้หรือถูกเลือก */
+        transition: color 0.3s ease; /* ทำให้เปลี่ยนสีนุ่มนวล */
+    }
+
+    .maincontent-info .maincontent-btn:hover,
+    .maincontent-info .maincontent-btn:focus,
+    .content-item a:hover,
+    .content-item a:focus {
+        background-color: #d88a0f; /* สีส้มเข้มขึ้นเมื่อเมาส์ชี้ */
+        transform: translateY(-2px); /* ปุ่มขยับขึ้นเล็กน้อย */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* เพิ่มเงา */
+        transition: all 0.3s ease;
+    }
+    .footer-top-item .fa-facebook {
+        color: rgb(48, 172, 244);
+    }
+    .footer-top-item .fa-line {
+        color: rgb(41, 252, 83);
+    }
+    .footer-top-item .fa-google-plus {
+        color: rgb(255, 211, 68);
+    }
+    .footer-top-item i { /* เพิ่มช่องว่างเล็กน้อยหากจำเป็น */
+        margin-right: 5px;
+    }
