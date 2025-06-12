@@ -371,6 +371,49 @@ html, body {
         .menu li a{
             font-size: 0.9rem; /* ปรับขนาดตัวอักษรให้เล็กลง */
             padding: 0.5rem;/* ปรับขนาด padding ให้เล็กลง */
-            display: block; /* ทำให้ลิงก์เป็นบล็อกเพื่อให้คลิกได้ง่าย */
+            display: block;
         }
     }
+    @media (max-width: 768px) {
+    /* ทำให้เต็มหน้าจอมือถือ */
+    body, html {
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        overflow-x: hidden;
+    }
+
+    .container {
+        width: 100%;
+        padding: 0 1rem;
+        box-sizing: border-box;
+    }
+
+    /* ตัวอย่าง: แก้ปุ่มให้เล็กลง */
+    .btn, .button, .btn-yellow {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+
+    /* Footer bottom เล็กลง */
+    .footer-buttom {
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+        text-align: center;
+    }
+
+    /* เมนูแนวนอนสำหรับ mobile */
+    nav ul {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 0;
+    }
+
+    nav ul li {
+        display: inline;
+        margin: 0;
+    }
+}
