@@ -79,12 +79,16 @@ nav{
     text-decoration: none;
 }
 
-.maincontent-img{
+.maincontent-img {
     width: 100%;
     padding: 2rem;
-    border-radius: 50px;
-    display: block;
-    object-fit: cover;
+    display: flex; /* เพิ่ม */
+    justify-content: center; /* เพิ่ม */
+}
+.maincontent-img img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
 }
 
 .content-con{
@@ -134,6 +138,10 @@ nav{
 
 .content-item h4{
     margin-top: 1rem;
+    font-size: 1.2rem;
+}
+.content-item a {
+    margin-top: 0.5rem;
 }
 
 .content-item p{
@@ -201,16 +209,15 @@ html, body {
   }
   .footer-buttom {
     background-color: #002060;
+    position: relative;
     color: #fff;
     padding: 1rem;
-    text-align: center;
-    /* เปลี่ยนจาก margin-top: auto; */
-
-     /* 1. ทำให้ Element นี้ลอยอยู่บนหน้าจอ */
+    text-align: center;/* เปลี่ยนจาก margin-top: auto; */   /* 1. ทำให้ Element นี้ลอยอยู่บนหน้าจอ */
     bottom: 0;       /* 2. กำหนดให้อยู่ที่ขอบล่างสุดของหน้าจอ */
     left: 0;         /* 3. กำหนดให้อยู่ที่ขอบซ้ายสุดของหน้าจอ */
     width: 100%;     /* 4. กำหนดให้มีความกว้างเต็มหน้าจอ */
     z-index: 100;    /* 5. (ไม่บังคับ แต่แนะนำ) กำหนดลำดับการซ้อนทับ เพื่อให้ Footer อยู่เหนือเนื้อหาอื่น */
+    padding-bottom: 10px; /* 6. กำหนด padding ด้านล่างเพื่อให้เนื้อหาไม่ทับ Footer */
 }
 
 .footer-top-item:nth-child(3) p {
@@ -222,46 +229,17 @@ html, body {
     /* top: 20px; */
     /* left: 10px; */
 }
-
-@media (max-width: 768px) {
-    .nav-con {
-        flex-direction: column;
-        align-items: center; /* จัดกึ่งกลางโลโก้และเมนู */
-    }
-    .menu {
-        flex-direction: column;
-        margin-top: 1rem;
-    }
-    .menu li {
-        margin: 0.5rem 0;
-    }
-
-    .maincontent-con {
-        flex-direction: column;
-    }
-    .maincontent-info,
-    .maincontent-img {
-        width: 100%;
-        padding: 1rem; /* ลด padding บนมือถือ */
-    }
-
-    .content-con,
-    .content-top-con {
-        grid-template-columns: 1fr; /* เปลี่ยนเป็น 1 คอลัมน์ */
-    }
-
-    /* อาจเพิ่ม padding ให้กับส่วนต่างๆ เพื่อให้มีช่องว่าง */
-    .content,
-    .content-top {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-    }
     .menu li a:hover,
     .menu li a:focus {
         color: #f09d18; /* สีส้มเมื่อเมาส์ชี้หรือถูกเลือก */
         transition: color 0.3s ease; /* ทำให้เปลี่ยนสีนุ่มนวล */
     }
+
+    .content-item a,
+    .maincontent-btn {
+        font-weight: bold;
+        letter-spacing: 0.5px;
+}
 
     .maincontent-info .maincontent-btn:hover,
     .maincontent-info .maincontent-btn:focus,
@@ -291,3 +269,86 @@ html, body {
         }
     }
   
+    @media (max-width: 768px) {
+    .nav-con {
+        flex-direction: column;
+        align-items: center; /* จัดกึ่งกลางโลโก้และเมนู */
+    }
+    .menu {
+        flex-direction: column;
+        margin-top: 1rem;
+    }
+    .menu li {
+        margin: 0.5rem 0;
+    }
+
+    @media(max-width: 768px) {
+        .maincontent-con {
+        flex-direction: column;
+     }   
+    }
+    @media(max-width: 768px){
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .maincontent-info {
+        padding: 1rem;
+    }
+    .maincontent-img {
+        padding: 1rem;
+    }
+    }
+    @media (max-width: 768px) {
+    .content-con {
+        grid-template-columns: 1fr; /* เปลี่ยนเป็น 1 คอลัมน์ */
+     }
+    }
+    /* อาจเพิ่ม padding ให้กับส่วนต่างๆ เพื่อให้มีช่องว่าง */
+    .content,
+    .content-top {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+        }
+    @media (max-width: 768px) {
+    .nav-con {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .menu {
+        flex-direction: column;
+        margin-top: 1rem;
+    }
+
+    .maincontent-con {
+        flex-direction: column;
+    }
+
+    .content-con,
+    .content-top-con {
+        grid-template-columns: 1fr;
+    }
+
+    .maincontent-info,
+    .maincontent-img,
+    .container {
+        padding: 1rem;
+        width: 100%;
+    }
+
+    .image-row img {
+        width: 100%;
+    }
+
+    .footer-buttom {
+        position: relative; /* ไม่ใช้ fixed ถ้าไม่ได้ padding ด้านล่าง */
+    }
+    }
+    @media (max-width: 768px) {
+        .footer-buttom {
+            padding: 0.5rem; /* เพิ่ม padding เพื่อให้เนื้อหาไม่ทับ Footer */
+            font-size: 0.75rem;
+        }
+    }
