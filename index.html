@@ -3,15 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Crystal Ideas Solution is a leading inkjet media manufacturer and service provider for advertising solutions in Thailand.">
     <title>Crystal Ideas Solution</title>
     <link rel="stylesheet" href="mainstyle.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const scrollContainer = document.getElementById("scrollable-services");
+            const leftBtn = document.querySelector(".scroll-btn.left");
+            const rightBtn = document.querySelector(".scroll-btn.right");
+
+            // *** สำคัญ: การคำนวณการเลื่อนที่ถูกต้องสำหรับ 2 รูปต่อครั้ง ***
+            // ใช้ความกว้างของ scrollContainer.clientWidth ซึ่งเท่ากับพื้นที่ที่มองเห็น 2 รูป + gap พอดี
+            const scrollAmount = scrollContainer.clientWidth; 
+        rightBtn.addEventListener("click", () => {
+            const maxScrollLeft = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+            let targetScrollLeft = scrollContainer.scrollLeft + scrollAmount;
+
+            if (targetScrollLeft >= maxScrollLeft) {
+                targetScrollLeft = maxScrollLeft;
+            }
+            scrollContainer.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
+            // ไม่ต้องเรียก checkScrollButtonVisibility ทันทีหลังคลิกปุ่มแล้ว เพราะปุ่มจะแสดงเสมอ
+            // setTimeout(checkScrollButtonVisibility, 350); // สามารถลบบรรทัดนี้ได้
+        });
+
+        leftBtn.addEventListener("click", () => {
+            let targetScrollLeft = scrollContainer.scrollLeft - scrollAmount;
+
+            if (targetScrollLeft <= 0) {
+                targetScrollLeft = 0;
+            }
+            scrollContainer.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
+            // ไม่ต้องเรียก checkScrollButtonVisibility ทันทีหลังคลิกปุ่มแล้ว เพราะปุ่มจะแสดงเสมอ
+            // setTimeout(checkScrollButtonVisibility, 350); // สามารถลบบรรทัดนี้ได้
+        });
+
+        // --------------------------------------------------------------------------
+        // *** ส่วนที่แก้ไข: ปรับปรุงฟังก์ชัน checkScrollButtonVisibility() ***
+        // --------------------------------------------------------------------------
+        function checkScrollButtonVisibility() {
+            // ทำให้ปุ่มซ้ายแสดงเสมอ
+            leftBtn.style.display = 'flex'; // หรือ 'block' หากสไตล์ปุ่มของคุณเป็น block
+
+            // ทำให้ปุ่มขวาแสดงเสมอเช่นกัน
+            rightBtn.style.display = 'flex'; // หรือ 'block'
+
+            // เนื่องจากปุ่มจะแสดงเสมอ ฟังก์ชันนี้จึงไม่จำเป็นต้องทำงานในการซ่อน/แสดงปุ่มแล้ว
+            // คุณสามารถลบ Event Listener 'scroll' ออกจาก scrollContainer ได้ด้วย
+            // แต่ถ้าในอนาคตมีอย่างอื่นที่ต้องเช็คเมื่อเลื่อน ก็สามารถคงไว้ได้
+        }
+
+        // เรียกใช้เมื่อโหลดหน้าจอครั้งแรก (เพื่อให้ปุ่มแสดง)
+        checkScrollButtonVisibility();
+        // **(Optional)** หากฟังก์ชัน checkScrollButtonVisibility() มีไว้เพื่อแค่แสดงปุ่มตลอดเวลา
+        // คุณสามารถลบ Event Listener นี้ออกได้ เพื่อลดการทำงานที่ไม่จำเป็นเมื่อมีการเลื่อน
+        // scrollContainer.removeEventListener('scroll', checkScrollButtonVisibility); // ลบ Event Listener เดิมออก
+        // หรือแค่คอมเมนต์บรรทัดด้านล่างนี้ไปเลย:
+        // scrollContainer.addEventListener('scroll', checkScrollButtonVisibility); 
+
+        // และในส่วน rightBtn.addEventListener และ leftBtn.addEventListener
+        // สามารถลบบรรทัด setTimeout(checkScrollButtonVisibility, 350); ออกได้
+    });
+    </script>
+
     <style>
         body {
-            /* กำหนด font-family เป็น 'Nunito Sans' */
             font-family: 'Nunito Sans', sans-serif;
         }
     </style>
@@ -26,9 +86,9 @@
             </div>
                 <ul class="menu"> 
                     <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Product/Service</a></li>
-                    <li><a href="#about">About us</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#services">Products</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
                 </ul>
             </div>
         </div>
@@ -37,12 +97,11 @@
         <div class="container">
             <div class="maincontent-con">
                 <div class="maincontent-info">
-                    <!-- ข้อมูลเกี่ยวกับเรา -->
                     <h3>About Us</h3> 
                     <p> Crystal Idea Solution Company Limited, founded in 2025, is a leading manufacturer of inkjet media for both indoor and outdoor applications. We also provide a comprehensive range of high-quality, high-resolution advertising media. Our company is committed to the continuous development of products and technology to meet the evolving needs of our customers.</p>
                     <a href="Aboutme.html" class="maincontent-btn" target="_blank">More details</a>
                 </div>
-                     <div class="maincontent-img">
+                <div class="maincontent-img">
                     <img src="https://images.pexels.com/photos/3184436/pexels-photo-3184436.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
                 </div>
             </div>
@@ -53,61 +112,79 @@
             <div class="content-title">
                 <h3>Our Services</h3>
                 <p> Sales and printing services for photographs, photo images, stickers, and advertising boards </p>
-                <p1>Installation of advertising media, including wall-mounted signs, hanging banners, freestanding displays, and vehicle wraps</p1>
-            </div>
-            <div class="content-con">
-                <div class="content-item">
-                    <img src="https://images.pexels.com/photos/4158/apple-iphone-smartphone-desk.jpg?auto=compress&cs=tinysrgb&w=600" alt=""> 
-                    <h4>ชื่อสินค้า</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
-                    <a href="Product1.html" class="content-btn" target="_blank">รายละเอียดสินค้า</a>
-                </div>
-                <div class="content-item">
-                    <img src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
-                    <h4>ชื่อสินค้า2</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
-                    <a href="Product2.html" class="content-btn" target="_blank">รายละเอียดสินค้า</a>
-                </div>
-                <div class="content-item">
-                    <img src="https://images.pexels.com/photos/777001/pexels-photo-777001.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
-                    <h4>ชื่อสินค้า3</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
-                    <a href="Product3.html" class="content-btn" target="_blank">รายละเอียดสินค้า</a>
-                </div>
-            </div>
-        </div>
-    </Section>
-      <Section class="contact" id="contact">
-        <div class="container">
-            <div class="content-title">
-                <h3>Our Services</h3>
-                <p> Sales and printing services for photographs, photo images, stickers, and advertising boards </p>
                 <p>Installation of advertising media, including wall-mounted signs, hanging banners, freestanding displays, and vehicle wraps</p>
             </div>
-            <div class="content-con">
-                <div class="content-item">
-                    <img src="https://images.pexels.com/photos/4158/apple-iphone-smartphone-desk.jpg?auto=compress&cs=tinysrgb&w=600" alt=""> 
-                    <h4>ชื่อสินค้า</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
-                    <a href="" class="content-btn">รายละเอียดสินค้า</a>
+            <div class="scroll-container">
+                <button class="scroll-btn left">◀</button> 
+
+                <div class="content-con scroll-x" id="scrollable-services">
+                    <div class="content-item">
+                        <img src="https://images.pexels.com/photos/4158/apple-iphone-smartphone-desk.jpg?auto=compress&cs=tinysrgb&w=600" alt=""> 
+                        <h4>ชื่อสินค้า</h4>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
+                        <a href="Product1.html" class="content-btn" target="_blank">รายละเอียดสินค้า</a>
+                    </div>
+                    <div class="content-item">
+                        <img src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
+                        <h4>ชื่อสินค้า2</h4>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
+                        <a href="Product2.html" class="content-btn" target="_blank">รายละเอียดสินค้า</a>
+                    </div>
+                    <div class="content-item">
+                        <img src="https://images.pexels.com/photos/777001/pexels-photo-777001.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
+                        <h4>ชื่อสินค้า3</h4>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
+                        <a href="Product3.html" class="content-btn" target="_blank">รายละเอียดสินค้า</a>
+                    </div>
+                    <div class="content-item">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcFU4vMZsbSiKcFdJ-JdSssSeHDrjTruWAvQ&s" alt="">
+                        <h4>ชื่อสินค้า4</h4>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
+                        <a href="Product3.html" class="content-btn" target="_blank">รายละเอียดสินค้า</a>
+                    </div>
+                    <div class="content-item">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF9mP2LnFDLGo6sGfSVQKZol3lTxo9JCtuHA&s" alt="">
+                        <h4>ชื่อสินค้า5</h4>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
+                        <a href="Product3.html" class="content-btn" target="_blank">รายละเอียดสินค้า</a>
+                    </div>
                 </div>
-                <div class="content-item">
-                    <img src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
-                    <h4>ชื่อสินค้า2</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
-                    <a href="" class="content-btn">รายละเอียดสินค้า</a>
+                <button class="scroll-btn right">▶</button>
+            </div>
+        </div>
+    </Section>
+
+    <Section class="contact" id="contact">
+        <div class="container">
+            <div class="content-title">
+                <h3>Contact Us</h3>
+                <p>Feel free to reach out to us for inquiries or support.</p>
+            </div>
+            <div class="contact-info-grid">
+                <div class="contact-item-detail">
+                    <h4>Our Office</h4>
+                    <p>123/45 Crystal Street, Idea Building,
+                       Solution District, Bangkok 10100, Thailand</p>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.568603632483!2d100.56942091483017!3d13.746014490333292!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e29e924a64c4c7%3A0x6e9f0c2e9b0b0a8!2sBangkok!5e0!3m2!1sen!2sth!4v1718167733221!5m2!1sen!2sth" 
+                        width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
-                <div class="content-item">
-                    <img src="https://images.pexels.com/photos/777001/pexels-photo-777001.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
-                    <h4>ชื่อสินค้า3</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
-                    <a href="" class="content-btn">รายละเอียดสินค้า</a>
+                <div class="contact-item-detail">
+                    <h4>Get in Touch</h4>
+                    <p><i class="fa-solid fa-phone"></i> +66 (0) 2 123 4567</p>
+                    <p><i class="fa-solid fa-envelope"></i> info@crystalideas.com</p>
+                    <p><i class="fa-solid fa-clock"></i> Mon-Fri: 9:00 AM - 5:00 PM</p>
+                </div>
+                <div class="contact-item-detail social-links">
+                    <h4>Connect With Us</h4>
+                    <p><a href="#" target="_blank"><i class="fa-brands fa-facebook" style="color: rgb(48, 172, 244);"></i> Facebook</a></p>
+                    <p><a href="#" target="_blank"><i class="fa-brands fa-line" style="color: rgb(41, 252, 83);"></i> Line</a></p>
+                    <p><a href="#" target="_blank"><i class="fa-brands fa-google-plus" style="color: rgb(255, 211, 68);"></i> Google+</a></p>
                 </div>
             </div>
         </div>
     </Section>
-    <div class="footer-buttom">
-       © 2025 Crystal Ideas Solution Co., Ltd. All Right Reserved. 
-    </div>
+    <footer class="footer-buttom">
+        © 2025 Crystal Ideas Solution Co., Ltd. All Right Reserved. 
+    </footer>
 </body>
 </html>
