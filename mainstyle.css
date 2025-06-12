@@ -72,7 +72,48 @@ section{
     max-width: 1400px;
     margin: 0 auto;
 }
+body {
+     font-family: 'Nunito Sans', sans-serif;
+    }
+    /* Styles for language buttons */
+.lang-switcher {
+    display: flex;
+    gap: 10px; 
+    }
+.lang-btn {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease; /* ยังคง transition ไว้สำหรับ active state หรือ hover */
 
+    /* เพิ่มส่วนนี้เพื่อกำหนดรูปภาพพื้นหลัง */
+    width: 40px; /* กำหนดความกว้างของปุ่ม (ปรับตามขนาดรูปภาพของคุณ) */
+    height: 30px; /* กำหนดความสูงของปุ่ม (ปรับตามขนาดรูปภาพของคุณ) */
+    background-size: cover; /* หรือ 'contain' เพื่อให้รูปภาพพอดีกับปุ่ม */
+    background-position: center; /* จัดตำแหน่งรูปภาพให้อยู่ตรงกลาง */
+    background-repeat: no-repeat; /* ไม่ให้รูปภาพซ้ำ */
+    text-indent: -9999px; /* ซ่อนข้อความ "EN" หรือ "TH" */
+    border: none; /* ลบเส้นขอบถ้าไม่ต้องการ */
+    }
+/* กำหนดรูปภาพพื้นหลังสำหรับแต่ละปุ่ม */
+.lang-btn[data-lang="en"] {
+        background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/1280px-Flag_of_the_United_Kingdom_%283-5%29.svg.png'); /* เปลี่ยน 'path/to/your/flag-en.png' เป็นตำแหน่งไฟล์รูปจริง */
+    }
+
+.lang-btn[data-lang="th"] {
+        background-image: url('https://cdn.pixabay.com/photo/2013/07/12/17/58/thailand-152711_1280.png'); /* เปลี่ยน 'path/to/your/flag-th.png' เป็นตำแหน่งไฟล์รูปจริง */
+    }
+
+.lang-btn:hover {
+    background-color: #e0e0e0;
+    }
+
+.lang-btn.active-lang {
+    background-color: #007bff; /* Example active color */
+    color: white;
+    border-color: #007bff;
+    }
 /* Navigation */
 nav{
     padding: 0.5rem;
@@ -82,6 +123,14 @@ nav{
 .nav-con{
     display: flex;
     justify-content: space-between;
+    align-items: center; /* จัดตำแหน่งรายการในแนวตั้ง */
+    width: 100%
+}
+
+.nav-end {
+    display: flex;
+    align-items: center; /* จัดตำแหน่งรายการในแนวตั้ง */
+    gap: 20px; /* ระยะห่างระหว่างปุ่ม */
 }
 
 .logo img{
@@ -94,11 +143,12 @@ nav{
 .menu{
     display: flex;
     list-style: none;
-    align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 .menu li {
-    margin: 0 1rem;
+    margin-left: 20px;
 }
 
 .menu li a {
