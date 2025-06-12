@@ -16,80 +16,144 @@
             const leftBtn = document.querySelector(".scroll-btn.left");
             const rightBtn = document.querySelector(".scroll-btn.right");
 
-            // *** สำคัญ: การคำนวณการเลื่อนที่ถูกต้องสำหรับ 2 รูปต่อครั้ง ***
-            // ใช้ความกว้างของ scrollContainer.clientWidth ซึ่งเท่ากับพื้นที่ที่มองเห็น 2 รูป + gap พอดี
             const scrollAmount = scrollContainer.clientWidth; 
-        rightBtn.addEventListener("click", () => {
-            const maxScrollLeft = scrollContainer.scrollWidth - scrollContainer.clientWidth;
-            let targetScrollLeft = scrollContainer.scrollLeft + scrollAmount;
+            rightBtn.addEventListener("click", () => {
+                const maxScrollLeft = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+                let targetScrollLeft = scrollContainer.scrollLeft + scrollAmount;
 
-            if (targetScrollLeft >= maxScrollLeft) {
-                targetScrollLeft = maxScrollLeft;
+                if (targetScrollLeft >= maxScrollLeft) {
+                    targetScrollLeft = maxScrollLeft;
+                }
+                scrollContainer.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
+            });
+
+            leftBtn.addEventListener("click", () => {
+                let targetScrollLeft = scrollContainer.scrollLeft - scrollAmount;
+
+                if (targetScrollLeft <= 0) {
+                    targetScrollLeft = 0;
+                }
+                scrollContainer.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
+            });
+
+            function checkScrollButtonVisibility() {
+                leftBtn.style.display = 'flex'; 
+                rightBtn.style.display = 'flex'; 
             }
-            scrollContainer.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
-            // ไม่ต้องเรียก checkScrollButtonVisibility ทันทีหลังคลิกปุ่มแล้ว เพราะปุ่มจะแสดงเสมอ
-            // setTimeout(checkScrollButtonVisibility, 350); // สามารถลบบรรทัดนี้ได้
-        });
 
-        leftBtn.addEventListener("click", () => {
-            let targetScrollLeft = scrollContainer.scrollLeft - scrollAmount;
+            checkScrollButtonVisibility();
 
-            if (targetScrollLeft <= 0) {
-                targetScrollLeft = 0;
+            // Language Selection
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const contentElements = document.querySelectorAll('[data-en], [data-th]');
+
+            function setLanguage(lang) {
+                contentElements.forEach(element => {
+                    if (element.dataset[lang]) {
+                        element.innerHTML = element.dataset[lang];
+                    }
+                });
+
+                // Update active state for buttons
+                langButtons.forEach(button => {
+                    if (button.dataset.lang === lang) {
+                        button.classList.add('active-lang');
+                    } else {
+                        button.classList.remove('active-lang');
+                    }
+                });
+                // Store selected language in local storage
+                localStorage.setItem('selectedLang', lang);
             }
-            scrollContainer.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
-            // ไม่ต้องเรียก checkScrollButtonVisibility ทันทีหลังคลิกปุ่มแล้ว เพราะปุ่มจะแสดงเสมอ
-            // setTimeout(checkScrollButtonVisibility, 350); // สามารถลบบรรทัดนี้ได้
+
+            langButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    setLanguage(button.dataset.lang);
+                });
+            });
+
+            // Check for saved language preference or default to English
+            const savedLang = localStorage.getItem('selectedLang');
+            setLanguage(savedLang || 'en'); // Default to English if no language is saved
         });
-
-        // --------------------------------------------------------------------------
-        // *** ส่วนที่แก้ไข: ปรับปรุงฟังก์ชัน checkScrollButtonVisibility() ***
-        // --------------------------------------------------------------------------
-        function checkScrollButtonVisibility() {
-            // ทำให้ปุ่มซ้ายแสดงเสมอ
-            leftBtn.style.display = 'flex'; // หรือ 'block' หากสไตล์ปุ่มของคุณเป็น block
-
-            // ทำให้ปุ่มขวาแสดงเสมอเช่นกัน
-            rightBtn.style.display = 'flex'; // หรือ 'block'
-
-            // เนื่องจากปุ่มจะแสดงเสมอ ฟังก์ชันนี้จึงไม่จำเป็นต้องทำงานในการซ่อน/แสดงปุ่มแล้ว
-            // คุณสามารถลบ Event Listener 'scroll' ออกจาก scrollContainer ได้ด้วย
-            // แต่ถ้าในอนาคตมีอย่างอื่นที่ต้องเช็คเมื่อเลื่อน ก็สามารถคงไว้ได้
-        }
-
-        // เรียกใช้เมื่อโหลดหน้าจอครั้งแรก (เพื่อให้ปุ่มแสดง)
-        checkScrollButtonVisibility();
-        // **(Optional)** หากฟังก์ชัน checkScrollButtonVisibility() มีไว้เพื่อแค่แสดงปุ่มตลอดเวลา
-        // คุณสามารถลบ Event Listener นี้ออกได้ เพื่อลดการทำงานที่ไม่จำเป็นเมื่อมีการเลื่อน
-        // scrollContainer.removeEventListener('scroll', checkScrollButtonVisibility); // ลบ Event Listener เดิมออก
-        // หรือแค่คอมเมนต์บรรทัดด้านล่างนี้ไปเลย:
-        // scrollContainer.addEventListener('scroll', checkScrollButtonVisibility); 
-
-        // และในส่วน rightBtn.addEventListener และ leftBtn.addEventListener
-        // สามารถลบบรรทัด setTimeout(checkScrollButtonVisibility, 350); ออกได้
-    });
     </script>
 
     <style>
         body {
             font-family: 'Nunito Sans', sans-serif;
         }
+        /* Styles for language buttons */
+        .lang-switcher {
+            display: flex;
+            gap: 10px; /* Adjust spacing between buttons */
+            /* margin-left: 20px; ลบหรือคอมเมนต์บรรทัดนี้ เพราะเราจะจัดการด้วย flexbox ของ .nav-end */
+        }
+        .lang-btn {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .lang-btn:hover {
+            background-color: #e0e0e0;
+        }
+        .lang-btn.active-lang {
+            background-color: #007bff; /* Example active color */
+            color: white;
+            border-color: #007bff;
+        }
+
+        /* Adjustments for navigation layout to accommodate language buttons */
+        .nav-con {
+            display: flex;
+            justify-content: space-between; /* Distribute items with space */
+            align-items: center; /* Vertically align items */
+            width: 100%;
+        }
+
+        /* เพิ่ม div ใหม่เพื่อจัดกลุ่มเมนูและปุ่มภาษาเข้าด้วยกัน */
+        .nav-end {
+            display: flex;
+            align-items: center; /* จัดตำแหน่งในแนวตั้ง */
+            gap: 20px; /* ระยะห่างระหว่างเมนูและปุ่มภาษา */
+        }
+
+        .menu {
+            display: flex;
+            list-style: none; /* Remove bullet points for nav items */
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu li {
+            margin-left: 20px; /* Spacing between menu items */
+        }
     </style>
 </head>
 <body>
     <nav>
         <div class="container">
-            <div class="nav-con" id = "home">
-                <div class="logo"><a href="#">
-                    <img src ="CIS1.jpg" alt ="Crystal Ideas Solution Logo">
-                </a>
-            </div>
-                <ul class="menu"> 
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="#services">Products</a></li>
-                    <li><a href="#contact">Contact Us</a></li>
-                </ul>
+            <div class="nav-con" id="home">
+                <div class="logo">
+                    <a href="#">
+                        <img src="CIS1.jpg" alt="Crystal Ideas Solution Logo">
+                    </a>
+                </div>
+                <div class="nav-end">
+                    <ul class="menu">
+                        <li><a href="#home" data-en="Home" data-th="หน้าหลัก">Home</a></li>
+                        <li><a href="#about" data-en="About Us" data-th="เกี่ยวกับเรา">About Us</a></li>
+                        <li><a href="#services" data-en="Products" data-th="สินค้า">Products</a></li>
+                        <li><a href="#contact" data-en="Contact Us" data-th="ติดต่อเรา">Contact Us</a></li>
+                    </ul>
+                    <div class="lang-switcher">
+                        <button class="lang-btn" data-lang="en">EN</button>
+                        <button class="lang-btn" data-lang="th">TH</button>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -97,9 +161,10 @@
         <div class="container">
             <div class="maincontent-con">
                 <div class="maincontent-info">
-                    <h3>About Us</h3> 
-                    <p> Crystal Idea Solution Company Limited, founded in 2025, is a leading manufacturer of inkjet media for both indoor and outdoor applications. We also provide a comprehensive range of high-quality, high-resolution advertising media. Our company is committed to the continuous development of products and technology to meet the evolving needs of our customers.</p>
-                    <a href="Aboutme.html" class="maincontent-btn" target="_blank">More details</a>
+                    <h3 data-en="About Us" data-th="เกี่ยวกับเรา">About Us</h3> 
+                    <p data-en="Crystal Idea Solution Company Limited, founded in 2025, is a leading manufacturer of inkjet media for both indoor and outdoor applications. We also provide a comprehensive range of high-quality, high-resolution advertising media. Our company is committed to the continuous development of products and technology to meet the evolving needs of our customers." 
+                       data-th="บริษัท คริสตัล ไอเดีย โซลูชั่น จำกัด ก่อตั้งขึ้นในปี 2568 เป็นผู้ผลิตสื่ออิงค์เจ็ทชั้นนำสำหรับงานภายในและภายนอกอาคาร นอกจากนี้เรายังให้บริการสื่อโฆษณาคุณภาพสูงและความละเอียดสูงอย่างครบวงจร บริษัทมุ่งมั่นในการพัฒนาผลิตภัณฑ์และเทคโนโลยีอย่างต่อเนื่องเพื่อตอบสนองความต้องการของลูกค้า">Crystal Idea Solution Company Limited, founded in 2025, is a leading manufacturer of inkjet media for both indoor and outdoor applications. We also provide a comprehensive range of high-quality, high-resolution advertising media. Our company is committed to the continuous development of products and technology to meet the evolving needs of our customers.</p>
+                    <a href="Aboutme.html" class="maincontent-btn" target="_blank" data-en="More details" data-th="รายละเอียดเพิ่มเติม">More details</a>
                 </div>
                 <div class="maincontent-img">
                     <img src="https://images.pexels.com/photos/3184436/pexels-photo-3184436.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
@@ -110,9 +175,9 @@
     <Section class="content" id="services">
         <div class="container">
             <div class="content-title">
-                <h3>Our Services</h3>
-                <p> Sales and printing services for photographs, photo images, stickers, and advertising boards </p>
-                <p>Installation of advertising media, including wall-mounted signs, hanging banners, freestanding displays, and vehicle wraps</p>
+                <h3 data-en="Our Services" data-th="บริการของเรา">Our Services</h3>
+                <p data-en="Sales and printing services for photographs, photo images, stickers, and advertising boards" data-th="บริการจำหน่ายและรับพิมพ์ภาพถ่าย รูปภาพ สติ๊กเกอร์ และแผ่นป้ายโฆษณา"> Sales and printing services for photographs, photo images, stickers, and advertising boards </p>
+                <p data-en="Installation of advertising media, including wall-mounted signs, hanging banners, freestanding displays, and vehicle wraps" data-th="บริการติดตั้งสื่อโฆษณา ได้แก่ ป้ายติดผนัง ป้ายแขวน จอแสดงผลแบบตั้งพื้น และการหุ้มยานพาหนะ">Installation of advertising media, including wall-mounted signs, hanging banners, freestanding displays, and vehicle wraps</p>
             </div>
             <div class="scroll-container">
                 <button class="scroll-btn left">◀</button> 
@@ -120,33 +185,33 @@
                 <div class="content-con scroll-x" id="scrollable-services">
                     <div class="content-item">
                         <img src="https://images.pexels.com/photos/4158/apple-iphone-smartphone-desk.jpg?auto=compress&cs=tinysrgb&w=600" alt=""> 
-                        <h4>ชื่อสินค้า</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
-                        <a href="Product1.html" class="content-btn" target="_blank">รายละเอียดสินค้า</a>
+                        <h4 data-en="Product Name 1" data-th="ชื่อสินค้า 1">ชื่อสินค้า</h4>
+                        <p data-en="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!" data-th="คำอธิบายสินค้า 1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
+                        <a href="Product1.html" class="content-btn" target="_blank" data-en="Product Details" data-th="รายละเอียดสินค้า">รายละเอียดสินค้า</a>
                     </div>
                     <div class="content-item">
                         <img src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
-                        <h4>ชื่อสินค้า2</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
-                        <a href="Product2.html" class="content-btn" target="_blank">รายละเอียดสินค้า</a>
+                        <h4 data-en="Product Name 2" data-th="ชื่อสินค้า 2">ชื่อสินค้า2</h4>
+                        <p data-en="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!" data-th="คำอธิบายสินค้า 2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
+                        <a href="Product2.html" class="content-btn" target="_blank" data-en="Product Details" data-th="รายละเอียดสินค้า">รายละเอียดสินค้า</a>
                     </div>
                     <div class="content-item">
                         <img src="https://images.pexels.com/photos/777001/pexels-photo-777001.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
-                        <h4>ชื่อสินค้า3</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
-                        <a href="Product3.html" class="content-btn" target="_blank">รายละเอียดสินค้า</a>
+                        <h4 data-en="Product Name 3" data-th="ชื่อสินค้า 3">ชื่อสินค้า3</h4>
+                        <p data-en="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!" data-th="คำอธิบายสินค้า 3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
+                        <a href="Product3.html" class="content-btn" target="_blank" data-en="Product Details" data-th="รายละเอียดสินค้า">รายละเอียดสินค้า</a>
                     </div>
                     <div class="content-item">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcFU4vMZsbSiKcFdJ-JdSssSeHDrjTruWAvQ&s" alt="">
-                        <h4>ชื่อสินค้า4</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
-                        <a href="Product3.html" class="content-btn" target="_blank">รายละเอียดสินค้า</a>
+                        <h4 data-en="Product Name 4" data-th="ชื่อสินค้า 4">ชื่อสินค้า4</h4>
+                        <p data-en="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!" data-th="คำอธิบายสินค้า 4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
+                        <a href="Product3.html" class="content-btn" target="_blank" data-en="Product Details" data-th="รายละเอียดสินค้า">รายละเอียดสินค้า</a>
                     </div>
                     <div class="content-item">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF9mP2LnFDLGo6sGfSVQKZol3lTxo9JCtuHA&s" alt="">
-                        <h4>ชื่อสินค้า5</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
-                        <a href="Product3.html" class="content-btn" target="_blank">รายละเอียดสินค้า</a>
+                        <h4 data-en="Product Name 5" data-th="ชื่อสินค้า 5">ชื่อสินค้า5</h4>
+                        <p data-en="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!" data-th="คำอธิบายสินค้า 5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
+                        <a href="Product3.html" class="content-btn" target="_blank" data-en="Product Details" data-th="รายละเอียดสินค้า">รายละเอียดสินค้า</a>
                     </div>
                 </div>
                 <button class="scroll-btn right">▶</button>
@@ -157,25 +222,25 @@
     <Section class="contact" id="contact">
         <div class="container">
             <div class="content-title">
-                <h3>Contact Us</h3>
-                <p>Feel free to reach out to us for inquiries or support.</p>
+                <h3 data-en="Contact Us" data-th="ติดต่อเรา">Contact Us</h3>
+                <p data-en="Feel free to reach out to us for inquiries or support." data-th="ติดต่อสอบถามหรือขอรับบริการได้เลย">Feel free to reach out to us for inquiries or support.</p>
             </div>
             <div class="contact-info-grid">
                 <div class="contact-item-detail">
-                    <h4>Our Office</h4>
-                    <p>123/45 Crystal Street, Idea Building,
-                       Solution District, Bangkok 10100, Thailand</p>
+                    <h4 data-en="Our Office" data-th="สำนักงานของเรา">Our Office</h4>
+                    <p data-en="123/45 Crystal Street, Idea Building, Solution District, Bangkok 10100, Thailand" data-th="123/45 ถนนคริสตัล, อาคารไอเดีย, เขตโซลูชั่น, กรุงเทพฯ 10100, ประเทศไทย">123/45 Crystal Street, Idea Building,
+                        Solution District, Bangkok 10100, Thailand</p>
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.568603632483!2d100.56942091483017!3d13.746014490333292!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e29e924a64c4c7%3A0x6e9f0c2e9b0b0a8!2sBangkok!5e0!3m2!1sen!2sth!4v1718167733221!5m2!1sen!2sth" 
                         width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
                 <div class="contact-item-detail">
-                    <h4>Get in Touch</h4>
+                    <h4 data-en="Get in Touch" data-th="ติดต่อเรา">Get in Touch</h4>
                     <p><i class="fa-solid fa-phone"></i> +66 (0) 2 123 4567</p>
                     <p><i class="fa-solid fa-envelope"></i> info@crystalideas.com</p>
-                    <p><i class="fa-solid fa-clock"></i> Mon-Fri: 9:00 AM - 5:00 PM</p>
+                    <p><i class="fa-solid fa-clock"></i> <span data-en="Mon-Fri: 9:00 AM - 5:00 PM" data-th="จันทร์-ศุกร์: 9:00 น. - 17:00 น.">Mon-Fri: 9:00 AM - 5:00 PM</span></p>
                 </div>
                 <div class="contact-item-detail social-links">
-                    <h4>Connect With Us</h4>
+                    <h4 data-en="Connect With Us" data-th="เชื่อมต่อกับเรา">Connect With Us</h4>
                     <p><a href="#" target="_blank"><i class="fa-brands fa-facebook" style="color: rgb(48, 172, 244);"></i> Facebook</a></p>
                     <p><a href="#" target="_blank"><i class="fa-brands fa-line" style="color: rgb(41, 252, 83);"></i> Line</a></p>
                     <p><a href="#" target="_blank"><i class="fa-brands fa-google-plus" style="color: rgb(255, 211, 68);"></i> Google+</a></p>
@@ -184,7 +249,7 @@
         </div>
     </Section>
     <footer class="footer-buttom">
-        © 2025 Crystal Ideas Solution Co., Ltd. All Right Reserved. 
+        © 2025 Crystal Ideas Solution Co., Ltd. <span data-en="All Right Reserved." data-th="สงวนลิขสิทธิ์.">All Right Reserved.</span> 
     </footer>
 </body>
 </html>
