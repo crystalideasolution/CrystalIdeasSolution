@@ -7,17 +7,20 @@
     <link rel="stylesheet" href="mainstyle.css"> <!-- ใช้ CSS เดิม -->
     <style>
         body {
-            font-family: 'Nunito Sans', sans-serif;
-            padding: 2rem;
-            max-width: 800px;
-            margin: auto;
-            background-color: #f9f9f9;
+           font-family: 'Nunito Sans', sans-serif;
+            margin: 0;
+            background-color: #fff;
+            background-size: cover;
         }
         .product-detail {
-            background: white;
+            width: 100vw;      /* เต็มความกว้างหน้าจอ */
+            height: 100vh;     /* เต็มความสูงหน้าจอ */
             padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: white;
+            border-radius: 0;  /* ถ้าไม่ต้องการโค้ง */
+            box-shadow: none;  /* ลบเงา ถ้าไม่ต้องการ */
+            box-sizing: border-box;
+            overflow-y: auto;  /* ให้เลื่อนถ้ามีเนื้อหาเยอะ */
         }
         .product-detail img {
             width: 100%;
