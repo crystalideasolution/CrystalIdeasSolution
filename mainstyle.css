@@ -352,3 +352,25 @@ html, body {
             font-size: 0.75rem;
         }
     }
+    @media (max-width: 768px) {
+        .nav-con {
+            flex-direction: row;
+            flex-wrap: wrap; /* ทำให้โลโก้และเมนูอยู่ในแถวเดียวกัน */
+            justify-content: space-between; /* จัดกึ่งกลาง */
+            align-items: center; /* จัดกึ่งกลางแนวตั้ง */
+        }
+        .menu {
+            flex-direction: row; /* ทำให้เมนูอยู่ในแถวเดียวกัน */
+            flex-wrap: wrap; /* ทำให้โลโก้และเมนูอยู่ในแถวเดียวกัน */
+            gap: 1rem; /* ระยะห่างระหว่างเมนู */
+            margin-top: 0; /* ยกเลิกระยะห่างแนวตั้ง */
+        }
+        .menu li {
+            margin: 0; /* ยกเลิกระยะห่างแนวนอน */
+        }
+        .menu li a{
+            font-size: 0.9rem; /* ปรับขนาดตัวอักษรให้เล็กลง */
+            padding: 0.5rem;/* ปรับขนาด padding ให้เล็กลง */
+            display: block; /* ทำให้ลิงก์เป็นบล็อกเพื่อให้คลิกได้ง่าย */
+        }
+    }
