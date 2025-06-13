@@ -106,13 +106,13 @@ body {
     }
 
 .lang-btn:hover {
-    background-color: #e0e0e0;
+    opacity: 0.8; /* เปลี่ยนสีพื้นหลังเมื่อ hover */
     }
 
 .lang-btn.active-lang {
-    background-color: #007bff; /* Example active color */
-    color: white;
-    border-color: #007bff;
+    border: 2px solid #007bff; /* เปลี่ยนสีเส้นขอบเมื่อปุ่มถูกเลือก */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* เพิ่มเงาเพื่อเน้นปุ่มที่ถูกเลือก */
+    color: transparent; /* ซ่อนข้อความ "EN" หรือ "TH" เมื่อปุ่มถูกเลือก */
     }
 /* Navigation */
 nav{
@@ -219,17 +219,23 @@ nav{
     margin: 1rem 0;
 }
 .content-item {
-    flex: 0 0 calc(50% - 10px); /* แสดง 2 ชิ้นต่อแถว */
-    box-sizing: border-box;
-    background: #f8f8f8;
-    border-radius: 10px;
-    padding: 10px;
-    min-width: 0; 
+    flex: 0 0 auto; /* ไม่อนุญาตให้ยืดหรือหด, ขนาดตามเนื้อหา */
+    width: 80%; /* กำหนดให้แต่ละสินค้าใช้พื้นที่ 80% ของคอนเทนเนอร์ */
+    max-width: 300px; /* จำกัดขนาดสูงสุดของแต่ละสินค้าบน Mobile */
+    scroll-snap-align: start; /* (Optional) เริ่มต้นที่จุดเริ่มต้นของแต่ละ item */
+    box-sizing: border-box; /* รวม padding และ border ใน width/height */
+    padding: 15px; /* เพิ่ม padding ภายใน content-item */
+    border: 1px solid #eee; /* เพิ่มเส้นขอบเล็กน้อย */
+    border-radius: 8px; /* เพิ่มขอบมน */
+    text-align: center; /* จัดข้อความให้อยู่ตรงกลาง */
+    background-color: #fff; /* พื้นหลังสีขาว */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* เพิ่มเงา */
 }
 .content-item img{
-    width: 100%;
+    max-width: 100%;
     height: auto;
-    border-radius: 8px;
+    border-radius: 4px; /* ขอบมนสำหรับรูปภาพ */
+     margin-bottom: 10px;
 }
 
 .content-item h4{
@@ -270,34 +276,34 @@ nav{
 }
 
 .scroll-btn {
-    width: 40px;
-    height: 40px;
-    background-color: transparent;
-    color: #002060;
-    border: 10px solid #ffffff;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: none;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1; /* ให้ปุ่มอยู่ด้านบนของเนื้อหา */
+    z-index: 10; /* ให้ปุ่มอยู่ด้านบน */
+    border-radius: 50%; /* ทำให้ปุ่มกลม */
+    font-size: 1.5em;
+    position: absolute; /* ทำให้ปุ่มสามารถวางตำแหน่งลอยได้ */
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
 }
 .scroll-btn:hover {
     background-color: #002060;
     color: white;
     border-color: #002060;
+    opacity: 1; /* เพิ่มความทึบเมื่อ hover */
 }
 
 .scroll-btn.left {
     /* display: none; will be controlled by JS now */
-    margin-right: 20px;
+    left: 0;
 }
 
 .scroll-btn.right {
-    margin-left: 20px;
+    right: 0;
 }
 
 
@@ -428,7 +434,9 @@ nav{
     }
 
     .content-con {
-        grid-template-columns: 1fr;
+        flex-wrap: wrap; /* อนุญาตให้ขึ้นบรรทัดใหม่ได้ */
+        justify-content: center; /* จัดกึ่งกลางสินค้าหากมีพื้นที่เหลือ */
+        overflow-x: hidden; /* ซ่อน scrollbar ในหน้าจอใหญ่ */
     }
 
     .maincontent-info,
@@ -475,6 +483,10 @@ nav{
 
 @media (min-width: 768px) {
     .content-item {
-        flex: 0 0 calc(50% - 10px);
+         width: calc(33.333% - 20px); /* 3 คอลัมน์ - ลบ gap */
+         max-width: none; /* ไม่มีข้อจำกัด max-width บนหน้าจอใหญ่ */
+    }
+    .scroll-btn {
+            display: none;
     }
 }
