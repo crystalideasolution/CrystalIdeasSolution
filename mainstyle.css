@@ -64,7 +64,7 @@ section{
     max-width: 1400px;
     margin: 0 auto;
 }
- body {
+  body {
         font-family: 'Nunito Sans', sans-serif;
         display: flex;
         flex-direction: column;
@@ -78,7 +78,6 @@ section{
         padding: 2rem;
     }
 
-    /* Main Content Area (HTML: <main class="main-content-area">) */
     .main-content-area {
         flex-grow: 1;
     }
@@ -140,7 +139,7 @@ section{
         color: transparent;
     }
 
-    /* Navigation */
+    /* Navigation - Desktop styles (default) */
     nav {
         padding: 0.5rem;
         background-color: #fff;
@@ -148,32 +147,34 @@ section{
 
     .nav-con {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%
+        justify-content: space-between; /* Logo ซ้าย, nav-end ขวา */
+        align-items: center; /* จัดกลางแนวตั้ง */
+        width: 100%;
+        /* flex-wrap: nowrap; <-- Default for desktop */
     }
 
     .nav-end {
         display: flex;
-        align-items: center;
-        gap: 20px;
+        align-items: center; /* จัดกลางแนวตั้ง */
+        gap: 20px; /* ระยะห่างระหว่าง Menu และ Lang Switcher */
     }
 
     .logo img {
-        height: 80px;
+        height: 80px; /* ขนาดโลโก้เริ่มต้น */
         width: auto;
         text-decoration: none;
     }
 
     .menu {
-        display: flex;
+        display: flex; /* เมนูเรียงแนวนอน */
         list-style: none;
         margin: 0;
         padding: 0;
+        /* flex-wrap: nowrap; <-- Default for desktop */
     }
 
     .menu li {
-        margin-left: 20px;
+        margin-left: 20px; /* ระยะห่างระหว่างรายการเมนู */
     }
 
     .menu li a {
@@ -248,10 +249,10 @@ section{
 
     .content-item {
         /* Mobile: 1 item per view (Default) */
-        flex: 0 0 100%; /* Each item takes full width */
-        width: 100%; /* Ensure full width */
+        flex: 0 0 100%; /* แต่ละรายการกินพื้นที่เต็มความกว้าง */
+        width: 100%; /* ยืนยันความกว้างเต็ม */
         box-sizing: border-box;
-        scroll-snap-align: start; /* Snap to the start of the item */
+        scroll-snap-align: start; /* Snap ไปยังจุดเริ่มต้นของรายการ */
         padding: 15px;
         border: 1px solid #eee;
         border-radius: 8px;
@@ -303,7 +304,7 @@ section{
         display: flex;
         align-items: center;
         margin-top: 20px;
-        padding: 0 40px; /* Padding for buttons on the side */
+        padding: 0 40px; /* เว้นช่องว่างให้ปุ่มลูกศรซ้าย-ขวา */
     }
 
     /* Scroll Buttons Styling */
@@ -321,7 +322,7 @@ section{
         transform: translateY(-50%);
         opacity: 0.7;
         transition: opacity 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
-        display: flex; /* Always display as flex by default, JS will hide if not scrollable */
+        display: flex; /* แสดงเป็น flex โดยค่าเริ่มต้น (JS จะซ่อนหากไม่จำเป็นต้องเลื่อน) */
         align-items: center;
         justify-content: center;
         width: 40px;
@@ -346,7 +347,7 @@ section{
     /* --- Contact Section Styling --- */
     .contact {
         padding: 3rem 2rem;
-        background-color: #f9f9f9;
+        background-color: #002060;
     }
 
     .contact .content-title {
@@ -356,12 +357,12 @@ section{
 
     .contact .content-title h3 {
         font-size: 2.5rem;
-        color: #002060;
+        color: #ffffff;
         margin-bottom: 0.5rem;
     }
 
     .contact .content-title p {
-        color: #555;
+        color: #ffffff;
         font-size: 1.1rem;
         max-width: 800px;
         margin: 0 auto;
@@ -422,52 +423,80 @@ section{
 
     /* Footer */
     .footer-buttom {
-        background-color: #002060;
-        color: #fff;
+        background-color: #ffffff;
+        color: #002060;
         padding: 1rem;
         text-align: center;
         z-index: 100;
     }
 
-/* Media Queries */
-@media screen and (max-width: 767px) {
-     .image-row {
-            flex-direction: column;
-            align-items: center;
-        }
-        .image-row img {
-            width: 100%;
-            max-width: 500px;
+    /* Media Queries */
+    @media screen and (max-width: 767px) { /* Mobile Specific Styles */
+        /* ปรับขนาดโลโก้ใน Mobile */
+        .logo img {
+            height: 60px; /* ลดขนาดโลโก้ */
         }
 
-         .nav-con {
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
+        /* Nav Bar ใน Mobile: ทำให้เหมือน Desktop */
+        .nav-con {
+            flex-direction: row; /* คงไว้เป็นแนวนอน */
+            justify-content: space-between; /* Logo ซ้าย, Menu + Lang Switcher ขวา */
+            align-items: center; /* จัดกลางแนวตั้ง */
+            flex-wrap: nowrap; /* **สำคัญมาก: บังคับไม่ให้ขึ้นบรรทัดใหม่** */
+            padding: 0 10px; /* ลด padding ด้านข้าง nav-con เพื่อเพิ่มพื้นที่ */
         }
+
         .nav-end {
-            width: auto;    
+            display: flex;
+            align-items: center;
+            /* ลบ gap เพื่อบีบเมนูและปุ่มภาษาให้ชิดกันมากขึ้น หรือปรับตามความเหมาะสม */
+            /* gap: 10px; */ /* หากต้องการ gap น้อยลง */
+            gap: 5px; /* ลองใช้ gap ที่น้อยที่สุด */
+            flex-shrink: 0; /* ป้องกันไม่ให้ nav-end หดตัวมากเกินไป */
+            margin-left: auto; /* ดัน nav-end ไปชิดขวา */
         }
-           /* Responsive Navigation (already handled, just ensure consistency) */
-       
+
         .menu {
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 1rem;
+            flex-direction: row; /* คงไว้เป็นแนวนอน */
+            flex-wrap: nowrap; /* **สำคัญมาก: บังคับไม่ให้รายการเมนูขึ้นบรรทัดใหม่** */
+            /* ลบ gap ที่เคยมีถ้าใช้ margin-left/right ใน li แทน หรือปรับ gap ให้เหมาะสม */
+            gap: 5px; /* ลองใช้ gap ที่น้อยที่สุดระหว่างรายการเมนู */
             margin-top: 0;
             order: 1;
         }
+
         .menu li {
-            margin: 0;
+            /* หากใช้ gap ใน .menu ไม่ต้องใช้ margin-left อีก */
+            margin-left: 0;
         }
+
         .menu li a {
-            font-size: 0.9rem;
-            padding: 0.5rem;
+            font-size: 0.75rem; /* **ลดขนาดตัวอักษรของเมนูให้เล็กลง** */
+            padding: 0.3rem 0.5rem; /* ลด padding */
             display: block;
         }
+
         .lang-switcher {
             order: 2;
+        }
+
+        .lang-btn {
+            width: 30px; /* ลดขนาดปุ่มภาษา */
+            height: 20px; /* ลดขนาดปุ่มภาษา */
+            padding: 0; /* ลบ padding ออกถ้าใช้รูปภาพเต็มพื้นที่ */
+            font-size: 0.7em; /* ลดขนาดตัวอักษร "EN", "TH" (ถ้ามองเห็น) */
+        }
+
+
+        /* ส่วนอื่นๆ ของ Mobile ที่ไม่มีการเปลี่ยนแปลงหลัก */
+        .image-row {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .image-row img {
+            width: 100%;
+            max-width: 500px;
         }
 
         .maincontent-con {
@@ -491,10 +520,23 @@ section{
             padding: 0.5rem;
             font-size: 0.75rem;
         }
-
-     
     }
+
+    /* Media Query for Tablet and Desktop (min-width: 768px) - 2 items per view */
     @media (min-width: 768px) {
+        /* Reset mobile-specific nav styles if needed, though default styles handle most */
+        .logo img {
+            height: 80px; /* คืนขนาดโลโก้สำหรับ Desktop */
+        }
+        .menu li a {
+            font-size: 1rem; /* คืนขนาดตัวอักษรเมนูสำหรับ Desktop */
+            padding: 0.5rem 1rem;
+        }
+        .lang-btn {
+            width: 40px; /* คืนขนาดปุ่มภาษาสำหรับ Desktop */
+            height: 30px;
+        }
+
         .content-item {
             flex: 0 0 calc(50% - 10px); /* 2 items per view on tablets/desktops (50% width - half of gap) */
             width: calc(50% - 10px); /* Ensure consistency */
@@ -502,6 +544,7 @@ section{
         }
     }
 
+    /* Media Query for Large Desktop (min-width: 1024px) - Also 2 items per view */
     @media (min-width: 1024px) {
         .content-item {
             flex: 0 0 calc(50% - 10px); /* Still 2 items per view on large desktops */
