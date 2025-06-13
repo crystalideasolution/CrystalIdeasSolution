@@ -486,6 +486,7 @@ section{
             flex-wrap: wrap;
             gap: 1rem;
             margin-top: 0;
+            order: 1;
         }
         .menu li {
             margin: 0;
@@ -495,21 +496,18 @@ section{
             padding: 0.5rem;
             display: block;
         }
-
-        /* .content-item styles are already 100% by default, so no override needed here */
+        .lang-switcher {
+            order: 2;
+        }
     }
-
-    /* Media Query for Tablet and Desktop (min-width: 768px) - 2 items per view */
     @media (min-width: 768px) {
         .content-item {
             flex: 0 0 calc(50% - 10px); /* 2 items per view on tablets/desktops (50% width - half of gap) */
             width: calc(50% - 10px); /* Ensure consistency */
             scroll-snap-align: start; /* Still snap to start */
         }
-        /* No display: none for .scroll-btn here */
     }
 
-    /* Media Query for Large Desktop (min-width: 1024px) - Also 2 items per view */
     @media (min-width: 1024px) {
         .content-item {
             flex: 0 0 calc(50% - 10px); /* Still 2 items per view on large desktops */
