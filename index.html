@@ -12,70 +12,122 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap">
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const scrollContainer = document.getElementById("scrollable-services");
-            const leftBtn = document.querySelector(".scroll-btn.left");
-            const rightBtn = document.querySelector(".scroll-btn.right");
+        const scrollContainer = document.getElementById("scrollable-services");
+        const leftBtn = document.querySelector(".scroll-btn.left");
+        const rightBtn = document.querySelector(".scroll-btn.right");
 
-            const scrollAmount = scrollContainer.clientWidth; 
-            rightBtn.addEventListener("click", () => {
-                const maxScrollLeft = scrollContainer.scrollWidth - scrollContainer.clientWidth;
-                let targetScrollLeft = scrollContainer.scrollLeft + scrollAmount;
+        let scrollAmount = 0; 
 
-                if (targetScrollLeft >= maxScrollLeft) {
-                    targetScrollLeft = maxScrollLeft;
-                }
-                scrollContainer.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
-            });
+        function updateScrollAmount() {
+            if (scrollContainer.firstElementChild) {
+                // สำหรับ Mobile จะเป็นความกว้างของ item เดียว
+                // สำหรับ Desktop จะเป็นความกว้างของ item ที่เลื่อนไป (เช่น 1 item หรือกลุ่ม item)
+                // เพื่อให้การเลื่อนราบรื่น เราจะใช้ความกว้างของ scrollContainer.clientWidth
+                // ซึ่งหมายถึงการเลื่อนไปตามขนาดของพื้นที่ที่มองเห็น (คล้ายกับการเลื่อนหน้าจอ)
+                // หรือถ้าต้องการเลื่อนทีละ item ให้ใช้ scrollContainer.firstElementChild.offsetWidth
+                // ในกรณีนี้ ถ้าต้องการเลื่อนทีละ 1 รูปบนทุกขนาดหน้าจอ ให้ใช้ .offsetWidth
+                // ถ้าต้องการเลื่อนทีละกลุ่มรูป (เช่น 2 หรือ 3 รูป) ให้ใช้ clientWidth
+                
+                // สำหรับความต้องการ "เลื่อนทีละ 1 รายการ" (1 รูป) ตลอดเวลา
+                scrollAmount = scrollContainer.firstElementChild.offsetWidth + 20; // + gap
+                // ต้องปรับค่า scrollAmount ให้เหมาะสมกับการจัดวางบน desktop ด้วย
+                // ถ้าต้องการให้เลื่อนทีละ 1 รูปเสมอ:
+                // scrollAmount = scrollContainer.firstElementChild.offsetWidth + parseFloat(getComputedStyle(scrollContainer).gap || 0);
 
-            leftBtn.addEventListener("click", () => {
-                let targetScrollLeft = scrollContainer.scrollLeft - scrollAmount;
-
-                if (targetScrollLeft <= 0) {
-                    targetScrollLeft = 0;
-                }
-                scrollContainer.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
-            });
-
-            function checkScrollButtonVisibility() {
-                leftBtn.style.display = 'flex'; 
-                rightBtn.style.display = 'flex'; 
+                // หากต้องการเลื่อนทีละ 'หน้า' ของ content-con (เช่น เห็น 2-3 รูป แล้วเลื่อนไปอีก 2-3 รูป)
+                // scrollAmount = scrollContainer.clientWidth;
             }
+        }
 
-            checkScrollButtonVisibility();
+        updateScrollAmount();
+        window.addEventListener('resize', updateScrollAmount);
 
-            // Language Selection
-            const langButtons = document.querySelectorAll('.lang-btn');
-            const contentElements = document.querySelectorAll('[data-en], [data-th]');
 
-            function setLanguage(lang) {
-                contentElements.forEach(element => {
-                    if (element.dataset[lang]) {
-                        element.innerHTML = element.dataset[lang];
-                    }
-                });
+        rightBtn.addEventListener("click", () => {
+            const maxScrollLeft = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+            let targetScrollLeft = scrollContainer.scrollLeft + scrollAmount;
 
-                // Update active state for buttons
-                langButtons.forEach(button => {
-                    if (button.dataset.lang === lang) {
-                        button.classList.add('active-lang');
-                    } else {
-                        button.classList.remove('active-lang');
-                    }
-                });
-                // Store selected language in local storage
-                localStorage.setItem('selectedLang', lang);
+            if (targetScrollLeft > maxScrollLeft) {
+                targetScrollLeft = maxScrollLeft;
             }
+            scrollContainer.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
+            setTimeout(checkScrollButtonVisibility, 350); 
+        });
+
+        leftBtn.addEventListener("click", () => {
+            let targetScrollLeft = scrollContainer.scrollLeft - scrollAmount;
+
+            if (targetScrollLeft < 0) {
+                targetScrollLeft = 0;
+            }
+            scrollContainer.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
+            setTimeout(checkScrollButtonVisibility, 350); 
+        });
+
+        function checkScrollButtonVisibility() {
+            const isScrollable = scrollContainer.scrollWidth > scrollContainer.clientWidth;
+
+            if (isScrollable) {
+                // แสดงปุ่มซ้าย ถ้าไม่ได้อยู่จุดเริ่มต้น
+                if (scrollContainer.scrollLeft <= 0) {
+                    leftBtn.style.display = 'none';
+                } else {
+                    leftBtn.style.display = 'flex';
+                }
+
+                // แสดงปุ่มขวา ถ้าไม่ได้อยู่จุดสิ้นสุด
+                // ใช้ค่าความคลาดเคลื่อนเล็กน้อยเพื่อหลีกเลี่ยงปัญหาการปัดเศษ
+                const scrollEndTolerance = 5; 
+                if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth - scrollEndTolerance) {
+                    rightBtn.style.display = 'none';
+                } else {
+                    rightBtn.style.display = 'flex';
+                }
+            } else {
+                // ถ้าเนื้อหาไม่จำเป็นต้องเลื่อน ให้ซ่อนปุ่มทั้งสอง
+                leftBtn.style.display = 'none';
+                rightBtn.style.display = 'none';
+            }
+        }
+
+        // เรียกใช้เมื่อโหลดหน้าจอครั้งแรก
+        checkScrollButtonVisibility();
+        // เรียกใช้เมื่อมีการเลื่อน (เพื่อให้ปุ่มแสดง/ซ่อนถูกต้อง)
+        scrollContainer.addEventListener('scroll', checkScrollButtonVisibility);
+        // เรียกใช้เมื่อปรับขนาดหน้าจอ
+        window.addEventListener('resize', checkScrollButtonVisibility);
+
+
+        // Language Selection (โค้ดส่วนนี้ยังคงเหมือนเดิม)
+        const langButtons = document.querySelectorAll('.lang-btn');
+        const contentElements = document.querySelectorAll('[data-en], [data-th]');
+
+        function setLanguage(lang) {
+            contentElements.forEach(element => {
+                if (element.dataset[lang]) {
+                    element.innerHTML = element.dataset[lang];
+                }
+            });
 
             langButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    setLanguage(button.dataset.lang);
-                });
+                if (button.dataset.lang === lang) {
+                    button.classList.add('active-lang');
+                } else {
+                    button.classList.remove('active-lang');
+                }
             });
+            localStorage.setItem('selectedLang', lang);
+        }
 
-            // Check for saved language preference or default to English
-            const savedLang = localStorage.getItem('selectedLang');
-            setLanguage(savedLang || 'en'); // Default to English if no language is saved
+        langButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                setLanguage(button.dataset.lang);
+            });
         });
+
+        const savedLang = localStorage.getItem('selectedLang');
+        setLanguage(savedLang || 'en');
+    });
     </script>
 
     <style>
@@ -181,7 +233,6 @@
             </div>
             <div class="scroll-container">
                 <button class="scroll-btn left">◀</button> 
-
                 <div class="content-con scroll-x" id="scrollable-services">
                     <div class="content-item">
                         <img src="https://images.pexels.com/photos/4158/apple-iphone-smartphone-desk.jpg?auto=compress&cs=tinysrgb&w=600" alt=""> 
