@@ -18,8 +18,6 @@ body {
     min-height: 100vh; /* ทำให้ body มีความสูงอย่างน้อยเท่ากับ viewport */
     margin: 0; /* ตรวจสอบให้แน่ใจว่าไม่มี margin */
     padding: 0; /* ตรวจสอบให้แน่ใจว่าไม่มี padding */
-    /* **ลบ padding-bottom นี้ออก** เพราะไม่จำเป็นแล้วสำหรับ sticky footer */
-    /* position: relative;  สามารถลบออกได้ถ้าไม่มีความจำเป็นอื่น */
 }
 
 section{
@@ -27,15 +25,10 @@ section{
     padding: 2rem;
 }
 
-/* Main Content Area (HTML: <main class="main-content-area">) */
-/* **ต้องเพิ่มแท็ก <main class="main-content-area"> ห่อหุ้มเนื้อหาทั้งหมดระหว่าง nav และ footer ใน HTML** */
 .main-content-area {
     flex-grow: 1; /* ทำให้ส่วนนี้ยืดขยายเพื่อดัน Footer ลงไปด้านล่าง */
 }
 
-
-/* Scrollable Container (Services Section) */
-/* .scroll-x ใช้สำหรับ Webkit scrollbar hiding และเป็น base */
 .scroll-x {
     display: flex;
     /* overflow-x: auto; <--- บรรทัดนี้ไม่จำเป็นแล้ว */
@@ -44,7 +37,6 @@ section{
     padding: 10px 0;
 }
 
-/* .content-con.scroll-x เป็นตัวควบคุมหลักของการเลื่อน */
 .content-con.scroll-x {
     display: flex;
     overflow-x: hidden; /* <--- ปิดการเลื่อนด้วยเมาส์/สัมผัส */
@@ -72,437 +64,456 @@ section{
     max-width: 1400px;
     margin: 0 auto;
 }
-body {
-     font-family: 'Nunito Sans', sans-serif;
-    }
-    /* Styles for language buttons */
-.lang-switcher {
-    display: flex;
-    gap: 10px; 
-    }
-.lang-btn {
-    padding: 8px 12px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s ease; /* ยังคง transition ไว้สำหรับ active state หรือ hover */
-    width: 40px; /* กำหนดความกว้างของปุ่ม (ปรับตามขนาดรูปภาพของคุณ) */
-    height: 30px; /* กำหนดความสูงของปุ่ม (ปรับตามขนาดรูปภาพของคุณ) */
-    background-size: cover; /* หรือ 'contain' เพื่อให้รูปภาพพอดีกับปุ่ม */
-    background-position: center; /* จัดตำแหน่งรูปภาพให้อยู่ตรงกลาง */
-    background-repeat: no-repeat; /* ไม่ให้รูปภาพซ้ำ */
-    text-indent: -9999px; /* ซ่อนข้อความ "EN" หรือ "TH" */
-    border: none; /* ลบเส้นขอบถ้าไม่ต้องการ */
-    }
-/* กำหนดรูปภาพพื้นหลังสำหรับแต่ละปุ่ม */
-.lang-btn[data-lang="en"] {
-        background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/1280px-Flag_of_the_United_Kingdom_%283-5%29.svg.png'); /* เปลี่ยน 'path/to/your/flag-en.png' เป็นตำแหน่งไฟล์รูปจริง */
-    }
-
-.lang-btn[data-lang="th"] {
-        background-image: url('https://cdn.pixabay.com/photo/2013/07/12/17/58/thailand-152711_1280.png'); /* เปลี่ยน 'path/to/your/flag-th.png' เป็นตำแหน่งไฟล์รูปจริง */
-    }
-
-.lang-btn:hover {
-    opacity: 0.8; /* เปลี่ยนสีพื้นหลังเมื่อ hover */
-    }
-
-.lang-btn.active-lang {
-    border: 2px solid #007bff; /* เปลี่ยนสีเส้นขอบเมื่อปุ่มถูกเลือก */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* เพิ่มเงาเพื่อเน้นปุ่มที่ถูกเลือก */
-    color: transparent; /* ซ่อนข้อความ "EN" หรือ "TH" เมื่อปุ่มถูกเลือก */
-    }
-/* Navigation */
-nav{
-    padding: 0.5rem;
-    background-color: #fff;
-}
-
-.nav-con{
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* จัดตำแหน่งรายการในแนวตั้ง */
-    width: 100%
-}
-
-.nav-end {
-    display: flex;
-    align-items: center; /* จัดตำแหน่งรายการในแนวตั้ง */
-    gap: 20px; /* ระยะห่างระหว่างปุ่ม */
-}
-
-.logo img{
-    height: 80px;
-    width: auto;
-    /* color: #002060; This applies to text, not image */
-    text-decoration: none;
-}
-
-.menu{
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.menu li {
-    margin-left: 20px;
-}
-
-.menu li a {
-    color: #002060;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.menu li a:hover,
-.menu li a:focus {
-    color: #f09d18;
-}
-
-/* Main Content Section (About Us) */
-.maincontent{
-    background-color: #002060;
-    color: #fff;
-}
-
-.maincontent-con{
-    display: flex;
-}
-
-.maincontent-info{
-    width: 100%;
-    padding: 2rem;
-}
-
-.maincontent-info h3{
-    font-size: 2rem;
-}
-
-.maincontent-info p{
-    margin: 1rem 0;
-}
-
-.maincontent-info .maincontent-btn{
-    background-color: #f09d18;
-    color: #fefefe;
-    padding: 1rem;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
-}
-.maincontent-info .maincontent-btn:hover,
-.maincontent-info .maincontent-btn:focus {
-    background-color: #d88a0f;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.maincontent-img {
-    width: 100%;
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
-}
-.maincontent-img img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-}
-.content-con {
-    display: flex;
-    flex-wrap: nowrap; /* สำคัญ: ทำให้สินค้าอยู่บนบรรทัดเดียวกัน */
-    overflow-x: scroll; /* ทำให้เลื่อนได้ในแนวนอน */
-    -webkit-overflow-scrolling: touch; /* เพื่อการเลื่อนที่ราบรื่นบน iOS */
-    scroll-snap-type: x mandatory; /* สำคัญ: ทำให้เลื่อนทีละรายการพอดี */
-    scrollbar-width: none; /* ซ่อน scrollbar สำหรับ Firefox */
-    -ms-overflow-style: none;  /* ซ่อน scrollbar สำหรับ IE/Edge */
-}
- .content-con::-webkit-scrollbar {
-        height: 8px;
-        display: none; /* ซ่อน scrollbar */
-    }
-/* Content Items (for Services Section) */
-.content-title{
-    margin: 1rem 0;
-}
-.content-item {
-    flex: 0 0 100%; /* Default: 1 item per view (Mobile) */
-    width: 100%; /* Ensure full width */
-    box-sizing: border-box;
-    scroll-snap-align: center;
-    padding: 15px;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    text-align: center;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        /* Remove margin-right here, gap handles spacing unless specific override needed */
-    margin-right: 0;
-}
-.content-item img{
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px; /* ขอบมนสำหรับรูปภาพ */
-    margin-bottom: 10px;
-}
-
-.content-item h4{
-    margin-top: 1rem;
-    font-size: 1.2rem;
-}
-.content-item p{
-    margin: 1rem 0;
-}
-.content-item a {
-    display: inline-block;
-    color: #fff;
-    background-color: #f09d18;
-    padding: 0.5rem 1rem;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
-    margin-top: 0.5rem;
-}
-.content-item a:hover,
-.content-item a:focus {
-    background-color: #d88a0f;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Scroll Buttons */
-.scroll-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-    padding: 0 40px; /* Padding for buttons on the side */
-}
-
-.scroll-btn {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    z-index: 10;
-    border-radius: 50%;
-    font-size: 1.5em;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 0.7;
-    transition: opacity 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
-    display: flex; /* Always display as flex by default, JS will hide if not scrollable */
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-}
-.scroll-btn:hover {
-    background-color: #002060;
-    color: white;
-    border-color: #002060;
-    opacity: 1; /* เพิ่มความทึบเมื่อ hover */
-}
-
-.scroll-btn.left {
-    /* display: none; will be controlled by JS now */
-    left: 0;
-}
-
-.scroll-btn.right {
-    right: 0;
-}
-
-
-/* --- Contact Section Styling --- */
-.contact {
-    padding: 3rem 2rem;
-    background-color: #002060;
-}
-
-.contact .content-title {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.contact .content-title h3 {
-    font-size: 2.5rem;
-    color: #fff;
-    margin-bottom: 0.5rem;
-}
-
-.contact .content-title p {
-    color: #ffffff;
-    font-size: 1.1rem;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.contact-info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-}
-
-.contact-item-detail {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    padding: 1.5rem;
-    text-align: left;
-}
-
-.contact-item-detail h4 {
-    font-size: 1.5rem;
-    color: #002060;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid #f09d18;
-    padding-bottom: 0.5rem;
-    display: inline-block;
-}
-
-.contact-item-detail p {
-    margin-bottom: 0.8rem;
-    line-height: 1.6;
-    color: #333;
-}
-
-.contact-item-detail i {
-    margin-right: 10px;
-    color: #f09d18;
-    font-size: 1.2em;
-}
-
-.contact-item-detail a {
-    text-decoration: none;
-    color: #333;
-    transition: color 0.3s ease;
-}
-
-.contact-item-detail a:hover {
-    color: #002060;
-}
-
-/* Specific styling for social links */
-.contact-item-detail.social-links p {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-/* Footer */
-.footer-buttom {
-    background-color: #ffffff;
-    color: #002060;
-    padding: 1rem;
-    text-align: center;
-    z-index: 100;
-}
-
-/* Media Queries */
-@media screen and (max-width: 767px) {
-    .image-row {
+ body {
+        font-family: 'Nunito Sans', sans-serif;
+        display: flex;
         flex-direction: column;
-        align-items: center;
-    }
-    .image-row img {
-        width: 100%;
-        max-width: 500px;
-    }
-    .nav-con {
-        flex-direction: column;
-        align-items: center;
-    }
-    .menu {
-        flex-direction: column;
-        margin-top: 1rem;
-    }
-    .menu li {
-        margin: 0.5rem 0;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
     }
 
-    .maincontent-con {
-        flex-direction: column;
+    section {
+        min-height: 30vh;
+        padding: 2rem;
     }
+
+    /* Main Content Area (HTML: <main class="main-content-area">) */
     .main-content-area {
         flex-grow: 1;
     }
+
+    /* Base Scrollable Container (Services Section) */
     .content-con {
-        flex-wrap: nowrap; /* ให้สินค้าขึ้นบรรทัดใหม่ได้ */
-        justify-content: flex-start; /* จัดกึ่งกลางสินค้า */
-        overflow-x: scroll; /* ซ่อน scrollbar */
-        scroll-snap-type: x mandatory; /* ปิด scroll-snap */
-        gap: 20px; /* เพิ่ม gap ระหว่างสินค้าบนจอใหญ่ */
+        display: flex;
+        flex-wrap: nowrap; /* สำคัญ: ทำให้สินค้าอยู่บนบรรทัดเดียวกันเพื่อเลื่อน */
+        overflow-x: scroll; /* ทำให้เลื่อนได้ในแนวนอน */
+        -webkit-overflow-scrolling: touch; /* เพื่อการเลื่อนที่ราบรื่นบน iOS */
+        scroll-snap-type: x mandatory; /* สำคัญ: ทำให้เลื่อนทีละรายการพอดี */
+        scrollbar-width: none; /* ซ่อน scrollbar สำหรับ Firefox */
+        -ms-overflow-style: none; /* ซ่อน scrollbar สำหรับ IE/Edge */
+        gap: 20px; /* ระยะห่างระหว่าง content-item */
     }
 
-    .maincontent-info,
-    .maincontent-img,
-    .container {
-        padding: 1rem;
-        width: 100%;
+    /* ซ่อน scrollbar สำหรับ Webkit browsers (Chrome, Safari, Edge) */
+    .content-con::-webkit-scrollbar {
+        height: 8px;
+        display: none; /* ซ่อน scrollbar */
     }
 
-    /* Contact section grid for mobile */
-    .contact-info-grid {
-        grid-template-columns: 1fr;
+    /* Language Buttons */
+    .lang-switcher {
+        display: flex;
+        gap: 10px;
     }
 
-    /* Footer for mobile */
-    .footer-buttom {
-        /* position: relative;  <-- บรรทัดนี้ต้องถูกลบออกไป */
+    .lang-btn {
+        padding: 8px 12px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+        width: 40px;
+        height: 30px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        text-indent: -9999px;
+        border: none;
+    }
+
+    .lang-btn[data-lang="en"] {
+        background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/1280px-Flag_of_the_United_Kingdom_%283-5%29.svg.png');
+    }
+
+    .lang-btn[data-lang="th"] {
+        background-image: url('https://cdn.pixabay.com/photo/2013/07/12/17/58/thailand-152711_1280.png');
+    }
+
+    .lang-btn:hover {
+        opacity: 0.8;
+    }
+
+    .lang-btn.active-lang {
+        border: 2px solid #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        color: transparent;
+    }
+
+    /* Navigation */
+    nav {
         padding: 0.5rem;
-        font-size: 0.75rem;
+        background-color: #fff;
     }
 
-    /* Navigation for mobile (revert to row if needed) */
     .nav-con {
-        flex-direction: row;
-        flex-wrap: wrap; 
-        justify-content: space-between; 
-        align-items: center; 
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%
     }
-    .menu {
-        flex-direction: row;
-        flex-wrap: wrap; 
-        gap: 1rem; 
-        margin-top: 0; 
-    }
-    .menu li {
-        margin: 0; 
-    }
-    .menu li a{
-        font-size: 0.9rem; 
-        padding: 0.5rem;
-        display: block; 
-    }
-}
 
-@media (min-width: 768px) {
+    .nav-end {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .logo img {
+        height: 80px;
+        width: auto;
+        text-decoration: none;
+    }
+
+    .menu {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .menu li {
+        margin-left: 20px;
+    }
+
+    .menu li a {
+        color: #002060;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .menu li a:hover,
+    .menu li a:focus {
+        color: #f09d18;
+    }
+
+    /* Main Content Section (About Us) */
+    .maincontent {
+        background-color: #002060;
+        color: #fff;
+    }
+
+    .maincontent-con {
+        display: flex;
+    }
+
+    .maincontent-info {
+        width: 100%;
+        padding: 2rem;
+    }
+
+    .maincontent-info h3 {
+        font-size: 2rem;
+    }
+
+    .maincontent-info p {
+        margin: 1rem 0;
+    }
+
+    .maincontent-info .maincontent-btn {
+        background-color: #f09d18;
+        color: #fefefe;
+        padding: 1rem;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+    }
+
+    .maincontent-info .maincontent-btn:hover,
+    .maincontent-info .maincontent-btn:focus {
+        background-color: #d88a0f;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .maincontent-img {
+        width: 100%;
+        padding: 2rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    .maincontent-img img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    /* Content Items (for Services Section) */
+    .content-title {
+        margin: 1rem 0;
+    }
+
     .content-item {
-        flex: 0 0 calc(33.333% - 13.333%); /* 3 คอลัมน์บนแท็บเล็ต */
-        max-width: none;
-        margin-right: 20px;
+        /* Mobile: 1 item per view (Default) */
+        flex: 0 0 100%; /* Each item takes full width */
+        width: 100%; /* Ensure full width */
+        box-sizing: border-box;
+        scroll-snap-align: start; /* Snap to the start of the item */
+        padding: 15px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        text-align: center;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-right: 0; /* Gap handles spacing */
     }
-    .scroll-btn {
-        display: none;
+
+    .content-item img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 4px;
+        margin-bottom: 10px;
     }
-}
-@media (min-width: 768px) {
+
+    .content-item h4 {
+        margin-top: 1rem;
+        font-size: 1.2rem;
+    }
+
+    .content-item p {
+        margin: 1rem 0;
+    }
+
+    .content-item a {
+        display: inline-block;
+        color: #fff;
+        background-color: #f09d18;
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        margin-top: 0.5rem;
+    }
+
+    .content-item a:hover,
+    .content-item a:focus {
+        background-color: #d88a0f;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Scroll Buttons Container */
     .scroll-container {
-        padding: 0 40px; /* ลบ padding ออกเมื่อหน้าจอใหญ่ */
-        }
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+        padding: 0 40px; /* Padding for buttons on the side */
     }
- @media (min-width: 1024px) {
+
+    /* Scroll Buttons Styling */
+    .scroll-btn {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        z-index: 10;
+        border-radius: 50%;
+        font-size: 1.5em;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0.7;
+        transition: opacity 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+        display: flex; /* Always display as flex by default, JS will hide if not scrollable */
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+    }
+
+    .scroll-btn:hover {
+        background-color: #002060;
+        color: white;
+        border-color: #002060;
+        opacity: 1;
+    }
+
+    .scroll-btn.left {
+        left: 0;
+    }
+
+    .scroll-btn.right {
+        right: 0;
+    }
+
+    /* --- Contact Section Styling --- */
+    .contact {
+        padding: 3rem 2rem;
+        background-color: #f9f9f9;
+    }
+
+    .contact .content-title {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .contact .content-title h3 {
+        font-size: 2.5rem;
+        color: #002060;
+        margin-bottom: 0.5rem;
+    }
+
+    .contact .content-title p {
+        color: #555;
+        font-size: 1.1rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .contact-info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .contact-item-detail {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        padding: 1.5rem;
+        text-align: left;
+    }
+
+    .contact-item-detail h4 {
+        font-size: 1.5rem;
+        color: #002060;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #f09d18;
+        padding-bottom: 0.5rem;
+        display: inline-block;
+    }
+
+    .contact-item-detail p {
+        margin-bottom: 0.8rem;
+        line-height: 1.6;
+        color: #333;
+    }
+
+    .contact-item-detail i {
+        margin-right: 10px;
+        color: #f09d18;
+        font-size: 1.2em;
+    }
+
+    .contact-item-detail a {
+        text-decoration: none;
+        color: #333;
+        transition: color 0.3s ease;
+    }
+
+    .contact-item-detail a:hover {
+        color: #002060;
+    }
+
+    /* Specific styling for social links */
+    .contact-item-detail.social-links p {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    /* Footer */
+    .footer-buttom {
+        background-color: #002060;
+        color: #fff;
+        padding: 1rem;
+        text-align: center;
+        z-index: 100;
+    }
+
+/* Media Queries */
+@media screen and (max-width: 767px) {
+     .image-row {
+            flex-direction: column;
+            align-items: center;
+        }
+        .image-row img {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .nav-con {
+            flex-direction: column;
+            align-items: center;
+        }
+        .menu {
+            flex-direction: column;
+            margin-top: 1rem;
+        }
+        .menu li {
+            margin: 0.5rem 0;
+        }
+
+        .maincontent-con {
+            flex-direction: column;
+        }
+
+        .maincontent-info,
+        .maincontent-img,
+        .container {
+            padding: 1rem;
+            width: 100%;
+        }
+
+        /* Contact section grid for mobile */
+        .contact-info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        /* Footer for mobile */
+        .footer-buttom {
+            padding: 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        /* Responsive Navigation (already handled, just ensure consistency) */
+        .nav-con {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .menu {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0;
+        }
+        .menu li {
+            margin: 0;
+        }
+        .menu li a {
+            font-size: 0.9rem;
+            padding: 0.5rem;
+            display: block;
+        }
+
+        /* .content-item styles are already 100% by default, so no override needed here */
+    }
+
+    /* Media Query for Tablet and Desktop (min-width: 768px) - 2 items per view */
+    @media (min-width: 768px) {
         .content-item {
-            flex: 0 0 calc(25% - 15px); /* 4 คอลัมน์บนเดสก์ท็อป */
-            margin-right: 20px;
+            flex: 0 0 calc(50% - 10px); /* 2 items per view on tablets/desktops (50% width - half of gap) */
+            width: calc(50% - 10px); /* Ensure consistency */
+            scroll-snap-align: start; /* Still snap to start */
+        }
+        /* No display: none for .scroll-btn here */
+    }
+
+    /* Media Query for Large Desktop (min-width: 1024px) - Also 2 items per view */
+    @media (min-width: 1024px) {
+        .content-item {
+            flex: 0 0 calc(50% - 10px); /* Still 2 items per view on large desktops */
+            width: calc(50% - 10px); /* Ensure consistency */
+            scroll-snap-align: start; /* Still snap to start */
         }
     }
