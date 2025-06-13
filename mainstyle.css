@@ -86,7 +86,6 @@ body {
     border-radius: 5px;
     font-weight: bold;
     transition: background-color 0.3s ease; /* ยังคง transition ไว้สำหรับ active state หรือ hover */
-    /* เพิ่มส่วนนี้เพื่อกำหนดรูปภาพพื้นหลัง */
     width: 40px; /* กำหนดความกว้างของปุ่ม (ปรับตามขนาดรูปภาพของคุณ) */
     height: 30px; /* กำหนดความสูงของปุ่ม (ปรับตามขนาดรูปภาพของคุณ) */
     background-size: cover; /* หรือ 'contain' เพื่อให้รูปภาพพอดีกับปุ่ม */
@@ -221,25 +220,27 @@ nav{
     scrollbar-width: none; /* ซ่อน scrollbar สำหรับ Firefox */
     -ms-overflow-style: none;  /* ซ่อน scrollbar สำหรับ IE/Edge */
 }
-.content-con::-webkit-scrollbar {
-    display: none;
+ .content-con::-webkit-scrollbar {
+        height: 8px;
+        display: none; /* ซ่อน scrollbar */
     }
 /* Content Items (for Services Section) */
 .content-title{
     margin: 1rem 0;
 }
 .content-item {
-    flex: 0 0 100%; /* สำคัญ: ทำให้แต่ละรายการกินพื้นที่เต็ม 100% ของคอนเทนเนอร์ */
-    width: 100%; /* ยืนยันว่าใช้เต็มความกว้าง */
-    box-sizing: border-box; /* รวม padding และ border ใน width/height */
-    scroll-snap-align: center; /* สำคัญ: จัดกึ่งกลางเมื่อเลื่อนหยุด */
+    flex: 0 0 100%; /* Default: 1 item per view (Mobile) */
+    width: 100%; /* Ensure full width */
+    box-sizing: border-box;
+    scroll-snap-align: center;
     padding: 15px;
     border: 1px solid #eee;
     border-radius: 8px;
     text-align: center;
     background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    margin-right: 0; /* ลบ margin-right ที่อาจทำให้เกิดช่องว่างที่ไม่ต้องการ */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        /* Remove margin-right here, gap handles spacing unless specific override needed */
+    margin-right: 0;
 }
 .content-item img{
     max-width: 100%;
@@ -280,8 +281,7 @@ nav{
     display: flex;
     align-items: center;
     margin-top: 20px;
-    /* เพิ่ม padding ซ้าย-ขวา เพื่อให้เห็นปุ่มเลื่อนได้ */
-    padding: 0 40px; /* Adjust this value if your buttons are larger */
+    padding: 0 40px; /* Padding for buttons on the side */
 }
 
 .scroll-btn {
@@ -297,13 +297,12 @@ nav{
     top: 50%;
     transform: translateY(-50%);
     opacity: 0.7;
-    transition: opacity 0.3s ease;
-    /* Ensure buttons are visible on mobile */
-    display: flex; /* Force display for mobile */
+    transition: opacity 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+    display: flex; /* Always display as flex by default, JS will hide if not scrollable */
     align-items: center;
     justify-content: center;
-    width: 40px; /* Fixed width for button */
-    height: 40px; /* Fixed height for button */
+    width: 40px;
+    height: 40px;
 }
 .scroll-btn:hover {
     background-color: #002060;
@@ -406,23 +405,10 @@ nav{
     padding: 1rem;
     text-align: center;
     z-index: 100;
-
-    /* **คุณสมบัติที่ทำให้ Footer อยู่ด้านล่างของเนื้อหา (Sticky Footer)** */
-    /* **ต้องไม่มี position: absolute; หรือ fixed; ที่นี่** */
-    /* **เพราะ body เป็น flex-direction: column และ main-content-area มี flex-grow: 1; จะดัน footer ลงไปเอง** */
-    /* position: absolute; <--- ลบบรรทัดนี้ออกไป! */
-    bottom: 0; /* สามารถลบออกได้ เพราะจะถูกจัดโดย flexbox */
-    left: 0;   /* สามารถลบออกได้ */
-    width: 100%; /* สามารถคงไว้ได้ถ้าต้องการให้เต็มความกว้าง */
-
-    /* ตรวจสอบให้แน่ใจว่าไม่มีคุณสมบัติที่ซ่อน Footer อยู่ */
-    opacity: 1;
-    visibility: visible;
-    transition: none;
 }
 
 /* Media Queries */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
     .image-row {
         flex-direction: column;
         align-items: center;
@@ -431,7 +417,6 @@ nav{
         width: 100%;
         max-width: 500px;
     }
-
     .nav-con {
         flex-direction: column;
         align-items: center;
@@ -447,9 +432,11 @@ nav{
     .maincontent-con {
         flex-direction: column;
     }
-
+    .main-content-area {
+        flex-grow: 1;
+    }
     .content-con {
-        flex-wrap: wrap; /* ให้สินค้าขึ้นบรรทัดใหม่ได้ */
+        flex-wrap: nowrap; /* ให้สินค้าขึ้นบรรทัดใหม่ได้ */
         justify-content: flex-start; /* จัดกึ่งกลางสินค้า */
         overflow-x: scroll; /* ซ่อน scrollbar */
         scroll-snap-type: x mandatory; /* ปิด scroll-snap */
@@ -500,7 +487,7 @@ nav{
 
 @media (min-width: 768px) {
     .content-item {
-        flex: 0 0 calc(50% - 10px); /* 3 คอลัมน์บนแท็บเล็ต */
+        flex: 0 0 calc(33.333% - 13.333%); /* 3 คอลัมน์บนแท็บเล็ต */
         max-width: none;
         margin-right: 20px;
     }
@@ -510,12 +497,12 @@ nav{
 }
 @media (min-width: 768px) {
     .scroll-container {
-        padding: 0; /* ลบ padding ออกเมื่อหน้าจอใหญ่ */
+        padding: 0 40px; /* ลบ padding ออกเมื่อหน้าจอใหญ่ */
         }
     }
  @media (min-width: 1024px) {
         .content-item {
-            flex: 0 0 calc(33.333% - 13.333px); /* 4 คอลัมน์บนเดสก์ท็อป */
+            flex: 0 0 calc(25% - 15px); /* 4 คอลัมน์บนเดสก์ท็อป */
             margin-right: 20px;
         }
     }
