@@ -439,54 +439,48 @@ section{
 
         /* Nav Bar ใน Mobile: ทำให้เหมือน Desktop */
         .nav-con {
-            flex-direction: row; /* คงไว้เป็นแนวนอน */
-            justify-content: space-between; /* Logo ซ้าย, Menu + Lang Switcher ขวา */
-            align-items: center; /* จัดกลางแนวตั้ง */
-            flex-wrap: nowrap; /* **สำคัญมาก: บังคับไม่ให้ขึ้นบรรทัดใหม่** */
-            padding: 0 10px; /* ลด padding ด้านข้าง nav-con เพื่อเพิ่มพื้นที่ */
+            flex-wrap: nowrap; /* Desktop: ห้ามขึ้นบรรทัดใหม่ */
+            padding: 0.5rem; /* คืน padding เดิม */
         }
 
         .nav-end {
-            display: flex;
-            align-items: center;
-            /* ลบ gap เพื่อบีบเมนูและปุ่มภาษาให้ชิดกันมากขึ้น หรือปรับตามความเหมาะสม */
-            /* gap: 10px; */ /* หากต้องการ gap น้อยลง */
-            gap: 5px; /* ลองใช้ gap ที่น้อยที่สุด */
-            flex-shrink: 0; /* ป้องกันไม่ให้ nav-end หดตัวมากเกินไป */
-            margin-left: auto; /* ดัน nav-end ไปชิดขวา */
+            flex-wrap: nowrap; /* Desktop: ห้ามขึ้นบรรทัดใหม่ */
+            width: auto; /* Desktop: ใช้ความกว้างตามเนื้อหา */
+            justify-content: flex-start; /* Desktop: จัดตามปกติ */
+            margin-top: 0;
         }
 
         .menu {
-            flex-direction: row; /* คงไว้เป็นแนวนอน */
-            flex-wrap: nowrap; /* **สำคัญมาก: บังคับไม่ให้รายการเมนูขึ้นบรรทัดใหม่** */
-            /* ลบ gap ที่เคยมีถ้าใช้ margin-left/right ใน li แทน หรือปรับ gap ให้เหมาะสม */
-            gap: 5px; /* ลองใช้ gap ที่น้อยที่สุดระหว่างรายการเมนู */
-            margin-top: 0;
-            order: 1;
+            flex-wrap: nowrap; /* Desktop: ห้ามขึ้นบรรทัดใหม่ */
+            width: auto; /* Desktop: ใช้ความกว้างตามเนื้อหา */
+            justify-content: flex-start; /* Desktop: จัดตามปกติ */
         }
 
         .menu li {
             /* หากใช้ gap ใน .menu ไม่ต้องใช้ margin-left อีก */
-            margin-left: 0;
+            margin-left: 20px;
         }
 
         .menu li a {
-            font-size: 0.75rem; /* **ลดขนาดตัวอักษรของเมนูให้เล็กลง** */
-            padding: 0.3rem 0.5rem; /* ลด padding */
+            font-size: 1rem; /* **ลดขนาดตัวอักษรของเมนูให้เล็กลง** */
+            padding: 0.5rem 1rem; /* ลด padding */
             display: block;
+        }
+        .menu li:last-child { /* เลือกรายการสุดท้ายในเมนู (Contact Us) */
+            flex-basis: auto;
+            margin-top: 0;
         }
 
         .lang-switcher {
-            order: 2;
+            width: auto; /* Desktop: ใช้ความกว้างตามเนื้อหา */
+            justify-content: flex-start; /* Desktop: จัดตามปกติ */
+            margin-top: 0;
         }
 
         .lang-btn {
-            width: 30px; /* ลดขนาดปุ่มภาษา */
-            height: 20px; /* ลดขนาดปุ่มภาษา */
-            padding: 0; /* ลบ padding ออกถ้าใช้รูปภาพเต็มพื้นที่ */
-            font-size: 0.7em; /* ลดขนาดตัวอักษร "EN", "TH" (ถ้ามองเห็น) */
+            width: 40px; /* ลดขนาดปุ่มภาษา */
+            height: 30px; /* ลดขนาดปุ่มภาษา */
         }
-
 
         /* ส่วนอื่นๆ ของ Mobile ที่ไม่มีการเปลี่ยนแปลงหลัก */
         .image-row {
