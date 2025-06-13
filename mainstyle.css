@@ -11,6 +11,59 @@ html{
     height: 100%; /* สำคัญสำหรับ sticky footer */
 }
 
+body {
+    font-family: 'Nunito Sans', sans-serif;
+    display: flex; /* ทำให้ body เป็น Flex Container */
+    flex-direction: column; /* จัดเรียงลูกๆ ในแนวตั้ง (nav, main, footer) */
+    min-height: 100vh; /* ทำให้ body มีความสูงอย่างน้อยเท่ากับ viewport */
+    margin: 0; /* ตรวจสอบให้แน่ใจว่าไม่มี margin */
+    padding: 0; /* ตรวจสอบให้แน่ใจว่าไม่มี padding */
+}
+
+section{
+    min-height: 30vh;
+    padding: 2rem;
+}
+
+.main-content-area {
+    flex-grow: 1; /* ทำให้ส่วนนี้ยืดขยายเพื่อดัน Footer ลงไปด้านล่าง */
+}
+
+.scroll-x {
+    display: flex;
+    /* overflow-x: auto; <--- บรรทัดนี้ไม่จำเป็นแล้ว */
+    scroll-behavior: smooth;    
+    gap: 10px; /* ระยะห่างระหว่างรายการ (ถ้า .content-con.scroll-x มี gap 20px) */
+    padding: 10px 0;
+}
+
+.content-con.scroll-x {
+    display: flex;
+    overflow-x: hidden; /* <--- ปิดการเลื่อนด้วยเมาส์/สัมผัส */
+    scroll-behavior: smooth;
+    gap: 20px; /* ระยะห่างระหว่าง content-item */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* ซ่อน scrollbar สำหรับ Webkit browsers (Chrome, Safari, Edge) */
+.scroll-x::-webkit-scrollbar {
+    height: 8px;
+    display: none; /* ซ่อน scrollbar */
+}
+.scroll-x::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+.scroll-x::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+
+.container{
+    max-width: 1400px;
+    margin: 0 auto;
+}
  body {
         font-family: 'Nunito Sans', sans-serif;
         display: flex;
@@ -25,6 +78,7 @@ html{
         padding: 2rem;
     }
 
+    /* Main Content Area (HTML: <main class="main-content-area">) */
     .main-content-area {
         flex-grow: 1;
     }
@@ -86,7 +140,7 @@ html{
         color: transparent;
     }
 
-    /* Navigation - Desktop styles (default) */
+    /* Navigation */
     nav {
         padding: 0.5rem;
         background-color: #fff;
@@ -94,32 +148,32 @@ html{
 
     .nav-con {
         display: flex;
-        justify-content: space-between; /* Logo ซ้าย, nav-end ขวา */
-        align-items: center; /* จัดกลางแนวตั้ง */
-        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%
     }
 
     .nav-end {
         display: flex;
-        align-items: center; /* จัดกลางแนวตั้ง */
-        gap: 20px; /* ระยะห่างระหว่าง Menu และ Lang Switcher */
+        align-items: center;
+        gap: 20px;
     }
 
     .logo img {
-        height: 80px; /* ขนาดโลโก้เริ่มต้น */
+        height: 80px;
         width: auto;
         text-decoration: none;
     }
 
     .menu {
-        display: flex; /* เมนูเรียงแนวนอน */
+        display: flex;
         list-style: none;
         margin: 0;
         padding: 0;
     }
 
     .menu li {
-        margin-left: 20px; /* ระยะห่างระหว่างรายการเมนู */
+        margin-left: 20px;
     }
 
     .menu li a {
@@ -194,10 +248,10 @@ html{
 
     .content-item {
         /* Mobile: 1 item per view (Default) */
-        flex: 0 0 100%; /* แต่ละรายการกินพื้นที่เต็มความกว้าง */
-        width: 100%; /* ยืนยันความกว้างเต็ม */
+        flex: 0 0 100%; /* Each item takes full width */
+        width: 100%; /* Ensure full width */
         box-sizing: border-box;
-        scroll-snap-align: start; /* Snap ไปยังจุดเริ่มต้นของรายการ */
+        scroll-snap-align: start; /* Snap to the start of the item */
         padding: 15px;
         border: 1px solid #eee;
         border-radius: 8px;
@@ -249,7 +303,7 @@ html{
         display: flex;
         align-items: center;
         margin-top: 20px;
-        padding: 0 40px; /* เว้นช่องว่างให้ปุ่มลูกศรซ้าย-ขวา */
+        padding: 0 40px; /* Padding for buttons on the side */
     }
 
     /* Scroll Buttons Styling */
@@ -267,7 +321,7 @@ html{
         transform: translateY(-50%);
         opacity: 0.7;
         transition: opacity 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
-        display: flex; /* แสดงเป็น flex โดยค่าเริ่มต้น (JS จะซ่อนหากไม่จำเป็นต้องเลื่อน) */
+        display: flex; /* Always display as flex by default, JS will hide if not scrollable */
         align-items: center;
         justify-content: center;
         width: 40px;
@@ -292,7 +346,7 @@ html{
     /* --- Contact Section Styling --- */
     .contact {
         padding: 3rem 2rem;
-        background-color: #f9f9f9;
+        background-color: #002060;
     }
 
     .contact .content-title {
@@ -302,7 +356,7 @@ html{
 
     .contact .content-title h3 {
         font-size: 2.5rem;
-        color: #002060;
+        color: #ffffff;
         margin-bottom: 0.5rem;
     }
 
@@ -368,90 +422,34 @@ html{
 
     /* Footer */
     .footer-buttom {
-        background-color: #002060;
-        color: #fff;
+        background-color: #ffffff;
+        color: #002060;
         padding: 1rem;
         text-align: center;
         z-index: 100;
     }
 
-    /* Media Queries */
-    @media screen and (max-width: 767px) { /* Mobile Specific Styles */
-        /* ปรับขนาดโลโก้ใน Mobile */
-        .logo img {
-            height: 60px; /* ลดขนาดโลโก้ */
-        }
-
-        /* Nav Bar ใน Mobile: จัดการให้เรียงเป็น 3 บรรทัด */
-        .nav-con {
-            flex-direction: column; /* **สำคัญ: ทำให้ Logo, nav-end เรียงลงมาในแนวตั้ง** */
-            align-items: flex-start; /* จัดเรียงองค์ประกอบทั้งหมดชิดซ้าย */
-            padding: 0 10px; /* ลด padding ด้านข้าง */
-        }
-
-        .nav-end {
-            flex-direction: column; /* **สำคัญ: ทำให้ Menu, Lang Switcher เรียงลงมาในแนวตั้ง** */
-            align-items: flex-start; /* จัดเรียงรายการภายใน nav-end ชิดซ้าย */
-            width: 100%; /* ทำให้ nav-end กินพื้นที่เต็มบรรทัด */
-            margin-left: 0; /* ลบ margin-left: auto ที่อาจมี */
-            gap: 0; /* ลบ gap ระหว่าง menu และ lang-switcher */
-            margin-top: 10px; /* เพิ่มระยะห่างจาก Logo */
-        }
-
-        .menu {
-            flex-direction: row; /* รายการเมนู Home, About, Product, Contact Us เรียงแนวนอน */
-            flex-wrap: wrap; /* **สำคัญ: อนุญาตให้รายการเมนูขึ้นบรรทัดใหม่ได้** */
-            width: 100%; /* ทำให้ menu กินพื้นที่เต็มบรรทัด */
-            justify-content: flex-start; /* จัดรายการเมนูชิดซ้าย */
-            gap: 5px; /* ระยะห่างระหว่าง Home, About Us, Products */
-            margin-top: 0;
-            order: 1;
-        }
-
-        .menu li {
-            margin: 0; /* ลบ margin-left เดิม */
-        }
-
-        /* บังคับให้ Contact Us ลงมาอยู่บรรทัดใหม่ */
-        .menu li:last-child { /* เลือกรายการสุดท้ายในเมนู (Contact Us) */
-            flex-basis: 100%; /* **สำคัญ: กินพื้นที่ 100% ทำให้ลงมาอยู่คนเดียวในบรรทัดใหม่** */
-            text-align: left; /* จัดชิดซ้าย */
-            margin-top: 5px; /* เพิ่มระยะห่างจากเมนูก่อนหน้า */
-        }
-
-        .menu li a {
-            font-size: 0.85rem; /* ลดขนาดตัวอักษรของเมนู */
-            padding: 0.3rem 0.5rem; /* ลด padding */
-            display: block;
-        }
-
-        .lang-switcher {
-            flex-direction: row; /* ปุ่มภาษาเรียงแนวนอน */
-            flex-wrap: nowrap; /* ห้ามขึ้นบรรทัดใหม่ */
-            width: 100%; /* ทำให้ปุ่มภาษากินพื้นที่เต็มบรรทัด */
-            justify-content: flex-start; /* จัดปุ่มภาษาชิดซ้าย */
-            margin-top: 10px; /* **สำคัญ: เพิ่มระยะห่างจาก Contact Us** */
-            order: 2;
-            gap: 5px; /* ระยะห่างระหว่างปุ่มธง */
-        }
-
-        .lang-btn {
-            width: 35px; /* ลดขนาดปุ่มภาษา */
-            height: 25px; /* ลดขนาดปุ่มภาษา */
-            padding: 0;
-            font-size: 0.7em;
-        }
-
-
-        /* ส่วนอื่นๆ ของ Mobile ที่ไม่มีการเปลี่ยนแปลงหลัก */
-        .image-row {
+/* Media Queries */
+@media screen and (max-width: 767px) {
+     .image-row {
             flex-direction: column;
             align-items: center;
         }
-
         .image-row img {
             width: 100%;
             max-width: 500px;
+        }
+
+        .nav-con {
+            flex-direction: column;
+            align-items: center;
+        }
+        .menu {
+            flex-direction: column;
+            margin-top: 1rem;
+        }
+        .menu li {
+            margin: 0.5rem 0;
         }
 
         .maincontent-con {
@@ -475,82 +473,47 @@ html{
             padding: 0.5rem;
             font-size: 0.75rem;
         }
-    }
 
-    /* Reset for Desktop (min-width: 768px) */
-    @media (min-width: 768px) {
-        /* คืนค่า Nav Bar กลับไปเป็น Desktop Layout */
-        .logo img {
-            height: 80px; /* คืนขนาดโลโก้สำหรับ Desktop */
-        }
+        /* Responsive Navigation (already handled, just ensure consistency) */
         .nav-con {
-            flex-direction: row; /* Desktop: row */
+            flex-direction: row;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            padding: 0.5rem; /* Original padding */
-        }
-        .logo {
-            width: auto;
-            margin-bottom: 0;
-            text-align: left; /* คืนค่า */
-        }
-        .nav-end {
-            flex-direction: row; /* Desktop: row */
-            align-items: center;
-            width: auto; /* Desktop: auto width */
-            margin-left: auto; /* Push to right */
-            gap: 20px; /* Original gap */
-            margin-top: 0; /* คืนค่า */
         }
         .menu {
             flex-direction: row;
-            flex-wrap: nowrap; /* Desktop: no wrap */
-            width: auto;
-            justify-content: flex-start;
-            gap: 0; /* Remove gap */
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0;
         }
         .menu li {
-            margin-left: 20px; /* Original margin */
-        }
-        .menu li:first-child { /* เพื่อให้รายการแรกมี margin-left เป็น 0 */
-            margin-left: 0;
-        }
-        .menu li:last-child {
-            flex-basis: auto; /* Reset flex-basis */
-            text-align: left; /* คืนค่า */
-            margin-top: 0; /* คืนค่า */
+            margin: 0;
         }
         .menu li a {
-            font-size: 1rem;
-            padding: 0.5rem 1rem;
-        }
-        .lang-switcher {
-            flex-direction: row;
-            flex-wrap: nowrap;
-            width: auto;
-            justify-content: flex-start;
-            margin-top: 0;
-            gap: 10px; /* Original gap */
-        }
-        .lang-btn {
-            width: 40px;
-            height: 30px;
+            font-size: 0.9rem;
+            padding: 0.5rem;
+            display: block;
         }
 
-        /* Services Section Desktop Display */
-        @media (min-width: 768px) {
-            .content-item {
-                flex: 0 0 calc(50% - 10px); /* 2 items per view on tablets/desktops (50% width - half of gap) */
-                width: calc(50% - 10px); /* Ensure consistency */
-                scroll-snap-align: start; /* Still snap to start */
-            }
-        }
+        /* .content-item styles are already 100% by default, so no override needed here */
+    }
 
-        @media (min-width: 1024px) {
-            .content-item {
-                flex: 0 0 calc(50% - 10px); /* Still 2 items per view on large desktops */
-                width: calc(50% - 10px); /* Ensure consistency */
-                scroll-snap-align: start; /* Still snap to start */
-            }
+    /* Media Query for Tablet and Desktop (min-width: 768px) - 2 items per view */
+    @media (min-width: 768px) {
+        .content-item {
+            flex: 0 0 calc(50% - 10px); /* 2 items per view on tablets/desktops (50% width - half of gap) */
+            width: calc(50% - 10px); /* Ensure consistency */
+            scroll-snap-align: start; /* Still snap to start */
+        }
+        /* No display: none for .scroll-btn here */
+    }
+
+    /* Media Query for Large Desktop (min-width: 1024px) - Also 2 items per view */
+    @media (min-width: 1024px) {
+        .content-item {
+            flex: 0 0 calc(50% - 10px); /* Still 2 items per view on large desktops */
+            width: calc(50% - 10px); /* Ensure consistency */
+            scroll-snap-align: start; /* Still snap to start */
         }
     }
