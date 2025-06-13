@@ -456,16 +456,30 @@ section{
             flex-direction: column;
         }
 
+        
+        .container {
+            padding-left: 0;
+            padding-right: 0;
+        }
+        section{
+            padding-left: 0;
+            padding-right: 0;
+        }
         .maincontent-info,
         .maincontent-img,
-        .container {
-            padding: 1rem;
+        .content-tent,
+        .contact-item-detail{
+            padding-left: 1rem;
+            padding-right: 1rem;
             width: 100%;
         }
-
         /* Contact section grid for mobile */
         .contact-info-grid {
             grid-template-columns: 1fr;
+        }
+
+        .scroll-container {
+        padding: 0 10px; /* ลดจาก 40px เหลือ 10px บนมือถือสำหรับปุ่ม */
         }
 
         /* Footer for mobile */
