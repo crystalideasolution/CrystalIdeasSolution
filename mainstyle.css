@@ -255,12 +255,20 @@ nav {
     position: relative;
     padding-left: 20px;
     margin-bottom: 0.5rem;
+    color: #002060;
 }
 
-.content .content-title h3::before {
-    content: "\2022";
-    color: black;
-    font-size: 1.2em;
+.content .content-title p:not(:first-child) { /* <--- เลือก p ทุกตัว ยกเว้นตัวแรก (Our Services) */
+    position: relative;
+    padding-left: 20px; /* เว้นที่ว่างสำหรับจุด */
+    margin-bottom: 0.5rem; /* ระยะห่างระหว่างรายการ */
+    color: black; /* สีของข้อความ */
+}
+
+.content .content-title p:not(:first-child)::before { /* <--- กำหนดจุดให้ p ทุกตัว ยกเว้นตัวแรก */
+    content: "\2022"; /* สัญลักษณ์จุดกลม */
+    color: black; /* สีของจุด */
+    font-size: 1.2em; /* ขนาดของจุด */
     position: absolute;
     left: 0;
     top: 50%;
@@ -417,7 +425,7 @@ nav {
 
 .contact-info-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 2rem;
     margin-top: 2rem;
 }
@@ -534,14 +542,30 @@ nav {
 .gmail-btn:hover {
     background: linear-gradient(to right, #d88a0f, #f09d18) !important; /* <--- เพิ่ม !important */
 }
-
+.qr-codes-group {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 50px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+    }
+    
+.qr-code-img {
+    max-width: 190px; /* กำหนดขนาดสูงสุดของรูปภาพแต่ละรูป (ปรับได้ตามต้องการ) */
+    height: auto;     /* รักษาอัตราส่วนของรูปภาพ */
+    margin: 0;        /* ลบ margin: auto เดิมออก เพราะเราให้ .qr-codes-group จัดเรียงแทน */
+    border: 1px solid #eee;
+    padding: 5px;
+    border-radius: 5px;
+}
 /* Media Queries */
 @media screen and (max-width: 767px) {
-    .image-row {
+.image-row {
         flex-direction: column;
         align-items: center;
     }
-    .image-row img {
+.image-row img {
         width: 100%;
         max-width: 500px;
     }
@@ -679,5 +703,15 @@ nav {
     }
     .line-btn i {
         margin-right: 0; /* ลบระยะห่างเมื่อไม่มีข้อความ */
+    }
+    }
+    @media screen and (max-width: 767px) {
+    .qr-codes-group {
+        flex-direction: row; /* คงการเรียงแบบแถว */
+        justify-content: center;
+        gap: 20px;
+    }
+    .qr-code-img {
+        max-width: 80px; /* ลดขนาดลงสำหรับมือถือ */
     }
 }
