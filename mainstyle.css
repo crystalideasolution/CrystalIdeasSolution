@@ -194,7 +194,7 @@ nav {
     color: #fff;
     padding-top: 0.5rem; /* <--- ตรงนี้ */
     padding-bottom: 0.5rem;
-    padding-left: 0.5rem;
+    padding-left: 1rem;
     padding-right: 0.5rem;
 }
 
@@ -204,12 +204,16 @@ nav {
 
 .maincontent-info {
     width: 100%;
-    padding: 2rem;
+    padding: 1rem;
+    padding-left: 0;
 }
 
 .maincontent-info h3 {
-    font-size: 2rem;
+    font-size: 2rem; /* <--- กำหนดขนาดฟอนต์ให้เท่ากับ maincontent-info h3 */
+    color: #fff; /* สีขาวสำหรับหัวข้อใน Project (ถ้าพื้นหลัง #002060) */
+    margin-bottom: 0; /* ถ้าไม่ต้องการ margin-bottom เพิ่มเติม */
 }
+
 
 .maincontent-info p {
     margin: 1rem 0;
@@ -252,8 +256,7 @@ nav {
 
 /* Content Title Styles (for Services and Projects sections) */
 .content .content-title h3 {
-    position: relative;
-    padding-left: 20px;
+    font-size: 2rem;
     margin-bottom: 0.5rem;
     color: #002060;
 }
@@ -386,6 +389,10 @@ nav {
 
 /* Project Content Section */
 .projectcontent {
+    padding-top: 0.5rem; /* <--- ลดจาก 3rem เป็น 1.5rem (หรือค่าที่คุณต้องการ) */
+    padding-bottom: 0.5rem; /* คงค่า padding ด้านล่างไว้ */       
+    padding-left: 1rem; /* คงค่า padding ด้านซ้ายไว้ */
+    padding-right: 0.5rem; /* คงค่า padding ด้านขวาไว้ */
     padding: 1rem;
     background-color: #002060; /* เปลี่ยนสีพื้นหลังเป็นสีเดียวกับ maincontent */
 }
@@ -394,6 +401,11 @@ nav {
     color: #fff;
     margin-bottom: 1rem;
     text-align: left; /* อาจจะอยากให้หัวข้ออยู่ตรงกลางเหมือน Services */
+}
+.projectcontent-title h3 { /* <--- เพิ่ม selector นี้เพื่อกำหนด font-size */
+    font-size: 2rem; /* <--- กำหนดขนาดฟอนต์ให้เท่ากับ maincontent-info h3 */
+    color: #fff; /* สีขาวสำหรับหัวข้อใน Project (ถ้าพื้นหลัง #002060) */
+    margin-bottom: 0; /* ถ้าไม่ต้องการ margin-bottom เพิ่มเติม */
 }
 
 /* --- Contact Section Styling --- */
