@@ -655,21 +655,90 @@ nav {
     }
 
     .nav-con {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: column; /* จัดเรียงโลโก้, เมนู, ปุ่มภาษา ในแนวตั้ง */
+        align-items: center; /* จัดกลางในแนวตั้ง */
+        padding: 0.5rem; /* เพิ่ม padding ให้ Navbar บนมือถือ */
+    }
+     .nav-end {
+        flex-direction: column; /* ทำให้เมนูและปุ่มภาษาเรียงแนวตั้ง */
+        width: 100%; /* ให้กินพื้นที่เต็มความกว้าง */
+        align-items: center; /* จัดกลางในแนวตั้ง */
+        gap: 10px; /* ลดระยะห่าง */
+        margin-top: 10px; /* ระยะห่างจากโลโก้ */
     }
     .menu {
-        flex-direction: column;
-        margin-top: 1rem;
+        flex-direction: column; /* ทำให้รายการเมนูเรียงแนวตั้ง */
+        text-align: center; /* จัดกลางข้อความเมนู */
+        width: 100%;
+        margin-top: 0.5rem; /* ลด margin-top */
     }
     .menu li {
-        margin: 0.5rem 0;
+       margin: 0.5rem 0; /* ลด margin ระหว่างรายการเมนู */
+        width: 100%; /* ให้ลิสต์เมนูกินพื้นที่เต็ม */
+    }
+    .menu li a {
+        font-size: 1rem; /* ปรับขนาดฟอนต์เมนูให้ใหญ่ขึ้นเล็กน้อย */
+        padding: 8px 0; /* เพิ่ม padding ในลิงก์เมนู */
+        display: block; /* ทำให้ลิงก์กดง่ายขึ้น */
+        border-bottom: 1px solid #eee; /* เพิ่มเส้นแบ่ง (ไม่บังคับ) */
     }
 
+    .menu li:last-child a {
+        border-bottom: none; /* ลบเส้นแบ่งตัวสุดท้าย */
+    }
+
+    .lang-switcher {
+        margin-top: 10px; /* ระยะห่างจากเมนู */
+    }
+
+     .lang-btn {
+        width: 35px; /* ลดขนาดปุ่มธง */
+        height: 25px;
+        padding: 0;
+        text-indent: 0; /* แสดงข้อความ EN/TH ถ้าต้องการ */
+        font-size: 0.8rem;
+    }
+
+    .lang-btn[data-lang="en"], .lang-btn[data-lang="th"] {
+        background-image: none; /* ลบรูปธงออกถ้าต้องการให้เห็น EN/TH */
+        text-indent: 0;
+    }
+
+    .lang-btn.active-lang {
+        border: 1px solid #007bff;
+        box-shadow: none;
+    }
     .maincontent-con {
-        flex-direction: column;
+         flex-direction: column; /* เรียงเนื้อหาและรูปภาพในแนวตั้ง */
+        padding: 0; /* ลบ padding ออกจาก .maincontent-con */
     }
 
+    .maincontent-info {
+        width: 100%; /* กินพื้นที่เต็มความกว้าง */
+        padding: 1rem; /* เพิ่ม padding ด้านใน */
+        text-align: center; /* จัดกลางข้อความ */
+    }
+    .maincontent-info h3 {
+        font-size: 1.8rem; /* ลดขนาดฟอนต์หัวข้อ */
+    }
+     .maincontent-info p {
+        font-size: 0.95rem; /* ลดขนาดฟอนต์ข้อความ */
+        margin: 0.8rem auto; /* จัดกลาง paragraph */
+    }
+     .maincontent-info .maincontent-btn {
+        padding: 0.8rem 1.5rem; /* ปรับขนาดปุ่ม */
+        font-size: 0.9rem;
+    }
+
+    .maincontent-img {
+        width: 100%; /* กินพื้นที่เต็มความกว้าง */
+        padding: 0.5rem; /* ลด padding */
+    }
+
+    .maincontent-img img {
+        max-width: 90%; /* ลดขนาดรูปภาพลง */
+        height: auto;
+    }
     .container {
         padding-left: 0;
         padding-right: 0;
@@ -739,6 +808,32 @@ nav {
         border-radius: 8px 8px 0 0; /* ปรับมุมโค้งมนด้านล่างหากต้องการ */
     }
 }
+@media screen and (max-width: 767px) {
+    /* ส่วน Content / Project */
+    .content-title {
+        margin: 1rem 1rem; /* เพิ่ม margin ด้านข้างให้กับ title */
+        text-align: center; /* จัดกลาง title */
+    }
+    .content .content-title h3 {
+        padding-left: 0; /* ลบ padding-left ที่เคยใส่จุด */
+        font-size: 1.8rem; /* ลดขนาดฟอนต์หัวข้อ */
+    }
+    .content .content-title p:not(:first-child) {
+        padding-left: 15px; /* ลด padding-left ของจุดลงเล็กน้อย */
+        font-size: 0.95rem;
+    }
+
+    .scroll-container {
+        padding: 0 10px; /* ลด padding ของ scroll-container บนมือถือ */
+    }
+    
+    .content-con::-webkit-scrollbar {
+        height: 5px; /* ทำให้ scrollbar เล็กลง (ถ้าจำเป็นต้องแสดง) */
+    }
+    .content-con::-webkit-scrollbar-thumb {
+        background-color: rgba(0,0,0,0.2);
+    }
+}
 
 /* Media Query for Desktop (min-width: 1024px) - 3 items per row */
 @media (min-width: 1024px) {
@@ -759,13 +854,16 @@ nav {
 }
 @media screen and (max-width: 767px) {
     .fixed-sidebar-buttons {
-        right: 0; /* ขยับเข้ามาใกล้ขอบมากขึ้นบนมือถือ */
-        bottom: 10px;
+        right: 0; /* หรือ -5px ถ้ายังไม่ชิด */
+        top: 50%; /* จัดกลางแนวตั้ง */
+        transform: translateY(-50%); /* จัดกลางแนวตั้ง */
+        bottom: auto; /* ลบ bottom */
         gap: 8px;
     }
     .sidebar-btn {
-        padding: 8px 12px;
-        font-size: 0.9rem;
+        width: 45px; /* ปรับขนาดปุ่ม */
+        height: 45px;
+        font-size: 1rem; /* ปรับขนาดไอคอน */
     }
     .sidebar-btn i {
         font-size: 1em;
@@ -778,8 +876,11 @@ nav {
     .line-btn span {
         display: none;
     }
-    .line-btn {
-        width: 45px; /* ทำให้ปุ่ม Line เป็นวงกลม */
+    .line-btn:hover span {
+        display: none;
+    }
+     .line-btn, .telephone-btn, .gmail-btn { /* รวมทั้งหมดให้มีขนาดเท่ากัน */
+        width: 45px;
         height: 45px;
         border-radius: 50%;
         justify-content: center;
@@ -791,12 +892,15 @@ nav {
     }
     @media screen and (max-width: 767px) {
     .qr-codes-group {
-        flex-direction: row; /* คงการเรียงแบบแถว */
+        flex-direction: row;
         justify-content: center;
-        gap: 20px;
+        gap: 15px; /* ลดระยะห่าง */
     }
     .qr-code-img {
-        max-width: 80px; /* ลดขนาดลงสำหรับมือถือ */
+        max-width: 70px; /* ลดขนาดลงสำหรับมือถือ */
+        height: auto;
+        flex-basis: 70px; /* กำหนด flex-basis ด้วย */
+        flex-shrink: 0;
     }
 }
     /* --- Media Queries สำหรับ Clients Section --- */
