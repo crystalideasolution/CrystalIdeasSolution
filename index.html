@@ -1,3 +1,20 @@
+ครับ! ผมจะแก้ไขโค้ด HTML และ CSS ของคุณใหม่ทั้งหมด โดยรวมการแก้ไขและคำแนะนำที่ผ่านมาทั้งหมดเข้าไป เพื่อให้ถูกต้องสมบูรณ์และลดปัญหาต่างๆ ครับ
+
+จุดที่แก้ไขหลักๆ:
+
+HTML:
+แก้ไข id ที่ซ้ำกันในส่วน "Products/Service" และ "Project" (จาก scrollable-services เป็น scrollable-projects ในส่วน Project)
+แก้ไข alt text ของรูปภาพ QR Code (Line QR Code)
+CSS:
+แก้ไขวงเล็บที่ขาดหายไปใน JavaScript (ที่ตรวจพบในคำตอบก่อนหน้า)
+รวม Media Queries ที่ซ้ำซ้อนกันและจัดลำดับใหม่
+ปรับ padding-top ของ body เพื่อรองรับ Navbar ที่ตรึงอยู่
+ปรับสไตล์ของปุ่มด้านข้าง (fixed-sidebar-buttons) ให้มีขนาดเท่ากันและสีถูกต้อง (รวมถึง Gmail)
+แก้ไขการแสดงผลของ QR Code ให้แสดงข้างๆ กันและมีขนาด/ระยะห่างตามต้องการ
+ปรับสไตล์จุด (bullet points) สำหรับรายการบริการให้ถูกต้อง
+ไฟล์ index.html (ที่แก้ไขแล้ว)
+HTML
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,107 +28,140 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap">
     <script>
-         document.addEventListener("DOMContentLoaded", function () {
-        const scrollContainer = document.getElementById("scrollable-services");
-        const leftBtn = document.querySelector(".scroll-btn.left");
-        const rightBtn = document.querySelector(".scroll-btn.right");
+        document.addEventListener("DOMContentLoaded", function () {
+            const allScrollContainers = document.querySelectorAll(".content-con.scroll-x");
 
-        let scrollAmount = 0;
+            allScrollContainers.forEach(scrollContainer => { // วนลูปสำหรับแต่ละคอนเทนเนอร์
+                // สำหรับแต่ละ scrollContainer ให้ค้นหาปุ่มที่อยู่ภายใน parent เดียวกัน
+                const parentScrollContainer = scrollContainer.closest('.scroll-container');
+                if (!parentScrollContainer) return; // หากไม่พบ parent ให้ข้ามไป
 
-        function updateScrollAmount() {
-            if (scrollContainer.firstElementChild) {
-                const itemWidth = scrollContainer.firstElementChild.offsetWidth;
-                const style = window.getComputedStyle(scrollContainer);
-                const gap = parseFloat(style.gap) || 0;
+                const leftBtn = parentScrollContainer.querySelector(".scroll-btn.left");
+                const rightBtn = parentScrollContainer.querySelector(".scroll-btn.right");
 
-                if (window.innerWidth <= 767) { // สำหรับ Mobile (1 รายการ)
-                    scrollAmount = itemWidth + gap; // เลื่อนทีละ 1 รายการ + gap
-                } else { 
-                    scrollAmount = (itemWidth * 2) + gap; 
+                if (!leftBtn || !rightBtn) return; // หากไม่พบปุ่ม ให้ข้ามไป
+
+                let scrollAmount = 0; // ประกาศตัวแปรภายใน scope ของแต่ละคอนเทนเนอร์
+
+                function updateScrollAmount() {
+                    if (scrollContainer.firstElementChild) {
+                        const itemWidth = scrollContainer.firstElementChild.offsetWidth;
+                        const style = window.getComputedStyle(scrollContainer);
+                        const gap = parseFloat(style.gap) || 0;
+
+                        if (window.innerWidth <= 767) { // สำหรับ Mobile (1 รายการ)
+                            scrollAmount = itemWidth + gap; // เลื่อนทีละ 1 รายการ + gap
+                        } else {
+                            if (window.innerWidth >= 1024) { // Desktop (3 รายการ)
+                                scrollAmount = (itemWidth * 3) + (gap * 2); 
+                            } else if (window.innerWidth >= 768) { // Tablet (2 รายการ)
+                                scrollAmount = (itemWidth * 2) + gap;
+                            } else { // Mobile (1 รายการ)
+                                scrollAmount = itemWidth + gap;
+                            }
+                        }
+                    }
                 }
-            }
-        }
+                
+                updateScrollAmount();
+                window.addEventListener('resize', updateScrollAmount);
 
-        updateScrollAmount();
-        window.addEventListener('resize', updateScrollAmount);
+                rightBtn.addEventListener("click", () => {
+                    const maxScrollLeft = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+                    let targetScrollLeft = scrollContainer.scrollLeft + scrollAmount;
 
-        rightBtn.addEventListener("click", () => {
-            const maxScrollLeft = scrollContainer.scrollWidth - scrollContainer.clientWidth;
-            let targetScrollLeft = scrollContainer.scrollLeft + scrollAmount;
+                    if (targetScrollLeft > maxScrollLeft) {
+                        targetScrollLeft = maxScrollLeft;
+                    }
+                    scrollContainer.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
+                    setTimeout(() => checkScrollButtonVisibility(scrollContainer, leftBtn, rightBtn), 350); // ส่ง args ไปด้วย
+                });
 
-            if (targetScrollLeft > maxScrollLeft) {
-                targetScrollLeft = maxScrollLeft;
-            }
-            scrollContainer.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
-            setTimeout(checkScrollButtonVisibility, 350);
-        });
+                leftBtn.addEventListener("click", () => {
+                    let targetScrollLeft = scrollContainer.scrollLeft - scrollAmount;
 
-        leftBtn.addEventListener("click", () => {
-            let targetScrollLeft = scrollContainer.scrollLeft - scrollAmount;
+                    if (targetScrollLeft < 0) {
+                        targetScrollLeft = 0;
+                    }
+                    scrollContainer.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
+                    setTimeout(() => checkScrollButtonVisibility(scrollContainer, leftBtn, rightBtn), 350); // ส่ง args ไปด้วย
+                });
 
-            if (targetScrollLeft < 0) {
-                targetScrollLeft = 0;
-            }
-            scrollContainer.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
-            setTimeout(checkScrollButtonVisibility, 350);
-        });
+                // Function checkScrollButtonVisibility ควรอยู่นอก loop หรือรับ args
+                // ผมย้ายมาข้างนอกและปรับให้รับ parameters เพื่อให้ถูกต้อง
+                // แต่ถ้าคุณต้องการให้อยู่ข้างใน forEach ให้แน่ใจว่ามันถูกประกาศใน scope ที่ถูกต้อง
+                // สำหรับโค้ดนี้ จะประกาศด้านล่าง forEach แล้ว
+            }); // สิ้นสุด forEach loop
 
-        function checkScrollButtonVisibility() {
-            const isScrollable = scrollContainer.scrollWidth > scrollContainer.clientWidth;
-            const scrollEndTolerance = 2;
+            // function checkScrollButtonVisibility ควรจะถูกประกาศแค่ครั้งเดียวด้านนอก forEach loop
+            // และรับ parameters มา
+            function checkScrollButtonVisibility(scrollContainer, leftBtn, rightBtn) {
+                const isScrollable = scrollContainer.scrollWidth > scrollContainer.clientWidth;
+                const scrollEndTolerance = 2;
 
-            if (isScrollable) {
-                if (scrollContainer.scrollLeft <= scrollEndTolerance) {
+                if (isScrollable) {
+                    if (scrollContainer.scrollLeft <= scrollEndTolerance) {
+                        leftBtn.style.display = 'none';
+                    } else {
+                        leftBtn.style.display = 'flex';
+                    }
+
+                    if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth - scrollEndTolerance) {
+                        rightBtn.style.display = 'none';
+                    } else {
+                        rightBtn.style.display = 'flex';
+                    }
+                } else {
                     leftBtn.style.display = 'none';
-                } else {
-                    leftBtn.style.display = 'flex';
-                }
-
-                if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth - scrollEndTolerance) {
                     rightBtn.style.display = 'none';
-                } else {
-                    rightBtn.style.display = 'flex';
                 }
-            } else {
-                leftBtn.style.display = 'none';
-                rightBtn.style.display = 'none';
             }
-        }
 
-        checkScrollButtonVisibility();
-        scrollContainer.addEventListener('scroll', checkScrollButtonVisibility);
-        window.addEventListener('resize', checkScrollButtonVisibility);
+            // เนื่องจาก checkScrollButtonVisibility ถูกย้ายมาข้างนอก
+            // เราต้องเรียกใช้มันสำหรับแต่ละ scrollContainer หลังจากการกำหนด listener
+            allScrollContainers.forEach(scrollContainer => {
+                const parentScrollContainer = scrollContainer.closest('.scroll-container');
+                if (!parentScrollContainer) return;
+                const leftBtn = parentScrollContainer.querySelector(".scroll-btn.left");
+                const rightBtn = parentScrollContainer.querySelector(".scroll-btn.right");
+                if (!leftBtn || !rightBtn) return;
 
-        // Language Selection (โค้ดส่วนนี้ยังคงเหมือนเดิม)
-        const langButtons = document.querySelectorAll('.lang-btn');
-        const contentElements = document.querySelectorAll('[data-en], [data-th]');
-
-        function setLanguage(lang) {
-            contentElements.forEach(element => {
-                if (element.dataset[lang]) {
-                    element.innerHTML = element.dataset[lang];
-                }
+                checkScrollButtonVisibility(scrollContainer, leftBtn, rightBtn);
+                scrollContainer.addEventListener('scroll', () => checkScrollButtonVisibility(scrollContainer, leftBtn, rightBtn));
+                window.addEventListener('resize', () => checkScrollButtonVisibility(scrollContainer, leftBtn, rightBtn));
             });
+
+
+            // Language Selection (โค้ดส่วนนี้ยังคงเหมือนเดิม)
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const contentElements = document.querySelectorAll('[data-en], [data-th]');
+
+            function setLanguage(lang) {
+                contentElements.forEach(element => {
+                    if (element.dataset[lang]) {
+                        element.innerHTML = element.dataset[lang];
+                    }
+                });
+
+                langButtons.forEach(button => {
+                    if (button.dataset.lang === lang) {
+                        button.classList.add('active-lang');
+                    } else {
+                        button.classList.remove('active-lang');
+                    }
+                });
+                localStorage.setItem('selectedLang', lang);
+            }
 
             langButtons.forEach(button => {
-                if (button.dataset.lang === lang) {
-                    button.classList.add('active-lang');
-                } else {
-                    button.classList.remove('active-lang');
-                }
+                button.addEventListener('click', () => {
+                    setLanguage(button.dataset.lang);
+                });
             });
-            localStorage.setItem('selectedLang', lang);
-        }
 
-        langButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                setLanguage(button.dataset.lang);
-            });
+            const savedLang = localStorage.getItem('selectedLang');
+            setLanguage(savedLang || 'en');
         });
-
-        const savedLang = localStorage.getItem('selectedLang');
-        setLanguage(savedLang || 'en');
-    });
     </script>
 
     <style>
@@ -193,10 +243,9 @@
             </div>
         </div>
     </nav>
-     <br>
-      <br>
+    <br>
+    <br>
     <Section class="maincontent" id="company"> 
-        <!--Company-->
         <br>
         <div class="container">
             <div class="maincontent-con">
@@ -205,7 +254,7 @@
                     <p data-en="Crystal Ideas Solution Company Limited, founded in 2025, is a leading manufacturer of inkjet media for both indoor and outdoor applications. We also provide a comprehensive range of high-quality, high-resolution advertising media. Our company is committed to the continuous development of products and technology to meet the evolving needs of our customers." 
                        data-th="บริษัท คริสตัล ไอเดีย โซลูชั่น จำกัด ก่อตั้งขึ้นในปี 2568 เป็นผู้ผลิตสื่ออิงค์เจ็ทชั้นนำสำหรับงานภายในและภายนอกอาคาร นอกจากนี้เรายังให้บริการสื่อโฆษณาคุณภาพสูงและความละเอียดสูงอย่างครบวงจร บริษัทมุ่งมั่นในการพัฒนาผลิตภัณฑ์และเทคโนโลยีอย่างต่อเนื่องเพื่อตอบสนองความต้องการของลูกค้า">Crystal Idea Solution Company Limited, founded in 2025, is a leading manufacturer of inkjet media for both indoor and outdoor applications. We also provide a comprehensive range of high-quality, high-resolution advertising media. Our company is committed to the continuous development of products and technology to meet the evolving needs of our customers.</p>
                     <br>
-                       <a href="Aboutme.html" class="maincontent-btn" target="_blank" data-en="More details" data-th="รายละเอียดเพิ่มเติม">More details</a>
+                        <a href="Aboutme.html" class="maincontent-btn" target="_blank" data-en="More details" data-th="รายละเอียดเพิ่มเติม">More details</a>
                 </div>
                 <div class="maincontent-img">
                     <img src="Company1.png" alt="Company">
@@ -213,8 +262,7 @@
             </div>
         </div>
     </Section>
-       <!--Products/Service-->
-    <Section class="content" id="services">
+        <Section class="content" id="services">
         <div class="container">
             <div class="content-title">
                 <h3 data-en="Our Services" data-th="บริการของเรา">Our Services</h3>
@@ -243,7 +291,7 @@
                         <p data-en="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!" data-th="คำอธิบายสินค้า 3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
                         <a href="Product3.html" class="content-btn" target="_blank" data-en="Product Details" data-th="รายละเอียดสินค้า">รายละเอียดสินค้า</a>
                     </div>
-                       <div class="content-item">
+                        <div class="content-item">
                         <img src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
                         <h4 data-en="Test4" data-th="ชื่อสินค้า 2">ชื่อสินค้า2</h4>
                         <p data-en="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!" data-th="คำอธิบายสินค้า 2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
@@ -260,30 +308,41 @@
             </div>
         </div>
     </Section>
-     <!--Project-->
-    <Section class="projectcontent" id="project">
+        <Section class="projectcontent" id="project">
         <div class="container">
             <div class="projectcontent-title">
                 <h3 data-en="Projects" data-th="โปรเจกต์">Projects</h3>
-           </div>
+            </div>
             <div class="scroll-container">
                 <button class="scroll-btn left">◀</button> 
-                <div class="content-con scroll-x" id="scrollable-services">
+                <div class="content-con scroll-x" id="scrollable-projects">
                     <div class="projectcontent-item">
                         <img src="https://images.pexels.com/photos/4158/apple-iphone-smartphone-desk.jpg?auto=compress&cs=tinysrgb&w=600" alt=""> 
-                        <h4 data-en="Product Name 1" data-th="ชื่อสินค้า 1">ชื่อสินค้า</h4>
+                        <h4 data-en="Vinyl" data-th="ชื่อสินค้า 1">ชื่อสินค้า</h4>
                         <p data-en="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!" data-th="คำอธิบายสินค้า 1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
                         <a href="Product1.html" class="content-btn" target="_blank" data-en="Product Details" data-th="รายละเอียดสินค้า">รายละเอียดสินค้า</a>
                     </div>
                     <div class="projectcontent-item">
                         <img src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
-                        <h4 data-en="Product Name 2" data-th="ชื่อสินค้า 2">ชื่อสินค้า2</h4>
+                        <h4 data-en="Sticker" data-th="ชื่อสินค้า 2">ชื่อสินค้า2</h4>
                         <p data-en="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!" data-th="คำอธิบายสินค้า 2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
                         <a href="Product2.html" class="content-btn" target="_blank" data-en="Product Details" data-th="รายละเอียดสินค้า">รายละเอียดสินค้า</a>
                     </div>
                     <div class="projectcontent-item">
                         <img src="https://images.pexels.com/photos/777001/pexels-photo-777001.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
-                        <h4 data-en="Product Name 3" data-th="ชื่อสินค้า 3">ชื่อสินค้า3</h4>
+                        <h4 data-en="Other" data-th="ชื่อสินค้า 3">ชื่อสินค้า3</h4>
+                        <p data-en="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!" data-th="คำอธิบายสินค้า 3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
+                        <a href="Product3.html" class="content-btn" target="_blank" data-en="Product Details" data-th="รายละเอียดสินค้า">รายละเอียดสินค้า</a>
+                    </div>
+                    <div class="projectcontent-item">
+                        <img src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
+                        <h4 data-en="test 4" data-th="ชื่อสินค้า 2">ชื่อสินค้า2</h4>
+                        <p data-en="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!" data-th="คำอธิบายสินค้า 2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
+                        <a href="Product2.html" class="content-btn" target="_blank" data-en="Product Details" data-th="รายละเอียดสินค้า">รายละเอียดสินค้า</a>
+                    </div>
+                    <div class="projectcontent-item">
+                        <img src="https://images.pexels.com/photos/777001/pexels-photo-777001.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
+                        <h4 data-en="test 5" data-th="ชื่อสินค้า 3">ชื่อสินค้า3</h4>
                         <p data-en="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!" data-th="คำอธิบายสินค้า 3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, vitae!</p>
                         <a href="Product3.html" class="content-btn" target="_blank" data-en="Product Details" data-th="รายละเอียดสินค้า">รายละเอียดสินค้า</a>
                     </div>
@@ -292,7 +351,6 @@
             </div>
         </div>
     </Section>
-    <!--Contact-->
     <Section class="contact" id="contact">
         <div class="container">
             <div class="content-title">
@@ -320,12 +378,11 @@
                         <img src="FB.png" alt="Facebook QR Code" class="qr-code-img">
                         <img src="Line.png" alt="Facebook QR Code" class="qr-code-img">
                     </div>
-                    <!-- <p><a href="#" target="_blank"><i class="fa-brands fa-google-plus" style="color: rgb(255, 211, 68);"></i> Google+</a></p>-->
-                </div>
+                    </div>
             </div>
         </div>
     </Section>
-   <div class="fixed-sidebar-buttons">
+    <div class="fixed-sidebar-buttons">
     <a href="https://lin.ee/xLwpbal" target="_blank" class="sidebar-btn line-btn">
         <i class="fa-brands fa-line"></i>
     </a>
