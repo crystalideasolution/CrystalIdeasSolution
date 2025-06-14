@@ -414,7 +414,7 @@ nav {
     padding-bottom: 2rem; /* คงค่า padding ด้านล่างไว้ */
     padding-left: 2rem; /* คงค่า padding ด้านซ้ายไว้ */
     padding-right: 2rem; /* คงค่า padding ด้านขวาไว้ */
-    background-color: #fff;
+    background-color: #002060;
 }
 
 .contact .content-title {
@@ -424,7 +424,7 @@ nav {
 
 .contact .content-title h3 {
     font-size: 3rem;
-    color: #002060;
+    color: #fff;
     margin-bottom: 0.5rem;
 }
 
@@ -490,8 +490,8 @@ nav {
 
 /* Footer */
 .footer-buttom {
-    background-color: #002060;
-    color: #fff;
+    background-color: #ffffff;
+    color: #002060;
     padding: 1rem;
     text-align: center;
     z-index: 100;
@@ -570,6 +570,78 @@ nav {
     border: 1px solid #eee;
     padding: 5px;
     border-radius: 5px;
+}
+
+.clients-partners {
+    padding: 2rem 0; /* padding บน-ล่าง 2rem, ซ้าย-ขวา 0 */
+    background-color: #f8f8f8; /* สีพื้นหลังอ่อนๆ เพื่อให้ตัดกับ Section อื่น */
+    text-align: center; /* จัดกลางหัวข้อและข้อความเริ่มต้น */
+}
+
+/* หัวข้อ Client & Partners (ใช้สไตล์เดียวกับ .content-title ทั่วไป) */
+.clients-partners .content-title h3 {
+    font-size: 2rem; /* ขนาดหัวข้อเท่ากับ Our Services / Projects */
+    color: #002060; /* สีน้ำเงินเข้ม */
+    margin-bottom: 0.5rem;
+    text-align: center; /* ให้หัวข้ออยู่ตรงกลาง */
+    padding-left: 0; /* ตรวจสอบให้แน่ใจว่าไม่มี padding-left ที่ทำให้มีจุด */
+}
+
+.clients-partners .content-title p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 2rem; /* ระยะห่างระหว่างคำอธิบายกับ Grid โลโก้ */
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+
+/* Grid สำหรับโลโก้ */
+.clients-grid {
+    display: grid; /* ใช้ CSS Grid เพื่อสร้างตารางโลโก้ */
+    /* กำหนดจำนวนคอลัมน์เริ่มต้นสำหรับ Desktop */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* ปรับตามความเหมาะสม */
+    gap: 30px; /* ระยะห่างระหว่างโลโก้แต่ละช่อง */
+    justify-items: center; /* จัดโลโก้แต่ละชิ้นให้อยู่ตรงกลางของช่อง Grid */
+    align-items: center; /* จัดโลโก้แต่ละชิ้นให้อยู่กึ่งกลางแนวตั้งในช่อง Grid */
+    padding: 0 1rem; /* Padding ด้านข้างของ Grid ภายใน container */
+}
+
+/* สไตล์สำหรับโลโก้แต่ละอัน */
+.client-item {
+    display: flex;
+    flex-direction: column; /* จัดเรียงโลโก้และชื่อในแนวตั้ง */
+    align-items: center; /* จัดกลางโลโก้และชื่อ */
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    width: 100%; /* ทำให้ item กินพื้นที่เต็มช่อง Grid */
+    box-sizing: border-box; /* สำคัญ: เพื่อให้ padding/border ไม่เกิน width */
+    max-width: 200px; /* จำกัดความกว้างสูงสุดของแต่ละช่องโลโก้ (ถ้า grid-template-columns ให้ 1fr กว้างมากไป) */
+}
+
+.client-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.client-item img {
+    max-width: 100px; /* ขนาดสูงสุดของรูปโลโก้ (ปรับได้) */
+    height: auto;     /* รักษาสัดส่วน */
+    margin-bottom: 10px; /* ระยะห่างระหว่างโลโก้กับชื่อ */
+    transition: all 0.3s ease;
+}
+
+.client-item p {
+    font-size: 0.9em; /* ขนาดฟอนต์สำหรับชื่อหน่วยงาน */
+    color: #666;
+    line-height: 1.3;
 }
 /* Media Queries */
 @media screen and (max-width: 767px) {
@@ -725,5 +797,31 @@ nav {
     }
     .qr-code-img {
         max-width: 80px; /* ลดขนาดลงสำหรับมือถือ */
+    }
+}
+    /* --- Media Queries สำหรับ Clients Section --- */
+
+/* สำหรับ Tablet (2-3 คอลัมน์) */
+@media screen and (min-width: 576px) and (max-width: 991px) {
+    .clients-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* อาจจะ 2-3 คอลัมน์ */
+        gap: 20px;
+    }
+    .client-item img {
+        max-width: 80px;
+    }
+}
+
+/* สำหรับ Mobile (1-2 คอลัมน์) */
+@media screen and (max-width: 575px) {
+    .clients-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* อาจจะ 1-2 คอลัมน์ */
+        gap: 15px;
+    }
+    .client-item img {
+        max-width: 70px;
+    }
+    .client-item p {
+        font-size: 0.8em;
     }
 }
