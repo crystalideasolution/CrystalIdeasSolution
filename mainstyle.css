@@ -651,6 +651,64 @@ nav {
 }
 /* Media Queries (รวมบล็อกสำหรับ max-width: 767px) */
 @media screen and (max-width: 767px) {
+     section{ /* นี้คือ style ของ section ทั่วไป */
+        padding-left: 0.5rem; /* <--- ตรงนี้ */
+        padding-right: 0.5rem; /* <--- ตรงนี้ */
+    }
+
+    .contact {
+        padding-left: 0.5rem; /* ลดลงเหลือ 0.5rem */
+        padding-right: 0.5rem; /* ลดลงเหลือ 0.5rem */
+        padding-top: 0.5rem;
+        padding-bottom: 2rem;
+        background-color: #002060;
+    }
+
+    /* ปรับ padding ของ contact-item-detail บนมือถือ */
+    .contact-item-detail {
+        padding: 1rem; /* <--- ลด padding โดยรวมของแต่ละช่องจาก 1.5rem เป็น 1rem */
+        width: 100%;
+    }
+
+    /* ปรับ minmax ของ contact-info-grid บนมือถือ */
+    .contact-info-grid {
+        grid-template-columns: 1fr; /* <--- บนมือถือควรเป็น 1 คอลัมน์เต็ม */
+        gap: 1rem; /* ลด gap ระหว่างแถว/คอลัมน์บนมือถือ */
+        margin-top: 1rem;
+    }
+
+     .content-item,
+    .projectcontent-item {
+        flex: 0 0 100%;
+        width: 100%;
+        box-sizing: border-box;
+        scroll-snap-align: start;
+        padding: 15px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        text-align: center;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-right: 0;
+        margin-bottom: 0;
+        
+        display: flex; /* <--- เพิ่ม */
+        flex-direction: column; /* <--- เพิ่ม */
+        align-items: center; /* <--- เพิ่ม */
+    }
+
+    .content-item img,
+    .projectcontent-item img {
+        max-width: 100%;
+        height: 120px;
+        object-fit: contain;
+        border-radius: 4px;
+        margin-bottom: 10px;
+
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
     /* --- Navbar (ไม่ Fixed บนมือถือ) --- */
     nav {
         position: static; /* ทำให้ Navbar ไม่ตรึงอยู่กับที่ */
@@ -700,21 +758,23 @@ nav {
         margin-top: 10px;
     }
     .lang-btn {
-        width: 40px; /* <--- กำหนดความกว้างให้พอดีกับธง */
-        height: 30px; /* <--- กำหนดความสูงให้พอดีกับธง */
-        padding: 0; /* <--- ลบ padding ออก */
-        text-indent: -9999px; /* <--- ซ่อนข้อความ */
-        background-size: cover; /* <--- ให้รูปธงปรับขนาดเต็มปุ่ม */
+        width: 40px; /* <--- ปรับความกว้างให้เหมาะสมกับรูปธง */
+        height: 30px; /* <--- ปรับความสูงให้เหมาะสมกับรูปธง */
+        padding: 0; /* <--- ลบ padding ออก (ถ้าไม่ต้องการให้ข้อความ EN/TH มี padding) */
+        text-indent: -9999px; /* <--- สำคัญ! ซ่อนข้อความ "EN/TH" */
+        background-size: cover; /* <--- เพื่อให้รูปธงปรับขนาดเต็มปุ่ม */
         background-position: center; /* <--- จัดกลางรูปธง */
         background-repeat: no-repeat; /* <--- ไม่ให้รูปธงซ้ำ */
-        border-radius: 5px; /* ทำให้มุมโค้งมน */
+        border-radius: 5px;
     }
     .lang-btn[data-lang="en"], .lang-btn[data-lang="th"] {
         background-image: none;
         text-indent: 0;
     }
     .lang-btn.active-lang {
-        border: 1px solid #007bff;
+        background-color: #007bff; /* สีพื้นหลังเมื่อ Active */
+        color: white; /* สีข้อความเมื่อ Active (แต่ถูกซ่อนด้วย text-indent) */
+        border-color: #007bff;
         box-shadow: none;
     }
 
