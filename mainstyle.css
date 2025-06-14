@@ -17,9 +17,9 @@ body {
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-    padding-top: 45px;
-    margin-right: 0; /* <--- เพิ่ม */
-    padding-right: 0; /* <--- เพิ่ม */
+    padding-top: 78px; /* <-- เปลี่ยนเป็น 78px ตามที่วัดได้จาก DevTools */
+    margin-right: 0;
+    padding-right: 0;
 }
 
 
@@ -64,14 +64,14 @@ body {
 section {
     min-height: 30vh;
     padding: 1rem; /* ลด padding ด้านบนเพื่อให้ชิด maincontent */
-    scroll-margin-top: 96px;
-    
+    scroll-margin-top: 96px; /* ค่านี้สำหรับ Navbar height เพื่อ Scroll to section */
 }
 #company,
 #services,
 #project,
-#contact {
-    scroll-margin-top: 96px
+#contact,
+#clients { /* เพิ่ม #clients ที่นี่ด้วย */
+    scroll-margin-top: 96px; /* ยืนยันค่านี้สำหรับทุก Section ที่มีการลิงก์ถึง */
 }
 /* Main Content Area (HTML: <main class="main-content-area">) */
 .main-content-area {
@@ -103,6 +103,8 @@ section {
 }
 
 .lang-btn {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
     padding: 8px 12px;
     cursor: pointer;
     border-radius: 5px;
@@ -130,9 +132,9 @@ section {
 }
 
 .lang-btn.active-lang {
-    border: 2px solid #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    color: transparent;
+    background-color: #007bff; /* Example active color */
+    color: white;
+    border-color: #007bff;
 }
 
 /* Navigation */
@@ -192,7 +194,7 @@ nav {
 .maincontent {
     background-color: #002060;
     color: #fff;
-    padding-top: 0.5rem; /* <--- ตรงนี้ */
+    padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 1rem;
     padding-right: 0.5rem;
@@ -209,11 +211,10 @@ nav {
 }
 
 .maincontent-info h3 {
-    font-size: 2rem; /* <--- กำหนดขนาดฟอนต์ให้เท่ากับ maincontent-info h3 */
+    font-size: 2rem; /* กำหนดขนาดฟอนต์ให้เท่ากับ maincontent-info h3 */
     color: #fff; /* สีขาวสำหรับหัวข้อใน Project (ถ้าพื้นหลัง #002060) */
     margin-bottom: 0; /* ถ้าไม่ต้องการ margin-bottom เพิ่มเติม */
 }
-
 
 .maincontent-info p {
     margin: 1rem 0;
@@ -258,17 +259,19 @@ nav {
 .content .content-title h3 {
     font-size: 2rem;
     margin-bottom: 0.5rem;
-    color: #002060;
+    color: #002060; /* สีของหัวข้อใน Services */
+    padding-left: 0; /* ตรวจสอบให้แน่ใจว่าไม่มี padding-left ที่ทำให้มีจุด */
+    position: relative; /* คงไว้ถ้ามี pseudo-element อื่นๆ ที่ต้องการ */
 }
 
-.content .content-title p:not(:first-child) { /* <--- เลือก p ทุกตัว ยกเว้นตัวแรก (Our Services) */
+.content .content-title p:not(:first-child) { /* เลือก p ทุกตัว ยกเว้นตัวแรก (Our Services) */
     position: relative;
     padding-left: 20px; /* เว้นที่ว่างสำหรับจุด */
     margin-bottom: 0.5rem; /* ระยะห่างระหว่างรายการ */
     color: black; /* สีของข้อความ */
 }
 
-.content .content-title p:not(:first-child)::before { /* <--- กำหนดจุดให้ p ทุกตัว ยกเว้นตัวแรก */
+.content .content-title p:not(:first-child)::before { /* กำหนดจุดให้ p ทุกตัว ยกเว้นตัวแรก */
     content: "\2022"; /* สัญลักษณ์จุดกลม */
     color: black; /* สีของจุด */
     font-size: 1.2em; /* ขนาดของจุด */
@@ -280,7 +283,7 @@ nav {
 
 /* Base style for content items (Services and Projects) - For Mobile (1 item per row) */
 .content-item,
-.projectcontent-item { /* <--- รวม selector */
+.projectcontent-item { /* รวม selector */
     flex: 0 0 100%;
     width: 100%;
     box-sizing: border-box;
@@ -297,7 +300,7 @@ nav {
 
 /* Base image style for content items (Services and Projects) */
 .content-item img,
-.projectcontent-item img { /* <--- รวม selector และปรับปรุง */
+.projectcontent-item img { /* รวม selector และปรับปรุง */
     max-width: 100%;
     height: 150px; /* กำหนดความสูงเริ่มต้นสำหรับ Mobile เพื่อควบคุมการแสดงผล */
     display: block;
@@ -307,18 +310,18 @@ nav {
 }
 
 .content-item h4,
-.projectcontent-item h4 { /* <--- รวม selector */
+.projectcontent-item h4 { /* รวม selector */
     margin-top: 1rem;
     font-size: 1.2rem;
 }
 
 .content-item p,
-.projectcontent-item p { /* <--- รวม selector */
+.projectcontent-item p { /* รวม selector */
     margin: 1rem 0;
 }
 
 .content-item a,
-.projectcontent-item a { /* <--- รวม selector */
+.projectcontent-item a { /* รวม selector */
     display: inline-block;
     color: #fff;
     background-color: #f09d18;
@@ -333,8 +336,8 @@ nav {
 
 .content-item a:hover,
 .content-item a:focus,
-.projectcontent-item a:hover, /* <--- รวม selector */
-.projectcontent-item a:focus { /* <--- รวม selector */
+.projectcontent-item a:hover, /* รวม selector */
+.projectcontent-item a:focus { /* รวม selector */
     background-color: #d88a0f;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -346,7 +349,7 @@ nav {
     display: flex;
     align-items: center;
     margin-top: 20px;
-    padding: 0 80px; /* <--- เพิ่มค่า 40px เป็น 80px (หรือค่าอื่นที่คุณต้องการ) */
+    padding: 0 80px; /* เพิ่มค่า 40px เป็น 80px (หรือค่าอื่นที่คุณต้องการ) */
     /* ถ้าคุณต้องการให้ปุ่มห่างจากขอบมากขึ้น ให้เพิ่มค่านี้ */
 }
 
@@ -389,32 +392,32 @@ nav {
 
 /* Project Content Section */
 .projectcontent {
-    padding-top: 0.5rem; /* <--- ลดจาก 3rem เป็น 1.5rem (หรือค่าที่คุณต้องการ) */
-    padding-bottom: 0.5rem; /* คงค่า padding ด้านล่างไว้ */       
-    padding-left: 1rem; /* คงค่า padding ด้านซ้ายไว้ */
-    padding-right: 0.5rem; /* คงค่า padding ด้านขวาไว้ */
-    padding: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;     
+    padding-left: 1rem;
+    padding-right: 0.5rem;
+    /* padding: 1rem; <--- บรรทัดนี้ซ้ำซ้อนและจะทับค่า padding-top, bottom, left, right ที่ระบุไว้ข้างบน */
     background-color: #002060; /* เปลี่ยนสีพื้นหลังเป็นสีเดียวกับ maincontent */
 }
 
 .projectcontent-title {
     color: #fff;
     margin-bottom: 1rem;
-    text-align: left; /* อาจจะอยากให้หัวข้ออยู่ตรงกลางเหมือน Services */
+    text-align: left;
 }
-.projectcontent-title h3 { /* <--- เพิ่ม selector นี้เพื่อกำหนด font-size */
-    font-size: 2rem; /* <--- กำหนดขนาดฟอนต์ให้เท่ากับ maincontent-info h3 */
+.projectcontent-title h3 {
+    font-size: 2rem; /* กำหนดขนาดฟอนต์ให้เท่ากับ maincontent-info h3 */
     color: #fff; /* สีขาวสำหรับหัวข้อใน Project (ถ้าพื้นหลัง #002060) */
-    margin-bottom: 0; /* ถ้าไม่ต้องการ margin-bottom เพิ่มเติม */
+    margin-bottom: 0;
 }
 
 /* --- Contact Section Styling --- */
 .contact {
-    padding-top: 0.5rem; /* <--- ลดจาก 3rem เป็น 1.5rem (หรือค่าที่คุณต้องการ) */
-    padding-bottom: 2rem; /* คงค่า padding ด้านล่างไว้ */
-    padding-left: 2rem; /* คงค่า padding ด้านซ้ายไว้ */
-    padding-right: 2rem; /* คงค่า padding ด้านขวาไว้ */
-    background-color: #002060;
+    padding-top: 0.5rem;
+    padding-bottom: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    background-color: #002060; /* <--- เปลี่ยนสีพื้นหลังเป็นสีเดียวกับ maincontent (ถ้าต้องการ) */
 }
 
 .contact .content-title {
@@ -423,13 +426,13 @@ nav {
 }
 
 .contact .content-title h3 {
-    font-size: 3rem;
-    color: #fff;
+    font-size: 3rem; /* อาจจะใหญ่ไปสำหรับหัวข้อ contact ลองปรับเป็น 2.5rem หรือ 2rem */
+    color: #fff; /* สีขาว (ถ้าพื้นหลังเป็น #002060) */
     margin-bottom: 0.5rem;
 }
 
 .contact .content-title p {
-    color: #002060;
+    color: #fff; /* เปลี่ยนสีข้อความให้เป็นสีขาว (ถ้าพื้นหลังเป็น #002060) */
     font-size: 1.1rem;
     max-width: 800px;
     margin: 0 auto;
@@ -490,7 +493,7 @@ nav {
 
 /* Footer */
 .footer-buttom {
-    background-color: #ffffff;
+    background-color: #ffffff; /* เปลี่ยนเป็นสีเดียวกับ Navbar หรือ Contact Section ก็ได้ */
     color: #002060;
     padding: 1rem;
     text-align: center;
@@ -541,7 +544,7 @@ nav {
 }
 
 .telephone-btn { /* อันนี้คือปุ่มโทรศัพท์ของคุณแล้ว */
-   background: linear-gradient(to right, #28dbff, #5387f5); /* สีส้มตามธีมของคุณ */
+   background: linear-gradient(to right, #28dbff, #5387f5); /* สีฟ้าอมม่วง */
 }
 .telephone-btn:hover {
     background: linear-gradient(to right, #5387f5, #28dbff);
@@ -558,15 +561,18 @@ nav {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    gap: 50px;
+    gap: 30px; /* ปรับ gap ให้เหมาะสม */
     margin-top: 15px;
     flex-wrap: wrap;
-    }
+}
     
 .qr-code-img {
-    max-width: 170px; /* กำหนดขนาดสูงสุดของรูปภาพแต่ละรูป (ปรับได้ตามต้องการ) */
-    height: auto;     /* รักษาอัตราส่วนของรูปภาพ */
-    margin: 0;        /* ลบ margin: auto เดิมออก เพราะเราให้ .qr-codes-group จัดเรียงแทน */
+    max-width: 170px !important; /* กำหนดขนาดสูงสุดของรูปภาพแต่ละรูป */
+    height: auto !important;     /* รักษาอัตราส่วนของรูปภาพ */
+    display: inline-block !important; /* สำคัญมาก! บังคับให้แสดงผลแบบนี้ */
+    flex-shrink: 0 !important;   /* ป้องกันไม่ให้รูปภาพหดตัวเมื่อมีพื้นที่จำกัด */
+    flex-basis: 170px !important; /* กำหนดขนาดพื้นฐานให้เท่ากับ max-width */
+    margin: 0;
     border: 1px solid #eee;
     padding: 5px;
     border-radius: 5px;
@@ -643,243 +649,157 @@ nav {
     color: #666;
     line-height: 1.3;
 }
-/* Media Queries */
+/* Media Queries (รวมบล็อกสำหรับ max-width: 767px) */
 @media screen and (max-width: 767px) {
-.image-row {
-        flex-direction: column;
-        align-items: center;
+    /* --- Navbar (ไม่ Fixed บนมือถือ) --- */
+    nav {
+        position: static; /* ทำให้ Navbar ไม่ตรึงอยู่กับที่ */
+        box-shadow: none; /* ลบเงาออก */
+        padding: 0.5rem 0; /* ปรับ padding ให้เหมาะสม */
     }
-.image-row img {
-        width: 100%;
-        max-width: 500px;
+
+    body {
+        padding-top: 0 !important; /* สำคัญ! ลบ padding-top ของ body ออกเมื่อ Navbar ไม่ fixed */
     }
 
     .nav-con {
-        flex-direction: column; /* จัดเรียงโลโก้, เมนู, ปุ่มภาษา ในแนวตั้ง */
-        align-items: center; /* จัดกลางในแนวตั้ง */
-        padding: 0.5rem; /* เพิ่ม padding ให้ Navbar บนมือถือ */
+        flex-direction: column;
+        align-items: center;
+        padding: 0.5rem;
     }
-     .nav-end {
-        flex-direction: column; /* ทำให้เมนูและปุ่มภาษาเรียงแนวตั้ง */
-        width: 100%; /* ให้กินพื้นที่เต็มความกว้าง */
-        align-items: center; /* จัดกลางในแนวตั้ง */
-        gap: 10px; /* ลดระยะห่าง */
-        margin-top: 10px; /* ระยะห่างจากโลโก้ */
+    .nav-end {
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    .logo img {
+        height: 60px; /* ลดขนาดโลโก้ */
     }
     .menu {
-        flex-direction: column; /* ทำให้รายการเมนูเรียงแนวตั้ง */
-        text-align: center; /* จัดกลางข้อความเมนู */
+        flex-direction: column;
+        text-align: center;
         width: 100%;
-        margin-top: 0.5rem; /* ลด margin-top */
+        margin-top: 0.5rem;
     }
     .menu li {
-       margin: 0.5rem 0; /* ลด margin ระหว่างรายการเมนู */
-        width: 100%; /* ให้ลิสต์เมนูกินพื้นที่เต็ม */
+        margin: 0.5rem 0;
+        width: 100%;
     }
     .menu li a {
-        font-size: 1rem; /* ปรับขนาดฟอนต์เมนูให้ใหญ่ขึ้นเล็กน้อย */
-        padding: 8px 0; /* เพิ่ม padding ในลิงก์เมนู */
-        display: block; /* ทำให้ลิงก์กดง่ายขึ้น */
-        border-bottom: 1px solid #eee; /* เพิ่มเส้นแบ่ง (ไม่บังคับ) */
+        font-size: 1rem;
+        padding: 8px 0;
+        display: block;
+        border-bottom: 1px solid #eee;
     }
-
     .menu li:last-child a {
-        border-bottom: none; /* ลบเส้นแบ่งตัวสุดท้าย */
+        border-bottom: none;
     }
-
     .lang-switcher {
-        margin-top: 10px; /* ระยะห่างจากเมนู */
+        margin-top: 10px;
     }
-
-     .lang-btn {
-        width: 35px; /* ลดขนาดปุ่มธง */
+    .lang-btn {
+        width: 35px;
         height: 25px;
         padding: 0;
-        text-indent: 0; /* แสดงข้อความ EN/TH ถ้าต้องการ */
+        text-indent: 0;
         font-size: 0.8rem;
     }
-
     .lang-btn[data-lang="en"], .lang-btn[data-lang="th"] {
-        background-image: none; /* ลบรูปธงออกถ้าต้องการให้เห็น EN/TH */
+        background-image: none;
         text-indent: 0;
     }
-
     .lang-btn.active-lang {
         border: 1px solid #007bff;
         box-shadow: none;
     }
-    .maincontent-con {
-         flex-direction: column; /* เรียงเนื้อหาและรูปภาพในแนวตั้ง */
-        padding: 0; /* ลบ padding ออกจาก .maincontent-con */
-    }
 
+
+    /* --- ส่วน About Us (Maincontent) --- */
+    .maincontent-con {
+        flex-direction: column;
+        padding: 0;
+    }
     .maincontent-info {
-        width: 100%; /* กินพื้นที่เต็มความกว้าง */
-        padding: 1rem; /* เพิ่ม padding ด้านใน */
-        text-align: center; /* จัดกลางข้อความ */
+        width: 100%;
+        padding: 1rem;
+        text-align: center;
     }
     .maincontent-info h3 {
-        font-size: 1.8rem; /* ลดขนาดฟอนต์หัวข้อ */
+        font-size: 1.8rem;
     }
-     .maincontent-info p {
-        font-size: 0.95rem; /* ลดขนาดฟอนต์ข้อความ */
-        margin: 0.8rem auto; /* จัดกลาง paragraph */
+    .maincontent-info p {
+        font-size: 0.95rem;
+        margin: 0.8rem auto;
     }
-     .maincontent-info .maincontent-btn {
-        padding: 0.8rem 1.5rem; /* ปรับขนาดปุ่ม */
+    .maincontent-info .maincontent-btn {
+        padding: 0.8rem 1.5rem;
         font-size: 0.9rem;
     }
-
     .maincontent-img {
-        width: 100%; /* กินพื้นที่เต็มความกว้าง */
-        padding: 0.5rem; /* ลด padding */
+        width: 100%;
+        padding: 0.5rem;
     }
-
     .maincontent-img img {
-        max-width: 90%; /* ลดขนาดรูปภาพลง */
+        max-width: 90%;
         height: auto;
     }
-    .container {
-        padding-left: 0;
-        padding-right: 0;
-    }
-    section{
-        padding-left: 0;
-        padding-right: 0;
-    }
-    .maincontent-info,
-    .maincontent-img,
-    .content-tent,
-    .contact-item-detail{
-        padding-left: 1rem;
-        padding-right: 1rem;
-        width: 100%;
-    }
-    /* Contact section grid for mobile */
-    .contact-info-grid {
-        grid-template-columns: 1fr;
-    }
 
-    .scroll-container {
-        padding: 0 20px;
-    }
 
-    /* Footer for mobile */
-    .footer-buttom {
-        padding: 0.5rem;
-        font-size: 0.75rem;
-    }
-
-    /* Responsive Navigation (already handled, just ensure consistency) */
-    .nav-con {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .menu {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 1rem;
-        margin-top: 0;
-    }
-    .menu li {
-        margin: 0;
-    }
-    .menu li a {
-        font-size: 0.9rem;
-        padding: 0.5rem;
-        display: block;
-    }
-}
-
-/* Media Query for Tablet (min-width: 768px) - 2 items per row */
-@media (min-width: 768px) {
-    .content-item,
-    .projectcontent-item { /* <--- รวม selector */
-        flex: 0 0 calc(50% - 10px);
-        width: calc(50% - 10px);
-        scroll-snap-align: start;
-        margin-bottom: 0;
-    }
+    /* --- ส่วน Content / Project Items (รูปไม่ถูกตัด) --- */
     .content-item img,
-    .projectcontent-item img { /* <--- รวม selector */
-        height: 150px; /* กำหนดความสูงสำหรับ Tablet */
-        border-radius: 8px 8px 0 0; /* ปรับมุมโค้งมนด้านล่างหากต้องการ */
+    .projectcontent-item img {
+        max-width: 100%;
+        height: 120px; /* ปรับความสูงของรูปภาพไอเท็ม (ถ้าต้องการ) */
+        object-fit: contain; /* ทำให้รูปภาพแสดงผลเต็ม ไม่ถูกตัด */
     }
-}
-@media screen and (max-width: 767px) {
-    /* ส่วน Content / Project */
     .content-title {
-        margin: 1rem 1rem; /* เพิ่ม margin ด้านข้างให้กับ title */
-        text-align: center; /* จัดกลาง title */
+        margin: 1rem 1rem;
+        text-align: center;
     }
     .content .content-title h3 {
-        padding-left: 0; /* ลบ padding-left ที่เคยใส่จุด */
-        font-size: 1.8rem; /* ลดขนาดฟอนต์หัวข้อ */
+        padding-left: 0;
+        font-size: 1.8rem;
     }
     .content .content-title p:not(:first-child) {
-        padding-left: 15px; /* ลด padding-left ของจุดลงเล็กน้อย */
+        padding-left: 15px;
         font-size: 0.95rem;
     }
-
     .scroll-container {
-        padding: 0 10px; /* ลด padding ของ scroll-container บนมือถือ */
+        padding: 0 10px;
     }
-    
     .content-con::-webkit-scrollbar {
-        height: 5px; /* ทำให้ scrollbar เล็กลง (ถ้าจำเป็นต้องแสดง) */
+        height: 5px;
     }
     .content-con::-webkit-scrollbar-thumb {
         background-color: rgba(0,0,0,0.2);
     }
-}
 
-/* Media Query for Desktop (min-width: 1024px) - 3 items per row */
-@media (min-width: 1024px) {
-    .content-item,
-    .projectcontent-item { /* <--- รวม selector */
-        flex: 0 0 calc(33.3333% - 13.3333px);
-        width: calc(33.3333% - 13.3333px);
-        scroll-snap-align: start;
-        margin-bottom: 0;
-    }
-    .content-item img,
-    .projectcontent-item img { /* <--- รวม selector */
-        width: 100%; /* ทำให้รูปภาพเต็มความกว้างของคอนเทนเนอร์ */
-        height: 200px; /* กำหนดความสูงตายตัวสำหรับ Desktop */
-        object-fit: cover; /* ครอปรูปภาพให้พอดีกับความสูงและความกว้าง */
-        border-radius: 8px 8px 0 0; /* คงการโค้งมนที่มุมด้านบน */
-    }
-}
-@media screen and (max-width: 767px) {
+
+    /* --- ปุ่มด้านข้าง Fixed Sidebar Buttons --- */
     .fixed-sidebar-buttons {
         right: 0; /* หรือ -5px ถ้ายังไม่ชิด */
-        top: 50%; /* จัดกลางแนวตั้ง */
-        transform: translateY(-50%); /* จัดกลางแนวตั้ง */
+        top: 50%;
+        transform: translateY(-50%);
         bottom: auto; /* ลบ bottom */
         gap: 8px;
     }
     .sidebar-btn {
-        width: 45px; /* ปรับขนาดปุ่ม */
+        width: 45px;
         height: 45px;
-        font-size: 1rem; /* ปรับขนาดไอคอน */
+        font-size: 1rem;
     }
     .sidebar-btn i {
         font-size: 1em;
     }
-    .gmail-btn, .telephone-btn {
-        width: 45px; /* ลดขนาดปุ่มวงกลมบนมือถือ */
-        height: 45px;
-    }
-    /* ถ้าต้องการซ่อนข้อความบนปุ่ม Line เพื่อให้ปุ่มเล็กลงบนมือถือ */
     .line-btn span {
         display: none;
     }
     .line-btn:hover span {
         display: none;
     }
-     .line-btn, .telephone-btn, .gmail-btn { /* รวมทั้งหมดให้มีขนาดเท่ากัน */
+    .line-btn, .telephone-btn, .gmail-btn {
         width: 45px;
         height: 45px;
         border-radius: 50%;
@@ -887,26 +807,59 @@ nav {
         padding: 0;
     }
     .line-btn i {
-        margin-right: 0; /* ลบระยะห่างเมื่อไม่มีข้อความ */
+        margin-right: 0;
     }
-    }
-    @media screen and (max-width: 767px) {
+
+
+    /* --- QR Code ใน Contact Section --- */
     .qr-codes-group {
         flex-direction: row;
         justify-content: center;
-        gap: 15px; /* ลดระยะห่าง */
+        gap: 15px;
     }
     .qr-code-img {
-        max-width: 70px; /* ลดขนาดลงสำหรับมือถือ */
-        height: auto;
-        flex-basis: 70px; /* กำหนด flex-basis ด้วย */
-        flex-shrink: 0;
+        max-width: 70px !important;
+        height: auto !important;
+        flex-basis: 70px !important;
+        flex-shrink: 0 !important;
     }
-}
-    /* --- Media Queries สำหรับ Clients Section --- */
 
-/* สำหรับ Tablet (2-3 คอลัมน์) */
-@media screen and (min-width: 576px) and (max-width: 991px) {
+
+    /* --- ส่วน Clients Section --- */
+    /* สำหรับ Mobile (1-2 คอลัมน์) */
+    .clients-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 15px;
+    }
+    .client-item img {
+        max-width: 70px;
+    }
+    .client-item p {
+        font-size: 0.8em;
+    }
+
+    /* เนื่องจากคุณมีโค้ด Media Query ซ้ำซ้อน 
+       ให้แน่ใจว่าคุณนำโค้ดทั้งหมดที่เกี่ยวข้องกับ max-width: 767px
+       มารวมอยู่ในบล็อกนี้เพียงบล็อกเดียว */
+}
+
+/* Media Query for Tablet (min-width: 768px) - 2 items per row */
+@media (min-width: 768px) {
+    .content-item,
+    .projectcontent-item { /* รวม selector */
+        flex: 0 0 calc(50% - 10px);
+        width: calc(50% - 10px);
+        scroll-snap-align: start;
+        margin-bottom: 0;
+    }
+    .content-item img,
+    .projectcontent-item img { /* รวม selector */
+        max-width: 100%; 
+        height: 120px; /* อาจจะลดความสูงลงเล็กน้อย */
+        object-fit: contain; /* ทำให้รูปภาพแสดงเต็มไม่ถูกตัด */
+    }
+
+    /* สำหรับ Tablet (Clients Section) */
     .clients-grid {
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* อาจจะ 2-3 คอลัมน์ */
         gap: 20px;
@@ -916,16 +869,28 @@ nav {
     }
 }
 
-/* สำหรับ Mobile (1-2 คอลัมน์) */
-@media screen and (max-width: 575px) {
+/* Media Query for Desktop (min-width: 1024px) - 3 items per row */
+@media (min-width: 1024px) {
+    .content-item,
+    .projectcontent-item { /* รวม selector */
+        flex: 0 0 calc(33.3333% - 13.3333px);
+        width: calc(33.3333% - 13.3333px);
+        scroll-snap-align: start;
+        margin-bottom: 0;
+    }
+    .content-item img,
+    .projectcontent-item img { /* รวม selector */
+        width: 100%; /* ทำให้รูปภาพเต็มความกว้างของคอนเทนเนอร์ */
+        height: 200px; /* กำหนดความสูงตายตัวสำหรับ Desktop */
+        object-fit: cover; /* ครอปรูปภาพให้พอดีกับความสูงและความกว้าง */
+        border-radius: 8px 8px 0 0; /* คงการโค้งมนที่มุมด้านบน */
+    }
+    /* สำหรับ Desktop (Clients Section) - ปรับถ้าต้องการให้ Clients-grid มีคอลัมน์มากกว่า 3 */
     .clients-grid {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* อาจจะ 1-2 คอลัมน์ */
-        gap: 15px;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 30px;
     }
     .client-item img {
-        max-width: 70px;
-    }
-    .client-item p {
-        font-size: 0.8em;
+        max-width: 100px;
     }
 }
