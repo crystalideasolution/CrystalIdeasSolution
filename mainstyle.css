@@ -756,6 +756,7 @@ nav {
     }
     .lang-switcher {
         margin-top: 10px;
+        text-align: center;
     }
     .lang-btn {
         width: 40px; /* <--- ปรับความกว้างให้เหมาะสมกับรูปธง */
