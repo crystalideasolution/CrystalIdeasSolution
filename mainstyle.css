@@ -676,7 +676,18 @@ nav {
     width: auto; /* รักษาสัดส่วนรูปภาพ */
     display: block; /* ลบช่องว่างส่วนเกินด้านล่างรูปภาพ (ถ้ามี) */
 }
-
+ .contact-item-detail .fa-phone {
+    color: rgb(0, 150, 0); /* ใช้รหัสสี Hex เพื่อเฉดสีที่เฉพาะเจาะจง */
+    }
+.contact-item-detail .fa-envelope {
+    color: rgb(233, 5, 5); /* ใช้ค่า RGB */
+    }
+.fa-facebook,.fa-line {
+    font-size: 30px; /* คุณสามารถปรับค่านี้ได้ตามต้องการ */
+    }
+.fa-clock {
+    font-size: 30px; /* ปรับขนาดให้เหมาะสม */
+    }
 /* Keyframe animation สำหรับการเลื่อนอย่างต่อเนื่อง */
 @keyframes scrollLogos {
     0% {
