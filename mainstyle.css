@@ -17,7 +17,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-    padding-top: 78px; /* <-- เปลี่ยนเป็น 78px ตามที่วัดได้จาก DevTools */
+    padding-top: 45px; /* <-- เปลี่ยนเป็น 78px ตามที่วัดได้จาก DevTools */
     margin-right: 0;
     padding-right: 0;
 }
@@ -648,6 +648,45 @@ nav {
     font-size: 0.9em; /* ขนาดฟอนต์สำหรับชื่อหน่วยงาน */
     color: #666;
     line-height: 1.3;
+}
+
+.clients-scroll-container {
+    width: 100%;
+    overflow: hidden; /* ซ่อนเนื้อหาที่ล้นออกจากคอนเทนเนอร์ */
+    /* white-space: nowrap; // ไม่จำเป็นต้องใช้แล้วเมื่อใช้ display: flex */
+}
+
+.clients-grid {
+    display: flex; /* ใช้ Flexbox เพื่อจัดเรียงโลโก้ในแนวนอน */
+    flex-wrap: nowrap; /* ทำให้รายการไม่ขึ้นบรรทัดใหม่ */
+    animation: scrollLogos 30s linear infinite; /* ปรับเวลาสำหรับความเร็วที่ต้องการ (เช่น 30s) */
+}
+
+.client-item {
+    flex-shrink: 0; /* ป้องกันไม่ให้โลโก้หดตัวเมื่อพื้นที่ไม่พอ */
+    padding: 0 40px; /* ระยะห่างซ้าย-ขวา ระหว่างโลโก้ (ปรับได้ตามต้องการ) */
+    height: 100px; /* กำหนดความสูงให้โลโก้ (ตามที่เคยกำหนด) */
+    display: flex; /* ใช้ flex เพื่อจัดกึ่งกลางรูปภาพภายใน item */
+    align-items: center; /* จัดกึ่งกลางรูปภาพในแนวตั้ง */
+    justify-content: center; /* จัดกึ่งกลางรูปภาพในแนวนอน */
+}
+
+.client-item img {
+    max-height: 100%; /* ทำให้รูปภาพไม่เกินความสูงของ client-item */
+    width: auto; /* รักษาสัดส่วนรูปภาพ */
+    display: block; /* ลบช่องว่างส่วนเกินด้านล่างรูปภาพ (ถ้ามี) */
+}
+
+/* Keyframe animation สำหรับการเลื่อนอย่างต่อเนื่อง */
+@keyframes scrollLogos {
+    0% {
+        transform: translateX(0%);
+    }
+    /* เลื่อนไป 50% ของความกว้างทั้งหมดของ clients-grid
+       ซึ่งก็คือความกว้างของโลโก้ชุดแรกพอดี ทำให้เกิดการวนลูปไร้รอยต่อ */
+    100% {
+        transform: translateX(-50%);
+    }
 }
 /* Media Queries (รวมบล็อกสำหรับ max-width: 767px) */
 @media screen and (max-width: 767px) {
