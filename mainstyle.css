@@ -796,7 +796,7 @@ nav {
         padding: 15px;
         border: 1px solid #eee;
         border-radius: 8px;
-        text-align: center;
+        text-align: left;
         background-color: #fff;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         margin-right: 0;
@@ -897,7 +897,7 @@ nav {
     .maincontent-info {
         width: 100%;
         padding: 1rem;
-        text-align: center;
+        text-align: left;
     }
     .maincontent-info h3 {
         font-size: 1.8rem;
@@ -930,14 +930,14 @@ nav {
         margin-bottom: 10px;
     }
     .projectcontent-title {
-    text-align: center !important; /* บังคับให้เป็นกลาง */
+    text-align: left !important; /* บังคับให้เป็นกลาง */
     }
     .projectcontent-title h3 { /* หากต้องการบังคับให้ Project title กลาง */
-        text-align: center !important; /* เพิ่ม !important ถ้ายังไม่กลาง */
+        text-align: left !important; /* เพิ่ม !important ถ้ายังไม่กลาง */
     }
     .content-title {
         margin: 1rem 1rem;
-        text-align: center;
+        text-align: left;
     }
     .content .content-title h3 {
         padding-left: 0;
