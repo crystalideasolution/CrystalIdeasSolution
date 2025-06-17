@@ -17,8 +17,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-    padding-top: 45px; /* <-- เปลี่ยนเป็น 78px ตามที่วัดได้จาก DevTools (ค่าเริ่มต้นสำหรับ Desktop) */
-    /* padding-right: 0; ไม่จำเป็น เพราะ box-sizing: border-box จัดการให้ */
+    padding-top: 0px; /* ค่าเริ่มต้นสำหรับ Desktop (Navbar Fixed) */
 }
 
 .main-content-area {
@@ -29,10 +28,9 @@ body {
 .container {
     max-width: 1400px; /* ความกว้างสูงสุดของเนื้อหา */
     margin: 0 auto; /* จัดกึ่งกลางคอนเทนเนอร์ */
-    /* ค่า padding แนวนอนเริ่มต้นสำหรับ Desktop */
-    padding-left: 2rem; /* หรือ 40px, ปรับให้ตรงกับระยะห่างเมนูของคุณ */
-    padding-right: 2rem; /* ควรมี padding ทางขวาด้วย เพื่อความสมดุล */
-    box-sizing: border-box; /* สำคัญ: เพื่อให้ padding ไม่เพิ่มความกว้างรวม */
+    padding-left: 2rem; /* ค่า padding แนวนอนเริ่มต้นสำหรับ Desktop */
+    padding-right: 2rem;
+    box-sizing: border-box;
 }
 
 section {
@@ -40,534 +38,255 @@ section {
     padding: 1rem 0; /* padding บน-ล่าง 1rem, ซ้าย-ขวา 0. .container จะจัดการ padding แนวนอน */
     scroll-margin-top: 96px; /* ค่านี้สำหรับ Navbar height เพื่อ Scroll to section */
 }
-#company,
-#services,
-#project,
-#contact,
-#clients {
+#company, #services, #project, #contact, #clients {
     scroll-margin-top: 96px;
 }
 
-/* Language Buttons (คงเดิม) */
-.lang-switcher {
-    display: flex;
-    gap: 10px;
-}
+/* Language Buttons */
+.lang-switcher { display: flex; gap: 10px; }
 .lang-btn {
     background-color: #f0f0f0;
-    border: none; /* เปลี่ยนจาก border: 1px solid #ccc; */
+    border: none;
     padding: 8px 12px;
     cursor: pointer;
     border-radius: 5px;
     font-weight: bold;
-    transition: opacity 0.3s ease; /* เปลี่ยนเป็น opacity */
-    width: 40px;
-    height: 30px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    transition: opacity 0.3s ease;
+    width: 40px; height: 30px;
+    background-size: cover; background-position: center; background-repeat: no-repeat;
     text-indent: -9999px;
 }
-.lang-btn[data-lang="en"] {
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/1280px-Flag_of_the_United_Kingdom_%283-5%29.svg.png');
-}
-.lang-btn[data-lang="th"] {
-    background-image: url('https://cdn.pixabay.com/photo/2013/07/12/17/58/thailand-152711_1280.png');
-}
-.lang-btn:hover {
-    opacity: 0.8;
-}
-.lang-btn.active-lang {
-    background-color: #007bff; /* Example active color */
-    color: white;
-    border-color: #007bff;
-}
+.lang-btn[data-lang="en"] { background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/1280px-Flag_of_the_United_Kingdom_%283-5%29.svg.png'); }
+.lang-btn[data-lang="th"] { background-image: url('https://cdn.pixabay.com/photo/2013/07/12/17/58/thailand-152711_1280.png'); }
+.lang-btn:hover { opacity: 0.8; }
+.lang-btn.active-lang { background-color: #007bff; color: white; border-color: #007bff; }
 
 /* Navigation */
 nav {
-    position: fixed;
+    position: fixed; /* ยังคง fixed สำหรับ desktop */
     width: 100%;
     top: 0;
     left: 0;
     z-index: 1000;
     background-color: #fff;
-    padding: 0.5rem;
+    padding: 0.5rem; /* Padding สำหรับ Desktop */
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    /* **เพิ่ม relative positioning ให้ nav เพื่อให้ nav-end absolute อ้างอิงได้** */
+    position: relative; /* <--- เพิ่มตรงนี้เพื่อเป็น reference point ให้ nav-end */
 }
 .nav-con {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%; /* .container จะกำหนดความกว้างสูงสุด */
+    width: 100%;
 }
 .nav-end {
-    display: flex;
+    display: flex; /* แสดงแบบ flex สำหรับ Desktop */
     align-items: center;
     gap: 20px;
 }
 .logo img {
-    height: 70px;
+    height: 70px; /* ขนาดเดิมสำหรับ Desktop */
     width: auto;
     text-decoration: none;
 }
+
+/* Hamburger Menu Icon Styling */
+.hamburger-menu {
+    display: none; /* ซ่อนไว้สำหรับ Desktop */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1001; /* ให้อยู่เหนือเมนูที่เปิด */
+}
+.hamburger-menu .bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background-color: #002060;
+    transition: all 0.3s ease-in-out;
+}
+/* Styles for when hamburger menu is active (transforms to X) */
+.hamburger-menu.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamburger-menu.active .bar:nth-child(2) { opacity: 0; }
+.hamburger-menu.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* Nav End (Menu + Language Switcher) - Desktop Styles */
 .menu {
     display: flex;
     list-style: none;
     margin: 0;
     padding: 0;
 }
-.menu li {
-    margin-left: 20px;
-}
-.menu li a {
-    color: #002060;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-.menu li a:hover,
-.menu li a:focus {
-    color: #f09d18;
-}
+.menu li { margin-left: 20px; }
+.menu li a { color: #002060; text-decoration: none; transition: color 0.3s ease; }
+.menu li a:hover, .menu li a:focus { color: #f09d18; }
+
 
 /* Main Content Section (About Us) */
 .maincontent {
     background-color: #002060;
-    color: #fff;
-    padding-top: 0.5rem;
+    padding-top: 0.5rem; /* คง padding ภายใน maincontent */
     padding-bottom: 0.5rem;
-    /* padding-left/right ถูกจัดการโดย .container */
+    margin-top: 0px;
 }
-.maincontent-con {
-    display: flex;
-}
-.maincontent-info {
-    width: 100%;
-    padding: 1rem;
-    padding-left: 0; /* คงไว้เพื่อจัดให้ชิดซ้ายของ container */
-}
-.maincontent-info h3 {
-    font-size: 2rem;
-    color: #fff;
-    margin-bottom: 0;
-}
-.maincontent-info p {
-    margin: 1rem 0;
-}
+.maincontent-con { display: flex; }
+.maincontent-info { width: 100%; padding: 1rem; padding-left: 0; color: #fff; } /* กำหนดสีข้อความของ info box */
+.maincontent-info h3 { font-size: 2rem; color: #fff; margin-bottom: 0; }
+.maincontent-info p { margin: 1rem 0; color: #fff; } /* กำหนดสีข้อความของ p */
 .maincontent-info .maincontent-btn {
-    background-color: #f09d18;
-    color: #fefefe;
-    padding: 1rem;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
+    background-color: #f09d18; color: #fefefe; padding: 1rem; border-radius: 5px;
+    text-decoration: none; font-weight: bold; letter-spacing: 0.5px; transition: all 0.3s ease;
 }
-.maincontent-info .maincontent-btn:hover,
-.maincontent-info .maincontent-btn:focus {
-    background-color: #d88a0f;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.maincontent-info .maincontent-btn:hover, .maincontent-info .maincontent-btn:focus {
+    background-color: #d88a0f; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-.maincontent-img {
-    width: 100%;
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
-}
+.maincontent-img { width: 100%; padding: 2rem; display: flex; justify-content: center; }
 .maincontent-img img {
-    max-width: 554px;
-    max-height: 1024px;
-    width: auto;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    border-radius: 10px;
+    max-width: 554px; max-height: 1024px; width: auto; height: auto;
+    display: block; margin: 0 auto; border-radius: 10px;
 }
 
 /* Content Title Styles (for Services and Projects sections) */
-.content-title h3 { /* รวมทั้ง .content และ .projectcontent */
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    color: #002060; /* สีของหัวข้อใน Services */
-    text-align: left;
-}
+.content-title h3 { font-size: 2rem; margin-bottom: 0.5rem; color: #002060; text-align: left; }
+.content-title p:first-child { color: #002060; } /* ย่อหน้าแรก */
 .content-title p:not(:first-child) {
-    position: relative;
-    padding-left: 20px;
-    margin-bottom: 0.5rem;
-    color: black;
+    position: relative; padding-left: 20px; margin-bottom: 0.5rem; color: #002060;
 }
 .content-title p:not(:first-child)::before {
-    content: "\2022";
-    color: black;
-    font-size: 1.2em;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    content: "\2022"; color: #002060; font-size: 1.2em; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
 }
 
-/* Base style for content items (Services and Projects) - สำหรับ Desktop / Tablet */
-.content-item,
-.projectcontent-item {
-    flex-shrink: 0;
-    width: calc(33.3333% - 13.3333px); /* 3 ไอเทมต่อแถวบน Desktop (คำนวณจาก 1024px) */
-    box-sizing: border-box;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: hidden; /* **สำคัญ: เพื่อครอบตัดส่วนเกินของรูปภาพ** */
+/* Base style for content items (Services and Projects) */
+.content-item, .projectcontent-item {
+    flex-shrink: 0; width: calc(33.3333% - 13.3333px); box-sizing: border-box; padding: 15px;
+    border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); text-align: center;
+    display: flex; flex-direction: column; align-items: center; overflow: hidden;
 }
-
-/* สีพื้นหลังและข้อความสำหรับ Services (content-item) */
-.content-item {
-    background-color: #002060;
-    border: 1px solid #002060;
-}
-.content-item h4,
-.content-item p {
-    color: #fff;
-}
+.content-item { background-color: #002060; border: 1px solid #002060; }
+.content-item h4, .content-item p { color: #fff; }
 .content-item a {
-    color: #fff;
-    background-color: #f09d18;
+    display: inline-block; color: #fff; background-color: #f09d18 !important; padding: 0.5rem 1rem;
+    text-decoration: none; border-radius: 5px; font-weight: bold; letter-spacing: 0.5px; transition: all 0.3s ease; margin-top: 0.5rem;
 }
-.content-item a:hover,
-.content-item a:focus {
-    background-color: #d88a0f;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.content-item a:hover, .content-item a:focus {
+    background-color: #d88a0f !important; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
-/* สีพื้นหลังและข้อความสำหรับ Projects (projectcontent-item) */
-.projectcontent-item {
-    background-color: #fff;
-    border: 1px solid #002060;
-    margin-right: 20px; /* ระยะห่างระหว่างไอเทมใน Project */
-    animation: scrollProjects 10s linear infinite; /* Animation ที่ทำให้เลื่อน */
-    width: 250px; /* กำหนดความกว้างของไอเทม Project บน Desktop */
+.projectcontent-item { background-color: #fff; border: 1px solid #002060; margin-right: 20px; animation: scrollProjects 10s linear infinite; width: 250px; }
+.projectcontent-item h4, .projectcontent-item p { color: #002060; }
+.content-item img, .projectcontent-item img {
+    width: 100%; height: 200px; object-fit: cover; border-radius: 4px;
+    margin-bottom: 10px; display: block; border: 2px solid #fff;
 }
-.projectcontent-item h4,
-.projectcontent-item p {
-    color: #002060;
-}
-/* Base image style for content items (Services and Projects) */
-.content-item img,
-.projectcontent-item img {
-    width: 100%;
-    height: 200px; /* กำหนดความสูงตายตัวสำหรับ Desktop (ปรับได้) */
-    object-fit: cover; /* **สำคัญ: ครอบตัดรูปภาพเพื่อให้เต็มกรอบ** */
-    border-radius: 4px; /* ทำให้มุมของรูปมนเล็กน้อย */
-    margin-bottom: 10px;
-    display: block;
-    border: 2px solid #fff; /* กรอบขนาด 2px เส้นทึบ สีขาว */
-}
-/* projectcontent-item ไม่มีปุ่ม "รายละเอียดสินค้า" แต่ถ้ามีก็ควรใส่สไตล์ให้ */
-
 
 /* Scrollable Container (Services และ Projects) */
 .content-con {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: scroll;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    gap: 20px;
+    display: flex; flex-wrap: nowrap; overflow-x: scroll; -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; gap: 20px;
 }
-.content-con::-webkit-scrollbar {
-    height: 8px;
-    display: none;
-}
+.content-con::-webkit-scrollbar { height: 8px; display: none; }
 
 /* Scroll Buttons Container */
 .scroll-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-    padding: 0 80px; /* ระยะห่างสำหรับปุ่มเลื่อน (ปรับตาม .container padding ถ้าต้องการ) */
+    position: relative; display: flex; align-items: center; margin-top: 20px; padding: 0 80px;
 }
 .scroll-btn {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    z-index: 10;
-    border-radius: 50%;
-    font-size: 1.5em;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 0.7;
+    background-color: rgba(0, 0, 0, 0.5); color: white; border: none; padding: 10px 15px;
+    cursor: pointer; z-index: 10; border-radius: 50%; font-size: 1.5em; position: absolute;
+    top: 50%; transform: translateY(-50%); opacity: 0.7;
     transition: opacity 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
+    display: flex; align-items: center; justify-content: center; width: 40px; height: 40px;
 }
-.scroll-btn:hover {
-    background-color: #002060;
-    color: white;
-    border-color: #002060;
-    opacity: 1;
-}
-.scroll-btn.left {
-    left: 0;
-}
-.scroll-btn.right {
-    right: 0;
-}
+.scroll-btn:hover { background-color: #002060; color: white; border-color: #002060; opacity: 1; }
+.scroll-btn.left { left: 0; }
+.scroll-btn.right { right: 0; }
 
 /* Project Content Section (div ที่มีพื้นหลังสีน้ำเงินเต็มจอ) */
-.projectcontent { /* นี่คือ div ที่ครอบเนื้อหา Project ใน HTML */
-    background-color: #002060; /* สีพื้นหลังเต็มจอสำหรับ Project */
-    padding-top: 2rem; /* เพิ่ม padding บน-ล่าง ให้ div นี้ */
-    padding-bottom: 2rem;
-    /* ไม่ต้องมี display:flex หรือ overflow:hidden ที่นี่แล้ว เพราะ content-con จัดการการเลื่อน */
-    /* ไม่ต้องมี white-space: nowrap; ที่นี่แล้ว */
-    width: 100%; /* ทำให้ขยายเต็มความกว้าง */
+.projectcontent {
+    background-color: #002060; padding-top: 2rem; padding-bottom: 2rem; width: 100%;
 }
-.projectcontent-title h3{
-    text-align: left;
-    margin-bottom: 2rem;
-    color: #fff;
-    font-size: 2rem;
-}
-/* หยุด animation เมื่อวางเมาส์เหนือ (เลือกได้) */
-.projectcontent:hover .projectcontent-item { /* Target items inside projectcontent */
-    animation-play-state: paused;
-}
-
-/* Keyframe animation สำหรับการเลื่อน */
+.projectcontent-title h3{ text-align: left; margin-bottom: 2rem; color: #fff; font-size: 2rem; }
+.projectcontent:hover .projectcontent-item { animation-play-state: paused; }
 @keyframes scrollProjects {
     0% { transform: translateX(0); }
-    100% {
-        /* คำนวณค่านี้อย่างระมัดระวัง ถ้ามีไอเทมจำนวนมากและใช้ JavaScript ควบคู่กัน */
-        /* หรือถ้าต้องการให้วนลูปอย่างราบรื่น อาจต้องทำซ้ำไอเทมใน HTML */
-        transform: translateX(-100%);
-    }
+    100% { transform: translateX(-100%); }
 }
 
 /* Clients Partners Section */
-.clients-partners {
-    padding: 2rem 0; /* padding บน-ล่าง 2rem, ซ้าย-ขวา 0 */
-    background-color: #f8f8f8;
-}
-.clients-partners .content-title h3 {
-    font-size: 2rem;
-    color: #002060;
-    margin-bottom: 0.5rem;
-    text-align: left;
-}
+.clients-partners { background-color: #f8f8f8; padding: 2rem 0; }
+.clients-partners .content-title h3 { font-size: 2rem; color: #002060; margin-bottom: 0.5rem; text-align: left; }
 .clients-partners .content-title p {
-    font-size: 1.1rem;
-    color: #555;
-    margin-bottom: 2rem;
-    max-width: 800px;
-    margin: 0; /* .container จะให้ padding ซ้าย-ขวา */
-    text-align: left;
+    color: #002060; margin-bottom: 2rem; text-align: left; padding-left: 0 !important; position: relative;
 }
+.clients-partners .content-title p::before { content: none !important; }
 
 /* Grid สำหรับโลโก้ */
-.clients-scroll-container { /* อันนี้คือ wrapper ที่ครอบ clients-grid */
-    width: 100%;
-    overflow: hidden; /* ซ่อนเนื้อหาที่ล้นออกจากคอนเทนเนอร์ */
-}
+.clients-scroll-container { width: 100%; overflow: hidden; }
 .clients-grid {
-    display: flex; /* ใช้ Flexbox เพื่อจัดเรียงโลโก้ในแนวนอน */
-    flex-wrap: nowrap; /* ทำให้รายการไม่ขึ้นบรรทัดใหม่ */
-    animation: scrollLogos 10s linear infinite; /* ปรับเวลาสำหรับความเร็วที่ต้องการ */
-    gap: 30px; /* ระยะห่างระหว่างโลโก้แต่ละช่อง */
-    justify-content: center; /* จัดโลโก้แต่ละชิ้นให้อยู่ตรงกลางของช่อง Grid */
-    align-items: center; /* จัดโลโก้แต่ละชิ้นให้อยู่กึ่งกลางแนวตั้งในช่อง Grid */
-    padding: 0; /* ลบ padding ที่อาจเคยมีที่นี่ เพราะ .container จัดการแล้ว */
+    display: flex; flex-wrap: nowrap; animation: scrollLogos 10s linear infinite;
+    gap: 30px; justify-content: center; align-items: center; padding: 0;
 }
 .client-item {
-    flex-shrink: 0;
-    max-width: 200px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    background-color: #fff;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    transition: all 0.3s ease;
-    height: 100px; /* กำหนดความสูงให้โลโก้ */
-    justify-content: center;
+    flex-shrink: 0; max-width: 200px; box-sizing: border-box; display: flex;
+    flex-direction: column; align-items: center; text-align: center; background-color: #fff;
+    border: 1px solid #eee; border-radius: 8px; padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: all 0.3s ease;
+    height: 100px; justify-content: center;
 }
-.client-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-.client-item img {
-    max-width: 100%;
-    max-height: 100%;
-    height: auto;
-    object-fit: contain; /* เพื่อให้โลโก้ไม่ถูกครอบตัด */
-    transition: all 0.3s ease;
-    margin-bottom: 0;
-}
-/* Keyframe animation สำหรับการเลื่อนอย่างต่อเนื่อง (คงเดิม) */
+.client-item:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.client-item img { max-width: 100%; max-height: 100%; height: auto; object-fit: contain; transition: all 0.3s ease; margin-bottom: 0; }
 @keyframes scrollLogos {
     0% { transform: translateX(0%); }
     100% { transform: translateX(-50%); }
 }
 
 /* Contact Section */
-.contact {
-    padding-top: 0.5rem;
-    padding-bottom: 2rem;
-    background-color: #002060;
-}
-.contact .content-title {
-    text-align: left;
-    margin-bottom: 2rem;
-}
-.contact .content-title h3 {
-    font-size: 2rem;
-    color: #fff;
-    margin-bottom: 0.5rem;
-    text-align: left;
-}
-.contact .content-title p {
-    color: #ffffff;
-    font-size: 1.1rem;
-    max-width: 800px;
-    margin: 0;
-    text-align: left;
-}
-.contact-info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-}
-.contact-item-detail {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    padding: 1.5rem;
-    text-align: left;
-}
+.contact { background-color: #002060; padding-top: 0.5rem; padding-bottom: 2rem; }
+.contact .content-title { text-align: left; margin-bottom: 2rem; }
+.contact .content-title h3 { font-size: 2rem; color: #fff; margin-bottom: 0.5rem; text-align: left; }
+.contact .content-title p { color: #ffffff; font-size: 1.1rem; max-width: 800px; margin: 0; text-align: left; }
+.contact-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; margin-top: 2rem; }
+.contact-item-detail { background-color: #fff; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); padding: 1.5rem; text-align: left; }
 .contact-item-detail h4 {
-    font-size: 1.5rem;
-    color: #002060;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid #f09d18;
-    padding-bottom: 0.5rem;
-    display: inline-block;
+    font-size: 1.5rem; color: #002060; margin-bottom: 1rem; border-bottom: 2px solid #f09d18;
+    padding-bottom: 0.5rem; display: inline-block;
 }
-.contact-item-detail p {
-    margin-bottom: 0.8rem;
-    line-height: 1;
-    color: #002060 !important; /* ใช้สีสีน้ำเงินเข้ม */
-}
-.contact-item-detail i {
-    margin-right: 10px;
-    color: #f09d18;
-    font-size: 1.2em;
-}
-.contact-item-detail a {
-    text-decoration: none;
-    color: #333;
-    transition: color 0.3s ease;
-}
-.contact-item-detail a:hover {
-    color: #002060;
-}
-.contact-item-detail.social-links p {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-.contact-item-detail .fa-phone {
-    color: rgb(0, 150, 0);
-}
-.contact-item-detail .fa-envelope {
-    color: rgb(233, 5, 5);
-}
-.fa-facebook,.fa-line {
-    font-size: 30px;
-}
-.fa-clock {
-    font-size: 30px;
-}
+.contact-item-detail p { margin-bottom: 0.8rem; line-height: 1; color: #002060 !important; }
+.contact-item-detail i { margin-right: 10px; color: #f09d18; font-size: 1.2em; }
+.contact-item-detail a { text-decoration: none; color: #333; transition: color 0.3s ease; }
+.contact-item-detail a:hover { color: #002060; }
+.contact-item-detail.social-links p { display: flex; align-items: center; margin-bottom: 1rem; }
+.contact-item-detail .fa-phone { color: rgb(0, 150, 0); }
+.contact-item-detail .fa-envelope { color: rgb(233, 5, 5); }
+.fa-facebook,.fa-line { font-size: 30px; }
+.fa-clock { font-size: 30px; }
 
-.qr-codes-group {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 30px;
-    margin-top: 15px;
-    flex-wrap: wrap;
-}
+.qr-codes-group { display: flex; justify-content: center; align-items: flex-start; gap: 30px; margin-top: 15px; flex-wrap: wrap; }
 .qr-code-img {
-    max-width: 170px !important;
-    height: auto !important;
-    display: inline-block !important;
-    flex-shrink: 0 !important;
-    flex-basis: 170px !important;
-    margin: 0;
-    border: 1px solid #eee;
-    padding: 5px;
-    border-radius: 5px;
+    max-width: 170px !important; height: auto !important; display: inline-block !important;
+    flex-shrink: 0 !important; flex-basis: 170px !important; margin: 0;
+    border: 1px solid #eee; padding: 5px; border-radius: 5px;
 }
 
 /* Footer */
 .footer-buttom {
-    background-color: #ffffff;
-    color: #002060;
-    padding: 1rem;
-    text-align: center;
-    z-index: 100;
+    background-color: #ffffff; color: #002060; padding: 1rem; text-align: center; z-index: 100;
 }
 
 /* Fixed Sidebar Buttons */
 .fixed-sidebar-buttons {
-    position: fixed;
-    right: 0;
-    bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 1050;
+    position: fixed; right: 0; bottom: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 1050;
 }
 .sidebar-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(to right, #007bff, #0056b3);
-    color: white;
-    border-radius: 50%;
-    text-decoration: none;
-    font-size: 1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    overflow: hidden;
+    display: flex; align-items: center; justify-content: center; width: 50px; height: 50px;
+    background: linear-gradient(to right, #007bff, #0056b3); color: white; border-radius: 50%;
+    text-decoration: none; font-size: 1rem; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease; overflow: hidden;
 }
-.sidebar-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-.sidebar-btn i {
-    font-size: 1.2em;
-    margin-right: 0;
-}
+.sidebar-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); }
+.sidebar-btn i { font-size: 1.2em; margin-right: 0; }
 .line-btn { background: linear-gradient(to right, #00C300, #008000); }
 .line-btn:hover { background: linear-gradient(to right, #008000, #00C300); }
 .telephone-btn { background: linear-gradient(to right, #28dbff, #5387f5); }
@@ -580,344 +299,125 @@ nav {
 
 /* Mobile (max-width: 767px) */
 @media screen and (max-width: 767px) {
-    .container {
-        padding-left: 0.5rem; /* ทำให้ตรงกับ padding ของ section ทั่วไปบนมือถือ */
-        padding-right: 0.5rem;
-    }
+    .container { padding-left: 0.5rem; padding-right: 0.5rem; }
+    body { padding-top: 0 !important; }
 
-    /* Body padding-top for fixed nav */
-    body {
-        padding-top: 0 !important; /* สำคัญ! ลบ padding-top ของ body ออกเมื่อ Navbar ไม่ fixed */
-    }
-
-    /* Navbar (ไม่ Fixed บนมือถือ) */
-    nav {
-        position: static;
-        box-shadow: none;
-        padding: 0.5rem 0;
-    }
+    /* Navbar */
+    nav { position: relative; box-shadow: none; padding: 0; min-height: 80px }
+    section { min-height: auto; padding: 0.5rem 0; } /* ปรับ section ทั่วไป */
+    .logo img { height: 60px; /* ลดขนาดโลโก้ให้เล็กลง */ }
     .nav-con {
-        flex-direction: column;
-        align-items: center;
-        padding: 0.5rem;
+        flex-direction: row; justify-content: space-between; padding: 0.5rem 0.5rem; align-items: center;
     }
+    /* แสดง Hamburger Menu Icon */
+    .hamburger-menu { display: block; }
+    /* ซ่อนเมนูและปุ่มภาษาเริ่มต้นบนมือถือ */
     .nav-end {
-        flex-direction: column;
-        width: 100%;
-        align-items: center;
-        gap: 10px;
-        margin-top: 10px;
+        position: absolute; top: 100%; left: 0; width: 100%; background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1); flex-direction: column; align-items: center;
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        transform: translateY(-100%); opacity: 0; pointer-events: none; z-index: 999; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
     }
-    .logo img {
-        height: 60px;
-    }
-    .menu {
-        flex-direction: column;
-        text-align: center;
-        width: 100%;
-        margin-top: 0.5rem;
-    }
-    .menu li {
-        margin: 0.5rem 0;
-        width: 100%;
-    }
-    .menu li a {
-        font-size: 1rem;
-        padding: 8px 0;
-        display: block;
-        border-bottom: 1px solid #eee;
-    }
-    .menu li:last-child a {
-        border-bottom: none;
-    }
-    .lang-switcher {
-        margin-top: 10px;
-        text-align: center;
-    }
+    /* เมื่อเมนูถูกเปิด */
+    .nav-end.active { transform: translateY(0); opacity: 1; pointer-events: auto; max-height: 300px; }
+    .menu { flex-direction: column; width: 100%; margin-top: 1rem; }
+    .menu li { margin: 0; width: 100%; border-bottom: 1px solid #eee; }
+    .menu li:last-child { border-bottom: none; }
+    .menu li a { font-size: 1rem; padding: 12px 0; display: block; text-align: center; }
+    .lang-switcher { margin-top: 1rem; margin-bottom: 1rem; }
     .lang-btn {
-        width: 40px;
-        height: 30px;
-        padding: 0;
-        text-indent: -9999px;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+        width: 40px; height: 30px; padding: 0; text-indent: -9999px;
+        background-size: cover; background-position: center; background-repeat: no-repeat;
         border-radius: 5px;
-        font-size: 0.8rem;
     }
 
     /* Main Content Section (About Us) */
-    .maincontent-con {
-        flex-direction: column;
-        padding: 0;
-    }
-    .maincontent-info {
-        width: 100%;
-        padding: 1rem;
-        text-align: left;
-    }
-    .maincontent-info h3 {
-        font-size: 1.8rem;
-    }
-    .maincontent-info p {
-        font-size: 0.95rem;
-        margin: 0.8rem auto;
-    }
-    .maincontent-info .maincontent-btn {
-        padding: 0.8rem 1.5rem;
-        font-size: 0.9rem;
-    }
-    .maincontent-img {
-        width: 100%;
-        padding: 0.5rem;
-    }
-    .maincontent-img img {
-        max-width: 90%;
-        height: auto;
-    }
+    .maincontent { padding-top: 0; padding-bottom: 0; }
+    .maincontent-con { flex-direction: column; padding: 0; }
+    .maincontent-info { width: 100%; padding: 1rem; text-align: left; color: #fff; }
+    .maincontent-info h3 { font-size: 1.8rem; color: #fff; }
+    .maincontent-info p { font-size: 0.95rem; margin: 0.8rem auto; color: #fff; }
+    .maincontent-info .maincontent-btn { padding: 0.8rem 1.5rem; font-size: 0.9rem; }
+    .maincontent-img { width: 100%; padding: 0.5rem; }
+    .maincontent-img img { max-width: 100%; height: auto; max-height: 250px; }
 
-    /* Content / Project Items (รูปไม่ถูกตัด) */
-    .content-item,
-    .projectcontent-item {
-        flex: 0 0 100%; /* 1 ไอเทมต่อแถว */
-        width: 100%;
-        box-sizing: border-box;
-        scroll-snap-align: start;
-        padding: 15px;
-        border: 1px solid #002060; /* กรอบสีน้ำเงิน */
-        border-radius: 8px;
-        text-align: left; /* ข้อความชิดซ้าย */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        margin-right: 0;
-        margin-bottom: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* จัดกลางเนื้อหา (รวมถึงรูปภาพ) */
-        justify-content: flex-start;
-        overflow: hidden; /* ครอบตัดส่วนเกิน */
+    /* Content / Project Items */
+    .content-item, .projectcontent-item {
+        flex: 0 0 100%; width: 100%; box-sizing: border-box; scroll-snap-align: start;
+        padding: 15px; border: 1px solid #002060; border-radius: 8px; text-align: left;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); margin-right: 0; margin-bottom: 0;
+        display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+        overflow: hidden;
     }
-    /* พื้นหลังและสีข้อความสำหรับ Services (content-item) บน Mobile */
-    .content-item {
-        background-color: #002060 !important;
-        color: #fff;
-    }
-    .content-item h4,
-    .content-item p {
-        color: #fff;
-    }
-    /* พื้นหลังและสีข้อความสำหรับ Projects (projectcontent-item) บน Mobile */
-    .projectcontent-item {
-        background-color: #fff !important;
-        color: #002060;
-    }
-    .projectcontent-item h4,
-    .projectcontent-item p {
-        color: #002060;
-    }
+    .content-item { background-color: #002060 !important; }
+    .content-item h4, .content-item p { color: #fff; }
+    .projectcontent-item { background-color: #fff !important; color: #002060; }
+    .projectcontent-item h4, .projectcontent-item p { color: #002060; }
 
     /* การแก้ไขรูปภาพใน content-item และ projectcontent-item สำหรับมือถือ */
-    .content-item img,
-    .projectcontent-item img {
-        width: 100%;
-        height: 160px; /* **สำคัญ:** ปรับความสูงสำหรับมือถือ (ลอง 150px, 160px, 180px) */
-        object-fit: cover; /* **สำคัญ:** ครอบตัดรูปภาพเพื่อให้เต็มกรอบ */
-        border-radius: 4px;
-        margin-bottom: 10px;
-        border: 2px solid #fff;
+    .content-item img, .projectcontent-item img {
+        width: 100%; height: 160px; object-fit: cover; border-radius: 4px;
+        margin-bottom: 10px; border: 2px solid #fff;
     }
 
     /* Project title บนมือถือ */
-    .projectcontent-title h3 {
-        text-align: left;
-        color: #fff;
-        font-size: 2rem;
-    }
-    .content-title { /* หัวข้อ Services และ Projects */
-        margin: 1rem 0; /* Margin บน-ล่าง 1rem, ซ้าย-ขวา 0 เพราะ .container จัดการ */
-        text-align: left;
-    }
-    .content-title p {
-        text-align: left;
-    }
-    .content .content-title h3 {
-        padding-left: 0; /* ลบ padding-left ที่เคยมี */
-        font-size: 2rem;
-        text-align: left;
-    }
+    .projectcontent-title h3 { text-align: left; color: #fff; font-size: 2rem; }
+    .content-title { margin: 1rem 0; text-align: left; }
+    .content-title p { color: #002060; text-align: left; } /* แก้ไขสี Our Services p */
     .content .content-title p:not(:first-child) {
-        padding-left: 15px;
-        font-size: 0.95rem;
+        position: relative; padding-left: 20px; margin-bottom: 0.5rem; color: #002060;
+    }
+    .content .content-title p:not(:first-child)::before {
+        content: "\2022"; color: #002060; font-size: 1.2em; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
     }
 
-    .scroll-container {
-        padding: 0 10px; /* ลด padding ของ scroll-container บนมือถือ */
-    }
-    .content-con::-webkit-scrollbar {
-        height: 5px;
-    }
-    .content-con::-webkit-scrollbar-thumb {
-        background-color: rgba(0,0,0,0.2);
-    }
+    .scroll-container { padding: 0 10px; }
+    .content-con::-webkit-scrollbar { height: 5px; }
+    .content-con::-webkit-scrollbar-thumb { background-color: rgba(0,0,0,0.2); }
 
-    /* ปุ่มด้านข้าง Fixed Sidebar Buttons */
-    .fixed-sidebar-buttons {
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        bottom: auto;
-        gap: 8px;
-    }
-    .sidebar-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 1rem;
-    }
-    .sidebar-btn i {
-        font-size: 1em;
-    }
-    /* ซ่อนข้อความในปุ่ม Line บนมือถือ */
+    /* Fixed Sidebar Buttons */
+    .fixed-sidebar-buttons { right: 0; top: 50%; transform: translateY(-50%); bottom: auto; gap: 8px; }
+    .sidebar-btn { width: 45px; height: 45px; font-size: 1rem; }
+    .sidebar-btn i { font-size: 1em; }
     .line-btn span { display: none; }
     .line-btn:hover span { display: none; }
-    .line-btn, .telephone-btn, .gmail-btn {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        justify-content: center;
-        padding: 0;
-    }
+    .line-btn, .telephone-btn, .gmail-btn { width: 45px; height: 45px; border-radius: 50%; justify-content: center; padding: 0; }
     .line-btn i { margin-right: 0; }
 
-    /* QR Code ใน Contact Section */
-    .qr-codes-group {
-        flex-direction: row; /* คงเป็น row บนมือถือ */
-        justify-content: flex-start; /* จัดเรียงชิดซ้าย */
-        gap: 15px;
-    }
-    .qr-code-img {
-        max-width: 80px !important;
-        height: auto !important;
-        flex-basis: 80px !important;
-        flex-shrink: 0 !important;
-    }
+    /* QR Code in Contact Section */
+    .qr-codes-group { flex-direction: row; justify-content: flex-start; gap: 15px; }
+    .qr-code-img { max-width: 80px !important; height: auto !important; flex-basis: 80px !important; flex-shrink: 0 !important; }
 
-    /* Clients Section บนมือถือ */
-    .clients-grid {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-        gap: 15px;
-        animation: none; /* **หยุด animation บนมือถือ** */
-        flex-wrap: wrap; /* ทำให้โลโก้ขึ้นบรรทัดใหม่ได้ */
-    }
-    .client-item {
-        max-width: 150px;
-    }
-    .client-item img {
-        max-width: 70px;
-    }
-    .client-item p {
-        font-size: 0.8em;
-    }
+    /* Clients Section on mobile */
+    .clients-grid { display: flex; flex-wrap: nowrap; animation: scrollLogos 10s linear infinite; }
+    .client-item { max-width: 150px; }
+    .client-item img { max-width: 70px; }
+    .client-item p { font-size: 0.8em; }
 
-    /* Contact Section บนมือถือ */
-    .contact {
-        /* padding-top: 0.5rem; และ padding-bottom: 2rem; ยังคงอยู่ */
-        background-color: #002060;
-        text-align: left !important;
-    }
-    .contact .content-title h3 {
-        font-size: 2rem;
-        color: #fff;
-        margin-bottom: 0.5rem;
-        text-align: left !important;
-        padding-left: 0 !important; /* ลบ padding-left ที่ซ้ำซ้อน */
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-    }
-    .contact-info-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-        margin-top: 1rem;
-    }
-    .contact-item-detail {
-        padding: 1rem;
-    }
+    /* Contact Section on mobile */
+    .contact { background-color: #002060; text-align: left !important; }
+    .contact .content-title h3 { font-size: 2rem; color: #fff; margin-bottom: 0.5rem; text-align: left !important; padding-left: 0 !important; margin-left: 0 !important; margin-right: 0 !important; }
+    .contact-info-grid { grid-template-columns: 1fr; gap: 1rem; margin-top: 1rem; }
+    .contact-item-detail { padding: 1rem; }
 }
 
 /* Tablet (min-width: 768px) */
 @media (min-width: 768px) {
-    .container {
-        padding-left: 1.5rem; /* ปรับสำหรับ Tablet เช่น 1.5rem หรือ 30px */
-        padding-right: 1.5rem;
-    }
-    .content-item,
-    .projectcontent-item {
-        flex: 0 0 calc(50% - 10px); /* 2 ไอเทมต่อแถว (มี gap 20px) */
-        width: calc(50% - 10px);
-        /* กำหนด border, background-color, box-shadow ในสไตล์หลักแล้ว */
-    }
-    .content-item img,
-    .projectcontent-item img {
-        height: 180px; /* ความสูงสำหรับ Tablet */
-        object-fit: cover;
-    }
-    /* ปรับปรุง Clients Grid สำหรับ Tablet */
-    .clients-grid {
-        /* กลับไปใช้ grid หรือ flex โดยไม่มี animation บน tablet */
-        display: grid; /* หรือ display: flex; flex-wrap: wrap; */
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* 3-4 คอลัมน์สำหรับ Tablet */
-        gap: 20px;
-        animation: none; /* หยุด animation บน Tablet */
-    }
-    .client-item img {
-        max-width: 90px;
-    }
-    /* ลบ !important และ text-align:left!important ที่ซ้ำซ้อนจาก .clients-partners title */
-    .clients-partners .content-title h3,
-    .clients-partners .content-title p {
-        padding-left: 0;
-        margin-left: 0;
-        margin-right: 0;
-        text-align: left;
-    }
+    .container { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .content-item, .projectcontent-item { flex: 0 0 calc(50% - 10px); width: calc(50% - 10px); }
+    .content-item img, .projectcontent-item img { height: 180px; object-fit: cover; }
+    .clients-grid { display: flex; flex-wrap: nowrap; animation: scrollLogos 15s linear infinite; }
+    .client-item img { max-width: 90px; }
+    .clients-partners .content-title h3, .clients-partners .content-title p { padding-left: 0; margin-left: 0; margin-right: 0; text-align: left; }
+    .nav-end { position: static; transform: none;  opacity: 1;  pointer-events: auto;  box-shadow: none;  flex-direction: row;  width: auto; max-height: none;  overflow: visible;}
 }
 
 /* Desktop (min-width: 1024px) */
 @media (min-width: 1024px) {
-    .container {
-        padding-left: 2rem; /* ค่าเริ่มต้นสำหรับ Desktop (40px) */
-        padding-right: 2rem;
-    }
-    .content-item,
-    .projectcontent-item {
-        flex: 0 0 calc(33.3333% - 13.3333px); /* 3 ไอเทมต่อแถว (มี gap 20px) */
-        width: calc(33.3333% - 13.3333px);
-        /* กำหนด border, background-color, box-shadow ในสไตล์หลักแล้ว */
-    }
-    .content-item img,
-    .projectcontent-item img {
-        width: 100%;
-        height: 200px; /* ความสูงสำหรับ Desktop */
-        object-fit: cover;
-        border-radius: 4px; /* มุมโค้งมน (ถ้าต้องการมุมที่ต่างกันบน Desktop เช่น 8px 8px 0 0; ก็ใส่ที่นี่) */
-        border: 2px solid #fff;
-    }
-    /* ปรับปรุง Clients Grid สำหรับ Desktop */
-    .clients-grid {
-        display: flex; /* กลับไปใช้ flex สำหรับ animation */
-        flex-wrap: nowrap; /* ป้องกันการขึ้นบรรทัดใหม่ */
-        animation: scrollLogos 10s linear infinite; /* เปิด animation บน Desktop */
-        grid-template-columns: none; /* ลบ grid-template-columns ถ้าใช้ flexbox */
-    }
-    .client-item img {
-        max-width: 100px;
-    }
-    /* ลบ !important และ text-align:left!important ที่ซ้ำซ้อนจาก .clients-partners title */
-    .clients-partners .content-title h3,
-    .clients-partners .content-title p,
-    .contact .content-title h3,
-    .contact .content-title p {
-        padding-left: 0;
-        margin-left: 0;
-        margin-right: 0;
-        text-align: left;
-    }
+    .container { padding-left: 2rem; padding-right: 2rem; }
+    .content-item, .projectcontent-item { flex: 0 0 calc(33.3333% - 13.3333px); width: calc(33.3333% - 13.3333px); }
+    .content-item img, .projectcontent-item img { width: 100%; height: 200px; object-fit: cover; border-radius: 4px; border: 2px solid #fff; }
+    .clients-grid { display: flex; flex-wrap: nowrap; animation: scrollLogos 10s linear infinite; grid-template-columns: none; }
+    .client-item img { max-width: 100px; }
+    .clients-partners .content-title h3, .clients-partners .content-title p, .contact .content-title h3, .contact .content-title p { padding-left: 0; margin-left: 0; margin-right: 0; text-align: left; }
 }
