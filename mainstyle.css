@@ -318,6 +318,7 @@ nav {
 .content-item p,
 .projectcontent-item p { /* รวม selector */
     margin: 1rem 0;
+    text-align: left;
 }
 
 .content-item a,
