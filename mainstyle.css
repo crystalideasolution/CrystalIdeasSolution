@@ -774,6 +774,12 @@ nav {
         background-color: #002060;
         text-align: left; /* ปรับให้ข้อความชิดซ้าย */
     }
+    .contact-title h3 {
+        font-size: 1.8rem; /* ปรับขนาดหัวข้อให้เล็กลง */
+        color: #fff; /* สีขาวสำหรับหัวข้อ */
+        margin-bottom: 0.5rem;
+        text-align: left;
+    }
 
     /* ปรับ padding ของ contact-item-detail บนมือถือ */
     .contact-item-detail {
@@ -943,6 +949,7 @@ nav {
     .content .content-title h3 {
         padding-left: 0;
         font-size: 1.8rem;
+        text-align: left;
     }
     .content .content-title p:not(:first-child) {
         padding-left: 15px;
