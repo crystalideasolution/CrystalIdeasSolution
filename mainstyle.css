@@ -262,6 +262,7 @@ nav {
     color: #002060; /* สีของหัวข้อใน Services */
     padding-left: 0; /* ตรวจสอบให้แน่ใจว่าไม่มี padding-left ที่ทำให้มีจุด */
     position: relative; /* คงไว้ถ้ามี pseudo-element อื่นๆ ที่ต้องการ */
+    text-align: left;
 }
 
 .content .content-title p:not(:first-child) { /* เลือก p ทุกตัว ยกเว้นตัวแรก (Our Services) */
@@ -320,8 +321,8 @@ nav {
 .image-wrapper {
     /* ลบหรือปรับค่าที่จำกัดความกว้างและ padding ของรูปภาพ */
     width: 100%; /* ทำให้เต็มความกว้างของ parent (คือ .card) */
-    padding: 0;  /* ลบ padding ที่อาจทำให้รูปหดลง */
-    margin: 0;   /* ลบ margin ที่อาจทำให้เกิดช่องว่าง */
+    padding: 0;    /* ลบ padding ที่อาจทำให้รูปหดลง */
+    margin: 0;     /* ลบ margin ที่อาจทำให้เกิดช่องว่าง */
     box-sizing: border-box; /* สำคัญ: ตรวจสอบว่า padding/border ไม่ดัน content ออกไป */
 }
 
@@ -482,21 +483,26 @@ nav {
 }
 
 .contact .content-title {
-    text-align: center;
+    /* text-align: center; */ /* ลบหรือคอมเมนต์บรรทัดนี้ออก */
+    text-align: left; /* เพิ่มเพื่อจัดชิดซ้าย */
     margin-bottom: 2rem;
+    padding-left: 1rem; /* เพิ่ม padding-left สำหรับ Desktop */
 }
 
 .contact .content-title h3 {
     font-size: 3rem; /* อาจจะใหญ่ไปสำหรับหัวข้อ contact ลองปรับเป็น 2.5rem หรือ 2rem */
     color: #fff; /* สีขาว (ถ้าพื้นหลังเป็น #002060) */
     margin-bottom: 0.5rem;
+    text-align: left;
 }
 
 .contact .content-title p {
     color: #ffffff; /* เปลี่ยนสีข้อความให้เป็นสีขาว (ถ้าพื้นหลังเป็น #002060) */
     font-size: 1.1rem;
     max-width: 800px;
-    margin: 0 auto;
+    /* margin: 0 auto; */ /* ลบหรือคอมเมนต์บรรทัดนี้ออก */
+    margin: 0 1rem; /* เปลี่ยนเป็น 0 1rem เพื่อชิดซ้ายและมีระยะห่าง */
+    text-align: left; /* ทำให้ข้อความชิดซ้าย */
 }
 
 .contact-info-grid {
@@ -571,19 +577,19 @@ nav {
 
 /* Base style for each sidebar button */
 .sidebar-btn {
-    display: flex;         /* ทำให้เนื้อหาภายในปุ่ม (ไอคอน, ข้อความ) จัดเรียงด้วย Flexbox ได้ */
+    display: flex;       /* ทำให้เนื้อหาภายในปุ่ม (ไอคอน, ข้อความ) จัดเรียงด้วย Flexbox ได้ */
     align-items: center;   /* จัดแนวเนื้อหาในปุ่มให้อยู่กึ่งกลางในแนวตั้ง */
     justify-content: center; /* จัดแนวเนื้อหาในปุ่มให้อยู่กึ่งกลางในแนวนอน */
-    width: 50px;           /* กำหนดความกว้างของปุ่มแต่ละปุ่มให้เป็น 50px */
-    height: 50px;          /* กำหนดความสูงของปุ่มแต่ละปุ่มให้เป็น 50px */
+    width: 50px;             /* กำหนดความกว้างของปุ่มแต่ละปุ่มให้เป็น 50px */
+    height: 50px;            /* กำหนดความสูงของปุ่มแต่ละปุ่มให้เป็น 50px */
     background: linear-gradient(to right, #007bff, #0056b3); /* สีพื้นหลังไล่เฉดสีฟ้า (เป็นค่าเริ่มต้น) */
-    color: white;          /* สีของข้อความและไอคอนภายในปุ่ม */
-    border-radius: 50%;    /* ทำให้ปุ่มมีรูปร่างเป็นวงกลม */
+    color: white;            /* สีของข้อความและไอคอนภายในปุ่ม */
+    border-radius: 50%;      /* ทำให้ปุ่มมีรูปร่างเป็นวงกลม */
     text-decoration: none; /* ลบเส้นใต้ลิงก์ */
-    font-size: 1rem;       /* ขนาดตัวอักษรเริ่มต้น */
+    font-size: 1rem;         /* ขนาดตัวอักษรเริ่มต้น */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* เพิ่มเงาให้ปุ่มดูมีมิติ */
     transition: all 0.3s ease; /* ทำให้การเปลี่ยนแปลงเมื่อ Hover (เช่น transform, box-shadow) เป็นไปอย่างราบรื่น */
-    overflow: hidden;      /* ซ่อนเนื้อหาที่เกินขอบของปุ่ม (เช่น ข้อความ LINE ID) */
+    overflow: hidden;        /* ซ่อนเนื้อหาที่เกินขอบของปุ่ม (เช่น ข้อความ LINE ID) */
 }
 
 .sidebar-btn:hover {
@@ -591,8 +597,8 @@ nav {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* ทำให้เงาเข้มขึ้นเมื่อ Hover */
 }
 .sidebar-btn i {
-    font-size: 1.2em;      /* กำหนดขนาดของไอคอนให้ใหญ่กว่าขนาดตัวอักษรของปุ่มเล็กน้อย */
-    margin-right: 0;       /* ลบระยะห่างด้านขวาของไอคอน (เพราะปุ่มเป็นวงกลม ไม่มีข้อความหลัก) */
+    font-size: 1.2em;        /* กำหนดขนาดของไอคอนให้ใหญ่กว่าขนาดตัวอักษรของปุ่มเล็กน้อย */
+    margin-right: 0;         /* ลบระยะห่างด้านขวาของไอคอน (เพราะปุ่มเป็นวงกลม ไม่มีข้อความหลัก) */
 }
 
 /* Specific styles for different buttons (Optional - customize colors) */
@@ -641,7 +647,7 @@ nav {
 .clients-partners {
     padding: 2rem 0; /* padding บน-ล่าง 2rem, ซ้าย-ขวา 0 */
     background-color: #f8f8f8; /* สีพื้นหลังอ่อนๆ เพื่อให้ตัดกับ Section อื่น */
-    text-align: center; /* จัดกลางหัวข้อและข้อความเริ่มต้น */
+    /* text-align: center; */ /* ลบหรือคอมเมนต์บรรทัดนี้ออก */
 }
 
 /* หัวข้อ Client & Partners (ใช้สไตล์เดียวกับ .content-title ทั่วไป) */
@@ -649,8 +655,9 @@ nav {
     font-size: 2rem; /* ขนาดหัวข้อเท่ากับ Our Services / Projects */
     color: #002060; /* สีน้ำเงินเข้ม */
     margin-bottom: 0.5rem;
-    text-align: center; /* ให้หัวข้ออยู่ตรงกลาง */
-    padding-left: 0; /* ตรวจสอบให้แน่ใจว่าไม่มี padding-left ที่ทำให้มีจุด */
+    /* text-align: center; */ /* ลบหรือคอมเมนต์บรรทัดนี้ออก */
+    text-align: left; /* ทำให้หัวข้อชิดซ้าย */
+    padding-left: 1rem; /* เพิ่ม padding-left สำหรับ Desktop */
 }
 
 .clients-partners .content-title p {
@@ -658,9 +665,11 @@ nav {
     color: #555;
     margin-bottom: 2rem; /* ระยะห่างระหว่างคำอธิบายกับ Grid โลโก้ */
     max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+    /* margin-left: auto; */ /* ลบหรือคอมเมนต์บรรทัดนี้ออก */
+    /* margin-right: auto; */ /* ลบหรือคอมเมนต์บรรทัดนี้ออก */
+    margin: 0 1rem; /* เปลี่ยนเป็น 0 1rem เพื่อชิดซ้ายและมีระยะห่าง */
+    /* text-align: center; */ /* ลบหรือคอมเมนต์บรรทัดนี้ออก */
+    text-align: left; /* ทำให้ข้อความชิดซ้าย */
 }
 
 
@@ -754,7 +763,7 @@ nav {
         transform: translateX(0%);
     }
     /* เลื่อนไป 50% ของความกว้างทั้งหมดของ clients-grid
-       ซึ่งก็คือความกว้างของโลโก้ชุดแรกพอดี ทำให้เกิดการวนลูปไร้รอยต่อ */
+        ซึ่งก็คือความกว้างของโลโก้ชุดแรกพอดี ทำให้เกิดการวนลูปไร้รอยต่อ */
     100% {
         transform: translateX(-50%);
     }
@@ -772,19 +781,20 @@ nav {
         padding-top: 0.5rem;
         padding-bottom: 2rem;
         background-color: #002060;
-        text-align: left; /* ปรับให้ข้อความชิดซ้าย */
+        text-align: left !important; /* ปรับให้ข้อความชิดซ้าย */
     }
     .contact-title h3 {
-        font-size: 1.8rem; /* ปรับขนาดหัวข้อให้เล็กลง */
+        font-size: 1rem; /* ปรับขนาดหัวข้อให้เล็กลง */
         color: #fff; /* สีขาวสำหรับหัวข้อ */
         margin-bottom: 0.5rem;
-        text-align: left;
+        text-align: left !important;
     }
 
     /* ปรับ padding ของ contact-item-detail บนมือถือ */
     .contact-item-detail {
         padding: 1rem; /* <--- ลด padding โดยรวมของแต่ละช่องจาก 1.5rem เป็น 1rem */
         width: 100%;
+        text-align: left; /* ทำให้เนื้อหาใน contact item ชิดซ้าย */
     }
 
     /* ปรับ minmax ของ contact-info-grid บนมือถือ */
@@ -808,9 +818,7 @@ nav {
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         margin-right: 0;
         margin-bottom: 0;
-        height: 120px; /* ปรับความสูงสำหรับมือถือ */
-        object-fit: contain; /* มักใช้ contain บนมือถือ */
-        border: 1px solid #fff; /* ถ้าต้องการกรอบบนมือถือด้วย */
+        border: 1px solid #fff;  /* ถ้าต้องการกรอบบนมือถือด้วย */
         display: flex; /* <--- เพิ่ม */
         flex-direction: column; /* <--- เพิ่ม */
         align-items: center; /* <--- เพิ่ม */
@@ -1031,8 +1039,8 @@ nav {
     }
 
     /* เนื่องจากคุณมีโค้ด Media Query ซ้ำซ้อน 
-       ให้แน่ใจว่าคุณนำโค้ดทั้งหมดที่เกี่ยวข้องกับ max-width: 767px
-       มารวมอยู่ในบล็อกนี้เพียงบล็อกเดียว */
+        ให้แน่ใจว่าคุณนำโค้ดทั้งหมดที่เกี่ยวข้องกับ max-width: 767px
+        มารวมอยู่ในบล็อกนี้เพียงบล็อกเดียว */
 }
 
 /* Media Query for Tablet (min-width: 768px) - 2 items per row */
@@ -1061,7 +1069,23 @@ nav {
     .client-item img {
         max-width: 80px;
     }
-}
+    } 
+    .clients-partners .content-title h3{
+        text-align: left !important; /* ทำให้หัวข้อ Clients Partners ชิดซ้ายบน Tablet */
+        font-size: 2rem; /* ขนาดหัวข้อเท่ากับ Our Services / Projects */
+        color: #002060; /* สีน้ำเงินเข้ม */
+        margin-bottom: 0.5rem;
+        padding-left: 1rem; /* เพิ่ม padding-left สำหรับ Tablet */
+    }
+
+    .clients-partners .content-title p {
+        font-size: 1.1rem;
+        color: #002060;
+        margin-bottom: 2rem; /* ระยะห่างระหว่างคำอธิบายกับ Grid โลโก้ */
+        max-width: 800px;
+        margin: 0 1rem; /* เปลี่ยนเป็น 0 1rem เพื่อชิดซ้ายและมีระยะห่าง */
+        text-align: left; /* ทำให้ข้อความ Clients Partners ชิดซ้ายบน Tablet */
+    }
 
 /* Media Query for Desktop (min-width: 1024px) - 3 items per row */
 @media (min-width: 1024px) {
