@@ -4,6 +4,14 @@
     padding: 0;
     box-sizing: border-box;
 }
+.container{
+    max-width: 1400px;
+    margin: 0 auto;
+    /* เพิ่ม padding แนวนอนให้กับคอนเทนเนอร์เอง เพื่อระยะห่างภายในที่สอดคล้องกัน */
+    /* สิ่งนี้จะแทนที่ padding-left/right เฉพาะบน sections หรือ titles */
+    padding-left: 1rem; /* ปรับค่านี้ตามที่ต้องการเพื่อให้จัดเรียงกับไอเทมเมนู */
+    padding-right: 1rem; /* ทำให้สอดคล้องกับ padding-left */
+}
 
 /* HTML & Body for Sticky Footer */
 html{
@@ -63,7 +71,7 @@ body {
 
 section {
     min-height: 30vh;
-    padding: 1rem; /* ลด padding ด้านบนเพื่อให้ชิด maincontent */
+    padding: 1rem 0; /* ลด padding ด้านบนเพื่อให้ชิด maincontent */
     scroll-margin-top: 96px; /* ค่านี้สำหรับ Navbar height เพื่อ Scroll to section */
 }
 #company,
@@ -477,8 +485,6 @@ nav {
 .contact {
     padding-top: 0.5rem;
     padding-bottom: 2rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
     background-color: #002060; /* <--- เปลี่ยนสีพื้นหลังเป็นสีเดียวกับ maincontent (ถ้าต้องการ) */
 }
 
@@ -486,11 +492,10 @@ nav {
     /* text-align: center; */ /* ลบหรือคอมเมนต์บรรทัดนี้ออก */
     text-align: left; /* เพิ่มเพื่อจัดชิดซ้าย */
     margin-bottom: 2rem;
-    padding-left: 1rem; /* เพิ่ม padding-left สำหรับ Desktop */
 }
 
 .contact .content-title h3 {
-    font-size: 3rem; /* อาจจะใหญ่ไปสำหรับหัวข้อ contact ลองปรับเป็น 2.5rem หรือ 2rem */
+    font-size: 2rem; /* อาจจะใหญ่ไปสำหรับหัวข้อ contact ลองปรับเป็น 2.5rem หรือ 2rem */
     color: #fff; /* สีขาว (ถ้าพื้นหลังเป็น #002060) */
     margin-bottom: 0.5rem;
     text-align: left;
@@ -501,7 +506,7 @@ nav {
     font-size: 1.1rem;
     max-width: 800px;
     /* margin: 0 auto; */ /* ลบหรือคอมเมนต์บรรทัดนี้ออก */
-    margin: 0 1rem; /* เปลี่ยนเป็น 0 1rem เพื่อชิดซ้ายและมีระยะห่าง */
+    margin: 0 ; /* เปลี่ยนเป็น 0 1rem เพื่อชิดซ้ายและมีระยะห่าง */
     text-align: left; /* ทำให้ข้อความชิดซ้าย */
 }
 
@@ -657,7 +662,6 @@ nav {
     margin-bottom: 0.5rem;
     /* text-align: center; */ /* ลบหรือคอมเมนต์บรรทัดนี้ออก */
     text-align: left; /* ทำให้หัวข้อชิดซ้าย */
-    padding-left: 1rem; /* เพิ่ม padding-left สำหรับ Desktop */
 }
 
 .clients-partners .content-title p {
@@ -770,24 +774,27 @@ nav {
 }
 /* Media Queries (รวมบล็อกสำหรับ max-width: 767px) */
 @media screen and (max-width: 767px) {
+    .container {
+        padding-left: 0.5rem; /* ทำให้ตรงกับ padding ของ section ทั่วไปบนมือถือ */
+        padding-right: 0.5rem;
+    }
      section{ /* นี้คือ style ของ section ทั่วไป */
-        padding-left: 0.5rem; /* <--- ตรงนี้ */
-        padding-right: 0.5rem; /* <--- ตรงนี้ */
+        padding-left: 0; /* <--- ตรงนี้ */
+        padding-right: 0; /* <--- ตรงนี้ */
     }
 
     .contact {
-        padding-left: 0.5rem; /* ลดลงเหลือ 0.5rem */
-        padding-right: 0.5rem; /* ลดลงเหลือ 0.5rem */
-        padding-top: 0.5rem;
-        padding-bottom: 2rem;
         background-color: #002060;
         text-align: left !important; /* ปรับให้ข้อความชิดซ้าย */
     }
     .contact-title h3 {
-        font-size: 1rem; /* ปรับขนาดหัวข้อให้เล็กลง */
+        font-size: 2rem; /* ปรับขนาดหัวข้อให้เล็กลง */
         color: #fff; /* สีขาวสำหรับหัวข้อ */
         margin-bottom: 0.5rem;
         text-align: left !important;
+        padding-left: 0 !important; /* ตรวจสอบให้แน่ใจว่าถูกรีเซ็ตหากกฎก่อนหน้ายังคงอยู่ */
+        margin-left: 0 !important;
+        margin-right: 0 !important
     }
 
     /* ปรับ padding ของ contact-item-detail บนมือถือ */
@@ -959,7 +966,7 @@ nav {
     }
     .content .content-title h3 {
         padding-left: 0;
-        font-size: 1.8rem;
+        font-size: 2rem;
         text-align: left;
     }
     .content .content-title p:not(:first-child) {
@@ -1045,6 +1052,10 @@ nav {
 
 /* Media Query for Tablet (min-width: 768px) - 2 items per row */
 @media (min-width: 768px) {
+    .container {
+        padding-left: 1rem; /* ปรับสำหรับแท็บเล็ตหากจำเป็น เช่น 1rem หรือ 20px */
+        padding-right: 1rem;
+    }
     .content-item,
     .projectcontent-item { /* รวม selector */
         flex: 0 0 calc(50% - 10px);
@@ -1075,7 +1086,9 @@ nav {
         font-size: 2rem; /* ขนาดหัวข้อเท่ากับ Our Services / Projects */
         color: #002060; /* สีน้ำเงินเข้ม */
         margin-bottom: 0.5rem;
-        padding-left: 1rem; /* เพิ่ม padding-left สำหรับ Tablet */
+        padding-left: 0 !important; /* ตรวจสอบให้แน่ใจว่าถูกรีเซ็ตหากกฎก่อนหน้ายังคงอยู่ */
+        margin-left: 0 !important;
+        margin-right: 0 !important
     }
 
     .clients-partners .content-title p {
@@ -1089,6 +1102,10 @@ nav {
 
 /* Media Query for Desktop (min-width: 1024px) - 3 items per row */
 @media (min-width: 1024px) {
+    .container {
+        padding-left: 2rem; /* หรือปรับให้เป็นค่าที่ทำให้จัดเรียงกับเมนูของคุณ */
+        padding-right: 2rem;
+    }
     .content-item,
     .projectcontent-item { /* รวม selector */
         flex: 0 0 calc(33.3333% - 13.3333px);
@@ -1114,4 +1131,13 @@ nav {
     .client-item img {
         max-width: 100px;
     }
-}
+    }   
+    .clients-partners .content-title h3,
+    .clients-partners .content-title p,
+    .contact .content-title h3,
+    .contact .content-title p {
+        padding-left: 0 !important; /* ตรวจสอบให้แน่ใจว่าถูกรีเซ็ตหากกฎก่อนหน้ายังคงอยู่ */
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        text-align: left !important;
+    }
