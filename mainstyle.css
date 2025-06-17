@@ -836,6 +836,20 @@ nav {
         height: 120px; /* ปรับสำหรับมือถือ */
         object-fit: contain;
     }
+
+    .projectcontent-item h4 {
+        /* ปรับสีให้ตรงตามที่คุณต้องการในส่วน Project (สีน้ำเงิน) */
+        color: #002060;
+        margin-top: 1rem;
+        font-size: 1.2rem;
+    }
+     .projectcontent-item p {
+        /* ปรับสีให้ตรงตามที่คุณต้องการในส่วน Project (สีน้ำเงิน) */
+        color: #002060;
+        margin: 1rem 0;
+        text-align: left;
+    }
+
     /* --- Navbar (ไม่ Fixed บนมือถือ) --- */
     nav {
         position: static; /* ทำให้ Navbar ไม่ตรึงอยู่กับที่ */
@@ -1058,18 +1072,34 @@ nav {
     }
     .content-item,
     .projectcontent-item { /* รวม selector */
-        flex: 0 0 calc(50% - 10px);
-        width: calc(50% - 10px);
+        flex: 0 0 100%;
+        width: 100%;
+        box-sizing: border-box;
         scroll-snap-align: start;
+        padding: 15px;
+        border: 1px solid #eee; /* หรือ #002060 ถ้าต้องการกรอบสีน้ำเงิน */
+        border-radius: 8px;
+        text-align: left;
+        background-color: #fff; /* content-item มีพื้นหลัง #002060, projectcontent-item มีพื้นหลัง #fff */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-right: 0;
         margin-bottom: 0;
+        /* border: 1px solid #fff; */ /* บรรทัดนี้อาจซ้ำซ้อนหรืออาจต้องปรับให้เป็นสีที่ต้องการ */
+        display: flex; /* <-- สำคัญ: ทำให้เป็น flex container */
+        flex-direction: column; /* <-- สำคัญ: จัดเรียงเนื้อหาในแนวตั้ง */
+        align-items: center; /* <-- สำคัญ: จัดกลางเนื้อหา (รวมถึงรูปภาพ) */
+        justify-content: flex-start; /* จัดเนื้อหาเริ่มจากด้านบน */
     }
     .content-item img,
     .projectcontent-item img { /* รวม selector */
-        max-width: 100%; 
-        height: 120px; /* อาจจะลดความสูงลงเล็กน้อย */
-        object-fit: contain; /* ทำให้รูปภาพแสดงเต็มไม่ถูกตัด */
-        height: 150px; /* ปรับความสูงสำหรับ Tablet */
-        border: 1px solid #fff; /* ถ้าต้องการกรอบบน Tablet ด้วย *//
+        width: 100%; /* <-- ทำให้รูปภาพขยายเต็มความกว้างของ parent */
+        height: 180px; /* <-- ปรับความสูงสำหรับมือถือ (ตัวอย่าง: 150px หรือ 180px) */
+        object-fit: cover; /* <-- สำคัญ: เพื่อให้รูปภาพครอบคลุมพื้นที่โดยไม่บิดเบี้ยว */
+        /* ถ้า object-fit: contain รูปจะแสดงผลครบถ้วนแต่มีขอบว่าง */
+        /* ถ้า object-fit: cover รูปจะถูกครอบตัดเพื่อให้เต็มพื้นที่ */
+        border-radius: 4px;
+        margin-bottom: 10px;
+        border: 2px solid #fff; /* หรือสีที่คุณต้องการสำหรับกรอบรูป */
     }
 
     /* สำหรับ Tablet (Clients Section) */
