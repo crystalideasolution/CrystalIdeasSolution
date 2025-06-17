@@ -282,45 +282,81 @@ nav {
 }
 
 /* Base style for content items (Services and Projects) - For Mobile (1 item per row) */
-.content-item,
-.projectcontent-item { /* รวม selector */
-    flex: 0 0 100%;
-    width: 100%;
+.content-item { /* รวม selector */
+    flex-shrink: 0;
+    width: 100%; /* ความกว้างพื้นฐานสำหรับมือถือ, จะถูกปรับใน media queries */
     box-sizing: border-box;
-    scroll-snap-align: start;
-    padding: 15px; /* ทำให้เหมือน content-item */
-    border: 1px solid #eee;
+    padding: 15px; /* Padding ภายในตัวการ์ด */
+    border: 1px solid #002060; /* <--- เปลี่ยน #eee เป็นสีน้ำเงินที่คุณต้องการ (เช่น #002060) */
     border-radius: 8px;
-    text-align: center;
-    background-color: #fff;
+    background-color: #002060 !important; /* คงพื้นหลังสีขาวไว้ */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-right: 0;
-    margin-bottom: 0; /* ลบ margin-bottom ที่เคยมีใน projectcontent-item */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.projectcontent .projectcontent-item {
+    flex-shrink: 0;
+    width: 100%; /* ความกว้างพื้นฐานสำหรับมือถือ, จะถูกปรับใน media queries */
+    box-sizing: border-box;
+    padding: 15px; /* Padding ภายในตัวการ์ด */
+    border: 1px solid #002060; /* <--- เปลี่ยน #eee เป็นสีน้ำเงินที่คุณต้องการ (เช่น #002060) */
+    border-radius: 8px;
+    background-color: #fff; /* คงพื้นหลังสีขาวไว้ */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.product-image-container { /* เปลี่ยน .product-image-container เป็นชื่อ class/id ที่คุณหาเจอ */
+    width: 100%;       /* ทำให้คอนเทนเนอร์กว้าง 100% ของ parent (เช่น .product-card) */
+    padding: 0;        /* ลบ padding ด้านในออก หากมี */
+    margin: 0;         /* ลบ margin ด้านนอกออก หากมี */
+    overflow: hidden;
+}
+.image-wrapper {
+    /* ลบหรือปรับค่าที่จำกัดความกว้างและ padding ของรูปภาพ */
+    width: 100%; /* ทำให้เต็มความกว้างของ parent (คือ .card) */
+    padding: 0;  /* ลบ padding ที่อาจทำให้รูปหดลง */
+    margin: 0;   /* ลบ margin ที่อาจทำให้เกิดช่องว่าง */
+    box-sizing: border-box; /* สำคัญ: ตรวจสอบว่า padding/border ไม่ดัน content ออกไป */
 }
 
 /* Base image style for content items (Services and Projects) */
 .content-item img,
 .projectcontent-item img { /* รวม selector และปรับปรุง */
-    max-width: 100%;
-    height: 150px; /* กำหนดความสูงเริ่มต้นสำหรับ Mobile เพื่อควบคุมการแสดงผล */
-    display: block;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    object-fit: cover; /* สำคัญ: เพื่อไม่ให้รูปภาพบิดเบี้ยว */
+   width: 100%; /* ทำให้รูปภาพกว้าง 100% ของคอนเทนเนอร์ */
+    height: 180px; /* ปรับความสูงนี้ตามที่ต้องการสำหรับ Desktop/ฐาน */
+    object-fit: cover; /* หรือ 'contain' ขึ้นอยู่กับความชอบของคุณ */
+    border-radius: 4px; /* ทำให้มุมของรูปมนเล็กน้อย */
+    margin-bottom: 10px; /* ระยะห่างใต้รูปภาพ */
+    display: block; /* ลบช่องว่างส่วนเกินใต้รูปภาพ */
+    border: 2px solid #fff; /* กรอบขนาด 2px เส้นทึบ สีขาว */
 }
-
-.content-item h4,
+.content-item h4{ /* รวม selector */
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: #fff;
+}
 .projectcontent-item h4 { /* รวม selector */
     margin-top: 1rem;
     font-size: 1.2rem;
+    color: #002060;
+}
+.content-item p { /* รวม selector */
+    margin: 1rem 0;
+    text-align: left;
+    color: #fff;
 }
 
-.content-item p,
 .projectcontent-item p { /* รวม selector */
     margin: 1rem 0;
     text-align: left;
+    color: #002060;
 }
-
 .content-item a,
 .projectcontent-item a { /* รวม selector */
     display: inline-block;
@@ -393,12 +429,36 @@ nav {
 
 /* Project Content Section */
 .projectcontent {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;     
-    padding-left: 1rem;
-    padding-right: 0.5rem;
-    /* padding: 1rem; <--- บรรทัดนี้ซ้ำซ้อนและจะทับค่า padding-top, bottom, left, right ที่ระบุไว้ข้างบน */
-    background-color: #002060; /* เปลี่ยนสีพื้นหลังเป็นสีเดียวกับ maincontent */
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    background-color: #002060;
+    
+}
+
+/* หยุด animation เมื่อวางเมาส์เหนือ (เลือกได้) */
+.projectcontent:hover {
+    animation-play-state: paused;
+}
+.projectcontent-item {
+    flex-shrink: 0;
+    margin-right: 20px;
+    width: 250px; /* ปรับขนาดตามต้องการ */
+    animation: scrollProjects 90s linear infinite; /* Animation ที่ทำให้เลื่อน */
+}
+/* กำหนด animation สำหรับการเลื่อน */
+@keyframes scrollProjects {
+    0% {
+        transform: translateX(0); /* เริ่มต้นที่ตำแหน่งเดิม */
+    }
+    100% {
+        /* ปรับค่านี้ตามความกว้างรวมของเนื้อหาที่ซ้ำกัน */
+        /* ตัวอย่าง: ถ้ามี 3 ไอเทม กว้าง 250px + margin 20px, รวมเป็น (250+20)*3 = 810px */
+        /* โดยทั่วไปคุณจะต้องเลื่อนให้เท่ากับความกว้างของชุดไอเทมหนึ่งชุดก่อนที่จะวนซ้ำ */
+        /* การทำซ้ำเนื้อหาใน HTML จะช่วยให้การวนซ้ำเป็นไปอย่างราบรื่น */
+        transform: translateX(-100%); /* เลื่อนไปทางซ้ายเท่ากับความกว้างของคอนเทนเนอร์ */
+    }
 }
 
 .projectcontent-title {
@@ -433,7 +493,7 @@ nav {
 }
 
 .contact .content-title p {
-    color: #fff; /* เปลี่ยนสีข้อความให้เป็นสีขาว (ถ้าพื้นหลังเป็น #002060) */
+    color: #ffffff; /* เปลี่ยนสีข้อความให้เป็นสีขาว (ถ้าพื้นหลังเป็น #002060) */
     font-size: 1.1rem;
     max-width: 800px;
     margin: 0 auto;
@@ -453,7 +513,6 @@ nav {
     padding: 1.5rem;
     text-align: left;
 }
-
 .contact-item-detail h4 {
     font-size: 1.5rem;
     color: #002060;
@@ -465,8 +524,8 @@ nav {
 
 .contact-item-detail p {
     margin-bottom: 0.8rem;
-    line-height: 1.6;
-    color: #333;
+    line-height: 1;
+    color: #002060;
 }
 
 .contact-item-detail i {
@@ -660,7 +719,7 @@ nav {
 .clients-grid {
     display: flex; /* ใช้ Flexbox เพื่อจัดเรียงโลโก้ในแนวนอน */
     flex-wrap: nowrap; /* ทำให้รายการไม่ขึ้นบรรทัดใหม่ */
-    animation: scrollLogos 30s linear infinite; /* ปรับเวลาสำหรับความเร็วที่ต้องการ (เช่น 30s) */
+    animation: scrollLogos 90s linear infinite; /* ปรับเวลาสำหรับความเร็วที่ต้องการ (เช่น 30s) */
 }
 
 .client-item {
@@ -742,7 +801,9 @@ nav {
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         margin-right: 0;
         margin-bottom: 0;
-        
+        height: 120px; /* ปรับความสูงสำหรับมือถือ */
+        object-fit: contain; /* มักใช้ contain บนมือถือ */
+        border: 1px solid #fff; /* ถ้าต้องการกรอบบนมือถือด้วย */
         display: flex; /* <--- เพิ่ม */
         flex-direction: column; /* <--- เพิ่ม */
         align-items: center; /* <--- เพิ่ม */
@@ -750,15 +811,8 @@ nav {
 
     .content-item img,
     .projectcontent-item img {
-        max-width: 100%;
-        height: 120px;
+        height: 120px; /* ปรับสำหรับมือถือ */
         object-fit: contain;
-        border-radius: 4px;
-        margin-bottom: 10px;
-
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
     }
     /* --- Navbar (ไม่ Fixed บนมือถือ) --- */
     nav {
@@ -984,6 +1038,8 @@ nav {
         max-width: 100%; 
         height: 120px; /* อาจจะลดความสูงลงเล็กน้อย */
         object-fit: contain; /* ทำให้รูปภาพแสดงเต็มไม่ถูกตัด */
+        height: 150px; /* ปรับความสูงสำหรับ Tablet */
+        border: 1px solid #fff; /* ถ้าต้องการกรอบบน Tablet ด้วย *//
     }
 
     /* สำหรับ Tablet (Clients Section) */
@@ -1011,6 +1067,9 @@ nav {
         height: 200px; /* กำหนดความสูงตายตัวสำหรับ Desktop */
         object-fit: cover; /* ครอปรูปภาพให้พอดีกับความสูงและความกว้าง */
         border-radius: 8px 8px 0 0; /* คงการโค้งมนที่มุมด้านบน */
+        height: 200px; /* ความสูงคงที่สำหรับ Desktop */
+        object-fit: cover; /* มักใช้ cover บน Desktop */
+        border: 2px solid #fff; /* ถ้าต้องการกรอบบน Desktop ด้วย */
     }
     /* สำหรับ Desktop (Clients Section) - ปรับถ้าต้องการให้ Clients-grid มีคอลัมน์มากกว่า 3 */
     .clients-grid {
