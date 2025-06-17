@@ -946,6 +946,9 @@ nav {
         margin: 1rem 1rem;
         text-align: left;
     }
+    .content-title p{
+        text-align: left;
+    }
     .content .content-title h3 {
         padding-left: 0;
         font-size: 1.8rem;
