@@ -23,11 +23,12 @@
             overflow-y: auto;  /* ให้เลื่อนถ้ามีเนื้อหาเยอะ */
         }
         .product-detail img {
-            margin-top: 20px;
-            width: 100%;
-            max-height: 400px;
-            object-fit: cover;
-            border-radius: 10px;
+            width: 100%;       /* ทำให้รูปภาพกว้าง 100% ของ parent element */
+            height: 80%;      /* ปรับความสูงอัตโนมัติเพื่อรักษาสัดส่วน ไม่ให้รูปบิดเบี้ยว */
+            /* object-fit ไม่จำเป็นต้องใช้ ถ้าต้องการให้รูปเต็มและรักษาสัดส่วนปกติ */
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: block; 
         }
         .back-btn {
             display: inline-block;
