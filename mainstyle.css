@@ -454,7 +454,7 @@ nav {
     flex-shrink: 0;
     margin-right: 20px;
     width: 250px; /* ปรับขนาดตามต้องการ */
-    animation: scrollProjects 90s linear infinite; /* Animation ที่ทำให้เลื่อน */
+    animation: scrollProjects 10s linear infinite; /* Animation ที่ทำให้เลื่อน */
 }
 /* กำหนด animation สำหรับการเลื่อน */
 @keyframes scrollProjects {
@@ -732,7 +732,7 @@ nav {
 .clients-grid {
     display: flex; /* ใช้ Flexbox เพื่อจัดเรียงโลโก้ในแนวนอน */
     flex-wrap: nowrap; /* ทำให้รายการไม่ขึ้นบรรทัดใหม่ */
-    animation: scrollLogos 90s linear infinite; /* ปรับเวลาสำหรับความเร็วที่ต้องการ (เช่น 30s) */
+    animation: scrollLogos 10s linear infinite; /* ปรับเวลาสำหรับความเร็วที่ต้องการ (เช่น 30s) */
 }
 
 .client-item {
@@ -825,7 +825,7 @@ nav {
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         margin-right: 0;
         margin-bottom: 0;
-        border: 1px solid #fff;  /* ถ้าต้องการกรอบบนมือถือด้วย */
+       /* border: 1px solid #fff;   ถ้าต้องการกรอบบนมือถือด้วย */
         display: flex; /* <--- เพิ่ม */
         flex-direction: column; /* <--- เพิ่ม */
         align-items: center; /* <--- เพิ่ม */
