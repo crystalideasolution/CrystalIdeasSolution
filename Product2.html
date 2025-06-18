@@ -9,19 +9,22 @@
         body {
             font-family: 'Nunito Sans', sans-serif;
             margin: 0;
-            background-color: #fff;
             background-size: cover;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('Background.png') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-attachment: fixed !important;
         }
         .product-detail {
             width: 100vw;      /* เต็มความกว้างหน้าจอ */
             height: 100vh;     /* เต็มความสูงหน้าจอ */
             padding: 2rem;
-            background: white;
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 0;  /* ถ้าไม่ต้องการโค้ง */
             box-shadow: none;  /* ลบเงา ถ้าไม่ต้องการ */
             box-sizing: border-box;
             overflow-y: auto;  /* ให้เลื่อนถ้ามีเนื้อหาเยอะ */
-
         }
         .product-detail img {
             width: 100%;       /* ทำให้รูปภาพกว้าง 100% ของ parent element */
@@ -30,6 +33,7 @@
             border-radius: 4px;
             margin-bottom: 10px;
             display: block; 
+            border: 2px solid #002060;
         }
         .back-btn {
             display: inline-block;
