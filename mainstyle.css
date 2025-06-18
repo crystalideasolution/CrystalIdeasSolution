@@ -17,7 +17,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-    padding-top: 0px; /* ค่าเริ่มต้นสำหรับ Desktop (Navbar Fixed) */
+    padding-top: 78px; /* ค่าเริ่มต้นสำหรับ Desktop (Navbar Fixed) */
 }
 
 .main-content-area {
@@ -72,7 +72,6 @@ nav {
     padding: 0.5rem; /* Padding สำหรับ Desktop */
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     /* **เพิ่ม relative positioning ให้ nav เพื่อให้ nav-end absolute อ้างอิงได้** */
-    position: relative; /* <--- เพิ่มตรงนี้เพื่อเป็น reference point ให้ nav-end */
 }
 .nav-con {
     display: flex;
@@ -294,16 +293,15 @@ nav {
 .gmail-btn { background: linear-gradient(to right, #f99b03, #d88a0f) !important; }
 .gmail-btn:hover { background: linear-gradient(to right, #d88a0f, #f09d18) !important; }
 
-
 /* --- Media Queries --- */
 
 /* Mobile (max-width: 767px) */
 @media screen and (max-width: 767px) {
     .container { padding-left: 0.5rem; padding-right: 0.5rem; }
-    body { padding-top: 0 !important; }
+    body { padding-top: 78px !important; }
 
     /* Navbar */
-    nav { position: relative; box-shadow: none; padding: 0; min-height: 80px }
+    nav { box-shadow: none; padding: 0; min-height: 80px }
     section { min-height: auto; padding: 0.5rem 0; } /* ปรับ section ทั่วไป */
     .logo img { height: 60px; /* ลดขนาดโลโก้ให้เล็กลง */ }
     .nav-con {
@@ -339,7 +337,7 @@ nav {
     .maincontent-info p { font-size: 0.95rem; margin: 0.8rem auto; color: #fff; }
     .maincontent-info .maincontent-btn { padding: 0.8rem 1.5rem; font-size: 0.9rem; }
     .maincontent-img { width: 100%; padding: 0.5rem; }
-    .maincontent-img img { max-width: 100%; height: auto; max-height: 250px; }
+    .maincontent-img img { max-width: 100%; height: auto; max-height: 400px; }
 
     /* Content / Project Items */
     .content-item, .projectcontent-item {
