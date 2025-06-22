@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Crystal Ideas Solution: Vinyl Projects - High-quality inkjet vinyl printing for various advertising applications.">
+    <title>Crystal Ideas Solution - งานโปรเจกต์</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> 
+
+    <style>
+        /* General Resets */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* HTML & Body styling */
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #002060; /* สีพื้นหลังหลัก */
+            color: #fff;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            padding-top: 78px; /* ชดเชย Navbar fixed (ถ้ามี Navbar ในหน้าหลัก) */
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem; /* Consistent horizontal padding */
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        /* Header (Navbar จำลอง หรือ Header ของหน้านี้) */
+        header {
+            position: fixed; /* ทำให้ Header อยู่ด้านบนเสมอ */
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff; /* สีน้ำเงินเข้ม */
+            color: #002060;
+            padding: 0.5rem 0; /* ปรับ padding ให้เหมาะสมกับโลโก้ */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1000; /* ให้ Header อยู่บนสุด */
+        }
+        /* *** การจัดวาง Flexbox สำหรับเนื้อหาใน Header *** */
+        header .header-content { /* คลาสที่เพิ่มใน div.container ของ header */
+            display: flex;
+            align-items: center; /* จัดกึ่งกลางแนวตั้ง */
+            justify-content: space-between; /* จัดกระจาย โลโก้ซ้าย ข้อความขวา */
+            gap: 20px; /* ระยะห่างระหว่างโลโก้กับข้อความ */
+        }
+        header .logo img { /* สไตล์สำหรับโลโก้ภายใน Header */
+            height: 60px; /* ขนาดโลโก้ */
+            width: auto;
+            display: block;
+        }
+        header .header-text { /* สไตล์สำหรับ h1 และ p ที่อยู่ข้างโลโก้ */
+            flex-grow: 1; /* ให้ส่วนข้อความยืดเต็มพื้นที่ที่เหลือ */
+            text-align: right; /* จัดข้อความให้ชิดขวา */
+        }
+        header h1 {
+            font-size: 1.8rem; /* ปรับขนาดฟอนต์ให้เข้ากับโลโก้ */
+            margin-bottom: 5px; /* ระยะห่างด้านล่าง h1 */
+            line-height: 1.2;
+        }
+        header p { /* มีในหน้าหลัก (index.html) ไม่มีในหน้านี้ (Project1.html) */
+            font-size: 0.9rem; /* ปรับขนาดฟอนต์ p */
+            opacity: 0.9;
+            margin: 0; /* ลบ margin เริ่มต้นของ p */
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex-grow: 1;
+            padding: 3rem 0; /* Vertical padding for content sections */
+        }
+
+        /* Project Section Header (Title & Description) */
+        .project-section-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            color: #fff; /* สีน้ำเงินเข้ม */
+        }
+        .project-section-header h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+        .project-section-header p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #555;
+        }
+
+        /* Gallery Grid Layout */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px; /* ระยะห่างระหว่างรูปภาพ */
+            margin-top: 2rem;
+        }
+
+        /* Individual Gallery Item (Image Card) */
+        .gallery-item { 
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            overflow: hidden; /* เพื่อให้รูปภาพไม่ล้นขอบโค้ง */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        /* รูปภาพในแกลเลอรี่ (ค่าเริ่มต้น) */
+        .gallery-item img {
+            width: 100%;
+            height: 300px; /* ค่าเริ่มต้นความสูงของรูปภาพในแกลเลอรี่ */
+            object-fit: cover; /* ครอบตัดรูปภาพให้เต็มกรอบ */
+            display: block;
+        }
+
+        /* *** กำหนดความสูงเฉพาะสำหรับรูปภาพแต่ละรูปในแกลเลอรี่ *** */
+        .gallery-item img.img-custom-1 { height: 1600px; width: 100%;}  
+
+        .gallery-item-info {
+            padding: 15px;
+            flex-grow: 1; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; /* จัดเรียงไอคอน, h3, p ให้อยู่กึ่งกลางในแนวนอน */
+            justify-content: flex-start; 
+        }
+        /* *** สไตล์สำหรับไอคอนในแกลเลอรี่ *** */
+        .gallery-item-info .gallery-icon {
+            font-size: 2.5rem; /* ขนาดไอคอน */
+            color: #f09d18; /* สีไอคอน */
+            margin-bottom: 10px; /* ระยะห่างระหว่างไอคอนกับหัวข้อ */
+        }
+        .gallery-item-info h3 {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-bottom: 8px;
+            text-align: center; 
+        }
+        .gallery-item-info p {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.5;
+            flex-grow: 1;
+            text-align: center; 
+        }
+
+        /* Back Button */
+        .back-button-container {
+            text-align: center;
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+        }
+        .back-button {
+            display: inline-block;
+            background-color: #f09d18; /* สีส้ม */
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .back-button:hover {
+            background-color: #d88a0f;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #fff;
+            color: #002060;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 1rem;
+            margin-top: auto; 
+        }
+        footer span {
+            color: #002060; 
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header .header-content { /* ปรับ header บนจอเล็ก */
+                flex-direction: column;
+                text-align: left;
+                gap: 10px;
+            }
+            header .logo img { /* ปรับโลโก้บนจอเล็ก */
+                height: 50px;
+            }
+            header h1 { font-size: 1.5rem; margin-bottom: 0; } 
+            header p { font-size: 0.8rem; margin: 0; } 
+
+            .main-content { padding: 2rem 0; }
+            .project-section-header h2 { font-size: 2rem; }
+            .project-section-header p { font-size: 0.9rem; padding: 0 0.5rem; }
+            .container { padding: 0 1rem; }
+            .gallery-grid { gap: 15px; } 
+            .gallery-item img { height: 180px; } 
+            .gallery-item img.img-custom-1 { height: 200px; } 
+            .gallery-item img.img-custom-2 { height: 150px; } 
+            .gallery-item img.img-custom-3 { height: 220px; }
+            .gallery-item img.img-custom-4 { height: 190px; }
+            .gallery-item img.img-custom-5 { height: 210px; }
+            .gallery-item img.img-custom-6 { height: 160px; }
+
+            .gallery-item-info .gallery-icon {
+                font-size: 2rem; 
+                margin-bottom: 8px;
+            }
+            .gallery-item-info { padding: 10px; }
+            .gallery-item-info h3 { font-size: 1.2rem; }
+            .gallery-item-info p { font-size: 0.85rem; }
+            .back-button { padding: 10px 20px; font-size: 0.9rem; }
+        }
+
+        @media (max-width: 576px) { /* สำหรับ Mobile เล็ก */
+            body {
+                padding-top: 60px; 
+            }
+            header h1 { font-size: 1.2rem; } 
+            header p { font-size: 0.7rem; } 
+            header .logo img { /* ปรับโลโก้บนจอเล็ก */
+                height: 50px;
+            }
+
+            .project-section-header h2 { font-size: 1.8rem; margin-bottom: 1rem; }
+            .project-section-header p { font-size: 0.85rem; }
+            .gallery-item img { height: 150px; } 
+            .gallery-item-info .gallery-icon { font-size: 1.8rem; margin-bottom: 5px; }
+            .gallery-item-info h3 { font-size: 1.1rem; }
+            .gallery-item-info p { font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content"> <div class="logo">
+                <a href="#"> <img src="CIS1.jpg" alt="Crystal Ideas Solution Logo"></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <section class="project-section-header">
+                <h2 data-en="REFERENCE" data-th="Reference">ผลงาน</h2>
+            </section>
+
+            <section class="gallery">
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="ProjectOther.jpg" alt="ตัวอย่างงานไวนิล 1" class="img-custom-1">
+                        <div class="gallery-item-info">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="back-button-container">
+                <a href="index.html#project" class="back-button">
+                    <i class="fas fa-arrow-left"></i> กลับไปหน้าหลัก
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            © 2025 Crystal Ideas Solution Co., Ltd. <span data-en="All Right Reserved." data-th="สงวนลิขสิทธิ์.">All Right Reserved.</span>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const langElements = document.querySelectorAll('[data-en], [data-th]');
+            const savedLang = localStorage.getItem('selectedLang') || 'th'; 
+
+            function setPageLanguage(lang) {
+                langElements.forEach(el => {
+                    if (el.dataset[lang]) {
+                        el.innerHTML = el.dataset[lang];
+                    }
+                });
+            }
+            setPageLanguage(savedLang);
+        });
+    </script>
+</body>
+</html>
