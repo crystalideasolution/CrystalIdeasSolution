@@ -3,64 +3,318 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>รายละเอียดสินค้า - Crystal Ideas Solution</title>
-    <link rel="stylesheet" href="mainstyle.css"> <!-- ใช้ CSS เดิม -->
+    <meta name="description" content="Crystal Ideas Solution: Vinyl Product - Detailed information about high-quality inkjet vinyl.">
+    <title>Crystal Ideas Solution - รายละเอียดสินค้า</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
+        /* General Resets */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* HTML & Body styling */
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+
         body {
             font-family: 'Nunito Sans', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
             margin: 0;
+            background-color: #002060; /* Light background */
+            color: #333;
+            /* พื้นหลังตามที่คุณเคยระบุ */
             background-size: cover;
-            background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('Background.png') !important;
-            background-size: cover !important;
-            background-position: center !important;
-            background-repeat: no-repeat !important;
-            background-attachment: fixed !important;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            padding-top: 78px; /* ชดเชย Navbar fixed ของหน้าหลัก (ถ้ามี Navbar ที่นี่ด้วย) */
         }
-       .product-detail {
-            width: 100vw;      /* เต็มความกว้างหน้าจอ */
-            height: 100vh;     /* เต็มความสูงหน้าจอ */
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 0;  /* ถ้าไม่ต้องการโค้ง */
-            box-shadow: none;  /* ลบเงา ถ้าไม่ต้องการ */
+
+        /* Container เหมือนหน้าหลัก */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
             box-sizing: border-box;
-            overflow-y: auto;  /* ให้เลื่อนถ้ามีเนื้อหาเยอะ */
+            width: 100%;
         }
-        .product-detail img {
-            width: 100%;       /* ทำให้รูปภาพกว้าง 100% ของ parent element */
-            height: 80%;      /* ปรับความสูงอัตโนมัติเพื่อรักษาสัดส่วน ไม่ให้รูปบิดเบี้ยว */
-            /* object-fit ไม่จำเป็นต้องใช้ ถ้าต้องการให้รูปเต็มและรักษาสัดส่วนปกติ */
-            border-radius: 4px;
-            margin-bottom: 10px;
-            display: block; 
-            border: 2px solid #002060;
+
+        /* Header (Navbar จำลอง ถ้าหน้านี้ไม่มี Navbar จริง) */
+        header {
+            position: fixed; /* ทำให้ Navbar อยู่ด้านบนเสมอ */
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff; /* สีน้ำเงินเข้ม */
+            color: #002060;
+            padding: 0.5rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1000; /* ให้ Navbar อยู่บนสุด */
+        }
+        /* *** การจัดวาง Flexbox สำหรับเนื้อหาใน Header *** */
+        header .header-content { /* คลาสที่เพิ่มใน div.container ของ header */
+            display: flex;
+            align-items: center; /* จัดกึ่งกลางแนวตั้ง */
+            justify-content: space-between; /* จัดกระจาย โลโก้ซ้าย ข้อความขวา */
+            gap: 20px; /* ระยะห่างระหว่างโลโก้กับข้อความ */
+        }
+        header .logo img { /* สไตล์สำหรับโลโก้ภายใน Header */
+            height: 60px; /* ขนาดโลโก้ */
+            width: auto;
+            display: block;
+        }
+        header .header-text { /* สไตล์สำหรับ h1 ที่อยู่ข้างโลโก้ */
+            flex-grow: 1; /* ให้ส่วนข้อความยืดเต็มพื้นที่ที่เหลือ */
+            text-align: left; /* จัดข้อความให้ชิดขวา */
+        }
+        header h1 {
+            font-size: 1.8rem; /* ปรับขนาดฟอนต์ให้เข้ากับโลโก้ */
+            margin-bottom: 0; /* ลบ margin-bottom ออก */
+            line-height: 1.2;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex-grow: 1;
+            padding: 3rem 0; /* Vertical padding for content sections */
+        }
+
+        /* Product Detail Wrapper (กรอบเนื้อหาหลักของหน้ารายละเอียดสินค้า) */
+        .product-detail-wrapper {
+            background-color: rgba(255, 255, 255, 0.9); /* พื้นหลังโปร่งแสง */
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 1000px; /* จำกัดความกว้างสูงสุดของเนื้อหา Product */
+            margin: 0 auto; /* จัดกึ่งกลาง */
+        }
+
+        /* Product Title */
+        .product-title {
+            font-size: 2.5rem;
+            color: #002060;
+            text-align: center;
+            margin-bottom: 2rem;
+            display: inline-block; /* ทำให้ h1 มีความกว้างเท่าเนื้อหาเท่านั้น */
+            position: relative; /* จำเป็นสำหรับ ::after absolute positioning */
+            padding-bottom: 5px; /* เว้นช่องว่างใต้ข้อความสำหรับเส้น */
+        }
+
+        .product-title::after {
+            content: '';
+            display: block;
+            width: 100%; /* จะกว้างเท่า h1 (ซึ่งกว้างเท่าเนื้อหา) */
+            height: 3px;
+            background-color: #002060; /* สีส้ม */
+            position: absolute;
+            left: 0;
+            bottom: 0; /* วางไว้ที่ขอบล่างของ h1 */
+        }   
+
+        /* Flex Container สำหรับ Details (ซ้าย) และ Image (ขวา) */
+        .product-main-area {
+            display: flex;
+            flex-direction: row; /* เรียงจากซ้ายไปขวา (default) */
+            gap: 2.5rem; /* ระยะห่างระหว่างคอลัมน์ */
+            align-items: flex-start; /* จัดเรียงส่วนย่อยให้อยู่ด้านบนสุด */
+        }
+
+        .product-description {
+            flex: 1; /* ทำให้ส่วน description ยืดเต็มพื้นที่ที่เหลือ */
+            padding-right: 1rem; /* เพิ่ม padding ด้านขวาเล็กน้อย */
+        }
+        .product-description p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #002060;
+            margin-bottom: 1.5rem;
+        }
+        .product-description strong {
+            color: #002060;
+        }
+
+        .product-image-area {
+            flex-shrink: 0; /* ป้องกันไม่ให้รูปภาพหดตัว */
+            width: 45%; /* กำหนดความกว้างของคอลัมน์รูปภาพ */
+            min-width: 300px; /* ความกว้างขั้นต่ำของรูปภาพ */
+            max-width: 500px; /* ความกว้างสูงสุดของรูปภาพ */
+        }
+        .product-image-area img {
+            width: 100%;
+            height: 400px; /* กำหนดความสูงรูปภาพ (ปรับตามต้องการ) */
+            object-fit: cover; /* ครอบตัดภาพให้เต็มกรอบ */
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 2px solid #002060; /* สีขอบรูปภาพ */
+            display: block;
+        }
+
+        /* Back Button */
+        .back-button-container {
+            text-align: center;
+            margin-top: 3rem;
         }
         .back-btn {
             display: inline-block;
-            margin-top: 2rem;
-            padding: 0.5rem 1.5rem;
-            background-color: #007bff;
-            color: white;
+            background-color: #f09d18; /* สีส้ม */
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 5px;
             text-decoration: none;
-            border-radius: 8px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
         .back-btn:hover {
-            background-color: #f09d18;
+            background-color: #d88a0f;
+            transform: translateY(-2px);
         }
-         .product-detail h2 {
-            text-align: center;
+
+        /* Footer */
+        footer {
+            background-color: #fff; 
             color: #002060;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1rem;
+            margin-top: auto; /* ดัน Footer ไปอยู่ด้านล่างสุด */
+        }
+        footer span {
+            color: #002060; /* ตรวจสอบให้แน่ใจว่าสีขาวทึบ */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) { /* สำหรับ Tablet และจอเล็ก */
+            .product-detail-wrapper {
+                padding: 1.5rem;
+            }
+            .product-title {
+                font-size: 2rem;
+            }
+            header .header-content { /* ปรับ header บนจอเล็ก */
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            header .logo img { /* ปรับโลโก้บนจอเล็ก */
+                height: 50px;
+            }
+            header h1 { font-size: 1.5rem; margin-bottom: 0; } /* ปรับ h1 บนจอเล็ก */
+            header p { font-size: 0.8rem; margin: 0; } /* ปรับ p บนจอเล็ก */
+
+
+            .product-main-area {
+                flex-direction: column; /* เปลี่ยนเป็นเรียงแนวตั้งบนจอเล็ก */
+                align-items: center; /* จัดกึ่งกลางเมื่อเรียงแนวตั้ง */
+                gap: 2rem;
+            }
+            .product-description {
+                padding-right: 0;
+                order: 2; /* จัดให้รายละเอียดอยู่ด้านล่างรูปภาพเมื่อเรียงแนวตั้ง */
+            }
+            .product-description p {
+                font-size: 1rem;
+            }
+            .product-image-area {
+                width: 80%; /* รูปภาพกว้างขึ้นบนจอเล็ก */
+                max-width: 400px;
+                order: 1; /* จัดให้รูปภาพอยู่ด้านบนเมื่อเรียงแนวตั้ง */
+            }
+            .product-image-area img {
+                height: 350px; /* ลดความสูงรูปภาพบนจอเล็ก */
+            }
+            .back-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) { /* สำหรับ Mobile */
+            body {
+                padding-top: 60px; /* ชดเชย Navbar ที่อาจจะเล็กลง */
+            }
+            header h1 { font-size: 1.2rem; }
+            .container { padding: 0 1rem; }
+            .product-detail-wrapper {
+                padding: 1rem;
+            }
+            .product-title {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+            }
+            .product-description p {
+                font-size: 0.9rem;
+            }
+            .product-image-area {
+                width: 95%; /* รูปภาพเกือบเต็มความกว้าง */
+                min-width: unset;
+            }
+            .product-image-area img {
+                height: 280px; /* ลดความสูงรูปภาพบนมือถือ */
+            }
         }
     </style>
 </head>
 <body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <a href="#"> <img src="CIS1.jpg" alt="Crystal Ideas Solution Logo"></a>
+            </div>
+        </div>
+    </header>
 
-    <div class="product-detail">
-        <h2>ชื่อสินค้า: Inkjet </h2>
-        <img src="Vinyl1.png" alt="ภาพสินค้า">
-        <p><strong>รายละเอียด:</strong> งานพิมพ์ไวนิลแบบ Inkjet แบ่งเป็น 2 ประเภทหลัก คือ Outdoor และ Indoor โดยแบบ Outdoor เหมาะกับงานภายนอก เช่น ป้ายหน้าร้าน หรือแบนเนอร์กลางแจ้ง ใช้หมึกกันน้ำ-กันแดด ทนฝน สีไม่ซีดง่าย ส่วนแบบ Indoor ใช้ในพื้นที่ในร่ม เช่น ห้างสรรพสินค้า แบ็คดรอป หรือโรลอัพ เน้นสีสด คมชัด ปลอดกลิ่น ไม่ทนแดดเหมือน Outdoor เหมาะกับการดูในระยะใกล้และงานที่ต้องการความละเอียดของภาพ</p>
-        <a href="index.html" class="back-btn">← กลับหน้าหลัก</a>
-    </div>
+    <main class="main-content">
+        <div class="container">
+            <div class="product-detail-wrapper">
+                
+                <h1 class="product-title">งานพิมพ์ไวนิล Inkjet</h1>
 
+                <div class="product-main-area">
+                    <div class="product-description">
+                        <p> งานพิมพ์ไวนิลแบบ Inkjet แบ่งเป็น 2 ประเภทหลัก คือ Outdoor และ Indoor โดยแบบ Outdoor เหมาะกับงานภายนอก เช่น ป้ายหน้าร้าน หรือแบนเนอร์กลางแจ้ง ใช้หมึกกันน้ำ-กันแดด ทนฝน สีไม่ซีดง่าย ส่วนแบบ Indoor ใช้ในพื้นที่ในร่ม เช่น ห้างสรรพสินค้า แบ็คดรอป หรือโรลอัพ เน้นสีสด คมชัด ปลอดกลิ่น ไม่ทนแดดเหมือน Outdoor เหมาะกับการดูในระยะใกล้และงานที่ต้องการความละเอียดของภาพ</p>
+                    </div>
+                    <div class="product-image-area">
+                        <img src="Vinyl1.png" alt="ภาพสินค้า">
+                    </div>
+                </div>
+
+                <div class="back-button-container">
+                    <a href="index.html" class="back-btn">← กลับหน้าหลัก</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            © 2025 Crystal Ideas Solution Co., Ltd. <span data-en="All Right Reserved." data-th="สงวนลิขสิทธิ์.">All Right Reserved.</span>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const langElements = document.querySelectorAll('[data-en], [data-th]');
+            const savedLang = localStorage.getItem('selectedLang') || 'th';
+
+            function setPageLanguage(lang) {
+                langElements.forEach(el => {
+                    if (el.dataset(lang)) {
+                        el.innerHTML = el.dataset(lang);
+                    }
+                });
+            }
+            setPageLanguage(savedLang);
+        });
+    </script>
 </body>
 </html>
