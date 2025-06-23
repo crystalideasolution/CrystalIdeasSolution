@@ -113,7 +113,7 @@
         /* Gallery Grid Layout */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns:  1fr;
             gap: 25px; /* ระยะห่างระหว่างรูปภาพ */
             margin-top: 2rem;
         }
@@ -143,6 +143,7 @@
 
         /* *** กำหนดความสูงเฉพาะสำหรับรูปภาพแต่ละรูปในแกลเลอรี่ *** */
         .gallery-item img.img-custom-1 { height: 1600px; width: 100%;}  
+        .gallery-item img.img-custom-2 { height: 1600px; width: 100%;}  
 
         .gallery-item-info {
             padding: 15px;
@@ -227,10 +228,6 @@
             .gallery-item img { height: 180px; } 
             .gallery-item img.img-custom-1 { height: 200px; } 
             .gallery-item img.img-custom-2 { height: 150px; } 
-            .gallery-item img.img-custom-3 { height: 220px; }
-            .gallery-item img.img-custom-4 { height: 190px; }
-            .gallery-item img.img-custom-5 { height: 210px; }
-            .gallery-item img.img-custom-6 { height: 160px; }
 
             .gallery-item-info .gallery-icon {
                 font-size: 2rem; 
@@ -279,6 +276,11 @@
                 <div class="gallery-grid">
                     <div class="gallery-item">
                         <img src="ProjectOther.jpg" alt="ตัวอย่างงานไวนิล 1" class="img-custom-1">
+                        <div class="gallery-item-info">
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="ProjectOther1.jpg" alt="ตัวอย่างงานไวนิล 2" class="img-custom-2">
                         <div class="gallery-item-info">
                         </div>
                     </div>
