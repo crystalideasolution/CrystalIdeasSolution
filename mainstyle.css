@@ -235,7 +235,6 @@ nav {
 .clients-partners { background-color: #f8f8f8; padding: 2rem 0; }
 .clients-partners .content-title h3 { 
     font-size: 2rem;
-    /* font-size: 2rem; <-- บรรทัดนี้ซ้ำ ลบออกได้ */
     color: #002060;
     margin-bottom: 0.5rem; 
     text-align: left; 
@@ -267,10 +266,9 @@ body.lang-th .clients-partners .content-title h3::after { /* Selector ที่ 
 .clients-scroll-container { width: 100%; overflow: hidden; }
 .clients-grid {
     display: flex; flex-wrap: nowrap;
-    gap: 30px; justify-content: center; align-items: center; padding: 0;
+    gap: 30px; justify-content: flex-start; align-items: center; padding: 0;
     height: 150px;
-    /* *** เพิ่มบรรทัดนี้กลับเข้าไป: กำหนด animation โดยใช้ตัวแปรจาก JS *** */
-    animation: scrollLogos var(--animation-speed) linear infinite;
+    animation: scrollLogos 50s linear infinite;
     transform: translateZ(0); /* เพื่อ Hardware acceleration */
     will-change: transform; /* เพื่อประสิทธิภาพ */
     animation-play-state: running !important; /* ให้เล่นตลอดเวลา */
@@ -284,9 +282,10 @@ body.lang-th .clients-partners .content-title h3::after { /* Selector ที่ 
 }
 .client-item:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 .client-item img { max-width: 100%; max-height: 100%; height: auto; object-fit: contain; transition: all 0.3s ease; margin-bottom: 0; }
+
 @keyframes scrollLogos {
     0% { transform: translateX(0%); }
-    100% { transform: translateX(-50%); }
+    100% { transform: translateX(-100%); }
 }
 
 /* Contact Section */
@@ -462,7 +461,7 @@ body.lang-th .clients-partners .content-title h3::after { /* Selector ที่ 
     .qr-code-img { max-width: 80px !important; height: auto !important; flex-basis: 80px !important; flex-shrink: 0 !important; }
 
     /* Clients Section on mobile */
-    .clients-grid { display: flex; flex-wrap: nowrap; animation: scrollLogos 30s linear infinite; }
+    .clients-grid { display: flex; flex-wrap: nowrap; animation: scrollLogos 20s linear infinite; }
     .client-item { max-width: 150px; }
     .client-item img { max-width: 70px; }
     .client-item p { font-size: 0.8em; }
@@ -480,7 +479,7 @@ body.lang-th .clients-partners .content-title h3::after { /* Selector ที่ 
     .content-item, .projectcontent-item { flex: 0 0 calc(50% - 10px); width: calc(50% - 10px); }
     .content-item img { height: 200px; object-fit: cover; }
     .projectcontent-item img { height: 300px; object-fit: cover; }
-    .clients-grid { display: flex; flex-wrap: nowrap; animation: scrollLogos 15s linear infinite; }
+    .clients-grid { display: flex; flex-wrap: nowrap; animation: scrollLogos 35s linear infinite; }
     .client-item img { max-width: 90px; }
     .clients-partners .content-title h3, .clients-partners .content-title p { padding-left: 0; margin-left: 0; margin-right: 0; text-align: left; }
     .nav-end { position: static; transform: none;  opacity: 1;  pointer-events: auto;  box-shadow: none;  flex-direction: row;  width: auto; max-height: none;  overflow: visible;}
@@ -492,7 +491,7 @@ body.lang-th .clients-partners .content-title h3::after { /* Selector ที่ 
     .content-item, .projectcontent-item { flex: 0 0 calc(33.3333% - 13.3333px); width: calc(33.3333% - 13.3333px); }
     .content-item img { width: 100%; height: 350px; object-fit: cover; border-radius: 4px; border: 2px solid #fff; }
     .projectcontent-item img { width: 100%; height: 400px; object-fit: cover; border-radius: 4px; border: 2px solid #002060; }
-    .clients-grid { display: flex; flex-wrap: nowrap; animation: scrollLogos 30s linear infinite; grid-template-columns: none; }
+    .clients-grid { display: flex; flex-wrap: nowrap; animation: scrollLogos  50s linear infinite; grid-template-columns: none; }
     .client-item img { max-width: 100px; }
     .clients-partners .content-title h3, .clients-partners .content-title p, .contact .content-title h3, .contact .content-title p { padding-left: 0; margin-left: 0; margin-right: 0; text-align: left; }
 }
