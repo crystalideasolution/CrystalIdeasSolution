@@ -3,195 +3,322 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ข้อมูลบริษัท - Crystal Idea Solution</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="mainstyle.css"> </head>
+    <meta name="description" content="Crystal Ideas Solution: Vinyl Company - Detailed information about high-quality inkjet vinyl.">
+    <title>Crystal Ideas Solution - รายละเอียดสินค้า</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
-   /* General Body Styles */
-body {
-    font-family: 'Nunito Sans', sans-serif; /* ฟอนต์หลักสำหรับข้อความในเนื้อหา */
-    margin: 0; /* ลบ margin เริ่มต้นของ body เพื่อให้เนื้อหาชิดขอบ */
-    padding: 0; /* ลบ padding เริ่มต้นของ body */
-    background-color: #f0f2f5; /* พื้นหลังสีเทาอ่อนสำหรับความรู้สึกทันสมัย */
-    color: #333; /* ข้อความสีเข้มขึ้นเพื่อให้อ่านง่าย */
-    line-height: 1.6;
-    overflow-x: hidden; /* ป้องกัน scrollbar แนวนอน */
-}
+        /* General Resets */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            color: #002060;
+        }
 
-/* Container for the entire company info page */
-.company-info-container {
-    width: 100vw; /* เต็มความกว้างของ viewport */
-    min-height: 100vh; /* ความสูงขั้นต่ำเท่ากับความสูงของ viewport (เพื่อให้เลื่อนได้ถ้าเนื้อหาเยอะ) */
-    background: #ffffff;
-    border-radius: 0; /* ลบมุมโค้งมนเพื่อให้เต็มจอ */
-    box-shadow: none; /* ลบเงาเพื่อให้เต็มจอ */
-    padding: 2.5rem;
-    box-sizing: border-box; /* รวม padding ในความกว้าง/ความสูง */
-    display: flex; /* ใช้ flexbox จัดเรียงเนื้อหาภายใน */
-    flex-direction: column; /* จัดเรียงเนื้อหาในแนวตั้ง */
-    justify-content: space-between; /* กระจายเนื้อหาระหว่าง header, overview, footer */
-}
+        /* HTML & Body styling */
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
 
-/* Header Section */
-.company-header {
-    text-align: center;
-    margin-bottom: 2.5rem;
-}
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #002060; /* Light background */
+            color: #333;
+            /* พื้นหลังตามที่คุณเคยระบุ */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            padding-top: 78px; /* ชดเชย Navbar fixed ของหน้าหลัก (ถ้ามี Navbar ที่นี่ด้วย) */
+        }
 
-.company-header h1 {
-    font-family: 'Poppins', sans-serif; /* ฟอนต์ที่แตกต่างสำหรับหัวข้อ */
-    font-size: 3rem; /* หัวข้อที่ใหญ่ขึ้น */
-    color: #004085; /* สีน้ำเงินเข้มขึ้นสำหรับชื่อหลัก */
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.5px;
-}
+        /* Container เหมือนหน้าหลัก */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            box-sizing: border-box;
+            width: 100%;
+        }
 
-.company-header .tagline {
-    font-size: 1.25rem;
-    color: #555;
-    margin-top: 0;
-}
+        /* Header (Navbar จำลอง ถ้าหน้านี้ไม่มี Navbar จริง) */
+        header {
+            position: fixed; /* ทำให้ Navbar อยู่ด้านบนเสมอ */
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff; 
+            color: #002060;
+            padding: 0.5rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1000; /* ให้ Navbar อยู่บนสุด */
+        }
+        /* *** การจัดวาง Flexbox สำหรับเนื้อหาใน Header *** */
+        header .header-content { /* คลาสที่เพิ่มใน div.container ของ header */
+            display: flex;
+            align-items: center; /* จัดกึ่งกลางแนวตั้ง */
+            justify-content: space-between; /* จัดกระจาย โลโก้ซ้าย ข้อความขวา */
+            gap: 20px; /* ระยะห่างระหว่างโลโก้กับข้อความ */
+        }
+        header .logo img { /* สไตล์สำหรับโลโก้ภายใน Header */
+            height: 60px; /* ขนาดโลโก้ */
+            width: auto;
+            display: block;
+        }
 
-/* Company Overview Section (main content area) */
-.company-overview {
-    flex-grow: 1; /* ให้ส่วนนี้ขยายเต็มพื้นที่ที่เหลือ */
-    display: flex; /* ใช้ flexbox สำหรับการจัดเรียงแบบเคียงข้างกัน */
-    flex-wrap: wrap; /* อนุญาตให้มีการขึ้นบรรทัดใหม่เมื่อหน้าจอเล็กลง */
-    gap: 2rem; /* ระยะห่างระหว่างรายการ flex */
-    max-width: 1200px; /* จำกัดความกว้างเนื้อหาภายในเพื่อให้อ่านง่าย */
-    margin: 0 auto 2rem auto; /* จัดกึ่งกลางและมี margin ด้านล่าง */
-    padding: 0 1rem; /* เพิ่ม padding ด้านข้างเล็กน้อย */
-}
+        /* Main Content Area */
+        .main-content {
+            flex-grow: 1;
+            padding: 3rem 0; /* Vertical padding for content sections */
+        }
 
-.image-gallery {
-    flex: 1; /* อนุญาตให้แกลเลอรี่รูปภาพขยายได้ */
-    min-width: 300px; /* ความกว้างขั้นต่ำก่อนที่จะขึ้นบรรทัดใหม่ */
-    display: flex;
-    flex-direction: column; /* จัดเรียงรูปภาพในแนวตั้ง */
-    gap: 1.5rem;
-}
+        /* Company Detail Wrapper (กรอบเนื้อหาหลักของหน้ารายละเอียดสินค้า) */
+        .Company-detail-wrapper {
+            background-color: rgba(255, 255, 255, 0.9); /* พื้นหลังโปร่งแสง */
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 1000px; /* จำกัดความกว้างสูงสุดของเนื้อหา Company */
+            margin: 0 auto; /* จัดกึ่งกลาง */
+        }
 
-.image-gallery img {
-    width: 100%;
-    max-height: 300px; /* ปรับความสูงสูงสุดเพื่ออัตราส่วนที่ดีขึ้น */
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); /* เงาละเอียดอ่อนสำหรับรูปภาพ */
-    transition: transform 0.3s ease-in-out; /* เอฟเฟกต์การวางเมาส์ที่ราบรื่น */
-}
+        /* Company Title */
+        .Company-title {
+            font-size: 2.5rem;
+            color: #002060;
+            text-align: center;
+            margin-bottom: 2rem;
+            display: inline-block; /* ทำให้ h1 มีความกว้างเท่าเนื้อหาเท่านั้น */
+            position: relative; /* จำเป็นสำหรับ ::after absolute positioning */
+            padding-bottom: 5px; /* เว้นช่องว่างใต้ข้อความสำหรับเส้น */
+        }
 
-.image-gallery img:hover {
-    transform: translateY(-5px); /* ยกขึ้นเล็กน้อยเมื่อวางเมาส์ */
-}
+        .Company-title::after {
+            content: '';
+            display: block;
+            width: 100%; /* จะกว้างเท่า h1 (ซึ่งกว้างเท่าเนื้อหา) */
+            height: 3px;
+            background-color: #002060; /* สีส้ม */
+            position: absolute;
+            left: 0;
+            bottom: 0; /* วางไว้ที่ขอบล่างของ h1 */
+        }   
 
-.company-description {
-    flex: 2; /* อนุญาตให้ส่วนคำอธิบายใช้พื้นที่มากขึ้น */
-    min-width: 300px; /* ความกว้างขั้นต่ำก่อนที่จะขึ้นบรรทัดใหม่ */
-}
+        /* Flex Container สำหรับ Details (ซ้าย) และ Image (ขวา) */
+        .Company-main-area {
+            display: flex;
+            flex-direction: row; /* เรียงจากซ้ายไปขวา (default) */
+            gap: 2.5rem; /* ระยะห่างระหว่างคอลัมน์ */
+            align-items: flex-start; /* จัดเรียงส่วนย่อยให้อยู่ด้านบนสุด */
+        }
 
-.company-description h2 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 2rem;
-    color: #0056b3; /* สีน้ำเงินที่สอดคล้องกันสำหรับหัวข้อย่อย */
-    margin-top: 0;
-    margin-bottom: 1rem;
-}
+        .Company-description {
+            flex: 1; /* ทำให้ส่วน description ยืดเต็มพื้นที่ที่เหลือ */
+            padding-right: 1rem; /* เพิ่ม padding ด้านขวาเล็กน้อย */
+        }
+        .Company-description p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #002060;
+            margin-bottom: 1.5rem;
+        }
+        .Company-description strong {
+            color: #002060;
+        }
 
-.company-description p {
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-    color: #444;
-}
+        .company-description h2 {
+            font-size: 2rem;
+            color: #002060; /* สีน้ำเงินที่สอดคล้องกันสำหรับหัวข้อย่อย */
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
 
-.company-description p strong {
-    color: #004085; /* เน้นข้อความตัวหนา */
-}
+        .Company-image-area {
+            flex-shrink: 0; /* ป้องกันไม่ให้รูปภาพหดตัว */
+            width: 45%; /* กำหนดความกว้างของคอลัมน์รูปภาพ */
+            min-width: 300px; /* ความกว้างขั้นต่ำของรูปภาพ */
+            max-width: 500px; /* ความกว้างสูงสุดของรูปภาพ */
+            display: flex; /* ทำให้เป็น Flex container */
+            flex-direction: column; /* จัดเรียงลูกๆ ในแนวตั้ง */
+            gap: 20px; /* เพิ่มช่องว่างระหว่างรูปภาพ 20px (ปรับค่าได้ตามต้องการ) */
+        }
+        .Company-image-area img {
+            width: 100%; /* *** แก้ไข: จาก 130% ให้เป็น 100% เพื่อให้รูปภาพพอดีกับพื้นที่แม่ *** */
+            max-width: 100%; /* *** เพิ่ม: เพื่อให้แน่ใจว่ารูปภาพไม่เกินขอบ *** */
+            height: auto; /* *** แนะนำ: เปลี่ยนเป็น auto เพื่อรักษาสัดส่วนรูปภาพโดยไม่ถูกบิดเบี้ยว *** */
+            object-fit: cover; /* ครอบตัดภาพให้เต็มกรอบ (ถ้าใช้ height คงที่) */
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 2px solid #002060; /* สีขอบรูปภาพ */
+            display: block;
+        }
 
-/* Back Button */
-.company-footer {
-    text-align: center;
-    margin-top: 2.5rem; /* ปรับ margin top เล็กน้อย */
-    padding-bottom: 1rem; /* เพิ่ม padding ด้านล่างเล็กน้อย */
-}
+        .back-btn {
+            display: inline-block;
+            background-color: #002060; /* สีส้ม */
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            /* font-weight: bold; */
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .back-btn:hover {
+            background-color: #002060;
+            transform: translateY(-2px);
+        }
 
-.back-btn {
-    display: inline-block;
-    padding: 0.75rem 2.2rem; /* padding ที่ใหญ่ขึ้นสำหรับปุ่มที่ดูมีน้ำหนัก */
-    background-color: #007bff; /* สีน้ำเงินหลัก */
-    color: white;
-    text-decoration: none;
-    border-radius: 8px; /* โค้งมนน้อยกว่าคอนเทนเนอร์เล็กน้อย */
-    font-weight: 600;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* การเปลี่ยนผ่านที่ราบรื่น */
-    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2); /* เงาละเอียดอ่อนสำหรับปุ่ม */
-}
+        /* Footer */
+        footer {
+            background-color: #fff; 
+            color: #002060;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1rem;
+            margin-top: auto; /* ดัน Footer ไปอยู่ด้านล่างสุด */
+        }
+        footer span {
+            color: #002060; /* ตรวจสอบให้แน่ใจว่าสีขาวทึบ */
+        }
 
-.back-btn:hover {
-    background-color: #0056b3; /* สีน้ำเงินเข้มขึ้นเมื่อวางเมาส์ */
-    transform: translateY(-2px); /* ยกขึ้นเล็กน้อยเมื่อวางเมาส์ */
-}
+        /* Responsive adjustments */
+        @media (max-width: 992px) { /* สำหรับ Tablet และจอเล็ก */
+            .Company-detail-wrapper {
+                padding: 1.5rem;
+            }
+            .Company-title {
+                font-size: 2rem;
+            }
+            header .header-content { /* ปรับ header บนจอเล็ก */
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            header .logo img { /* ปรับโลโก้บนจอเล็ก */
+                height: 50px;
+            }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .company-info-container {
-        padding: 1.5rem;
-    }
 
-    .company-header h1 {
-        font-size: 2.2rem; /* ปรับขนาดหัวข้อสำหรับหน้าจอที่เล็กลง */
-    }
+            .Company-main-area {
+                flex-direction: column; /* เปลี่ยนเป็นเรียงแนวตั้งบนจอเล็ก */
+                align-items: center; /* จัดกึ่งกลางเมื่อเรียงแนวตั้ง */
+                gap: 2rem;
+            }
+            .Company-description {
+                padding-right: 0;
+                order: 2; /* จัดให้รายละเอียดอยู่ด้านล่างรูปภาพเมื่อเรียงแนวตั้ง */
+            }
+            .company-description h2 {
+                font-size: 1rem;
+            }
+            .Company-description p {
+                font-size: 1rem;
+            }
+            .Company-image-area {
+                width: 60%; /* รูปภาพกว้างขึ้นบนจอเล็ก */
+                max-width: 400px;
+                order: 1; /* จัดให้รูปภาพอยู่ด้านบนเมื่อเรียงแนวตั้ง */
+            }
+            .Company-image-area img {
+                height: 350px; /* ลดความสูงรูปภาพบนจอเล็ก */
+            }
+            .back-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
 
-    .company-header .tagline {
-        font-size: 1rem;
-    }
-
-    .company-overview {
-        flex-direction: column; /* จัดเรียงรายการในแนวตั้งบนหน้าจอขนาดเล็ก */
-        margin: 0 auto 1.5rem auto; /* ปรับ margin */
-        padding: 0; /* ลบ padding ด้านข้าง */
-    }
-
-    .company-description h2 {
-        font-size: 1.7rem;
-    }
-
-    .company-description p {
-        font-size: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .company-info-container {
-        padding: 1rem;
-    }
-    .back-btn {
-        width: 100%; /* ปุ่มเต็มความกว้างบนหน้าจอที่เล็กมาก */
-        box-sizing: border-box; /* รวม padding ในความกว้าง */
-    }
-}
-</style>
+        @media (max-width: 576px) { /* สำหรับ Mobile */
+            body {
+                padding-top: 60px; /* ชดเชย Navbar ที่อาจจะเล็กลง */
+            }
+            header h1 { font-size: 1.2rem; }
+            .container { padding: 0 1rem; }
+            .Company-detail-wrapper {
+                padding: 1rem;
+            }
+            .Company-title {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+            }
+            .Company-description p {
+                font-size: 0.9rem;
+            }
+            .company-description h2 {
+                font-size: 1.3rem;
+            }
+            .Company-image-area {
+                width: 105%; /* รูปภาพเกือบเต็มความกว้าง */
+                min-width: unset;
+            }
+            .Company-image-area img {
+                height: 350px; /* ลดความสูงรูปภาพบนมือถือ */
+            }
+        }
+    </style>
+</head>
 <body>
-    <div class="company-info-container">
-        <header class="company-header">
-            <h1>Crystal Idea Solution</h1>
-            <p class="tagline">ผู้ผลิตชั้นนำด้านสื่ออิงค์เจ็ทและโซลูชั่นการโฆษณา</p>
-        </header>
-
-        <section class="company-overview">
-            <div class="image-gallery">
-                <img src="https://images.pexels.com/photos/3184436/pexels-photo-3184436.jpeg?auto=compress&cs=tinysrgb&w=600" alt="การทำงานร่วมกันของทีม">
-                <img src="https://png.pngtree.com/png-vector/20200220/ourmid/pngtree-businessman-presentation-company-bar-chart-png-image_2145340.jpg" alt="การนำเสนอธุรกิจ">
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <a href="#"> <img src="CIS1.jpg" alt="Crystal Ideas Solution Logo"></a>
             </div>
-            <div class="company-description">
+            <div class="back-button-container">
+                    <a href="index.html#about" class="back-btn">กลับหน้าหลัก</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="Company-detail-wrapper">
+                
+                <h1 class="Company-title">Crystal Ideas Solution</h1>
+
+                <div class="Company-main-area">
+                    <div class="Company-description">
                 <h2>วิสัยทัศน์และพันธกิจของเรา</h2>
                 <p><strong>บริษัท คริสตัล ไอเดีย โซลูชั่น จำกัด ก่อตั้งขึ้นในปี 2568 (2025)</strong> เป็นผู้ผลิตชั้นนำด้านสื่ออิงค์เจ็ทสำหรับทั้งการใช้งานภายในและภายนอกอาคาร เรายังจัดหาสื่อโฆษณาคุณภาพสูงที่มีความละเอียดสูงครบวงจร</p>
                 <p>บริษัทของเรามุ่งมั่นในการพัฒนาผลิตภัณฑ์และเทคโนโลยีอย่างต่อเนื่อง เพื่อตอบสนองความต้องการที่เปลี่ยนแปลงไปของลูกค้า เรามุ่งมั่นที่จะสร้างสรรค์นวัตกรรมและนำเสนอโซลูชั่นที่ล้ำสมัย เพื่อเสริมศักยภาพให้ธุรกิจบรรลุเป้าหมายด้านการตลาดและการสื่อสารได้อย่างมีประสิทธิภาพ</p>
+                    </div>
+                    <div class="Company-image-area">
+                        <img src="https://images.pexels.com/photos/3184436/pexels-photo-3184436.jpeg?auto=compress&cs=tinysrgb&w=600" alt="การทำงานร่วมกันของทีม">
+                        <img src="https://png.pngtree.com/png-vector/20200220/ourmid/pngtree-businessman-presentation-company-bar-chart-png-image_2145340.jpg" alt="การนำเสนอธุรกิจ">
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
+    </main>
 
-        <footer class="company-footer">
-            <a href="index.html" class="back-btn">← กลับหน้าหลัก</a>
-        </footer>
-    </div>
+    <footer>
+        <div class="container">
+            © 2025 Crystal Ideas Solution Co., Ltd. <span data-en="All Right Reserved." data-th="สงวนลิขสิทธิ์.">All Right Reserved.</span>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const langElements = document.querySelectorAll('[data-en], [data-th]');
+            const savedLang = localStorage.getItem('selectedLang') || 'th';
+
+            function setPageLanguage(lang) {
+                langElements.forEach(el => {
+                    if (el.dataset(lang)) {
+                        el.innerHTML = el.dataset(lang);
+                    }
+                });
+            }
+            setPageLanguage(savedLang);
+        });
+    </script>
 </body>
 </html>
