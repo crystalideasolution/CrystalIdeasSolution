@@ -55,7 +55,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            background-color: #fff; /* สีน้ำเงินเข้ม */
+            background-color: #fff; 
             color: #002060;
             padding: 0.5rem 0;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -72,15 +72,6 @@
             height: 60px; /* ขนาดโลโก้ */
             width: auto;
             display: block;
-        }
-        header .header-text { /* สไตล์สำหรับ h1 ที่อยู่ข้างโลโก้ */
-            flex-grow: 1; /* ให้ส่วนข้อความยืดเต็มพื้นที่ที่เหลือ */
-            text-align: left; /* จัดข้อความให้ชิดขวา */
-        }
-        header h1 {
-            font-size: 1.8rem; /* ปรับขนาดฟอนต์ให้เข้ากับโลโก้ */
-            margin-bottom: 0; /* ลบ margin-bottom ออก */
-            line-height: 1.2;
         }
 
         /* Main Content Area */
@@ -160,23 +151,18 @@
             display: block;
         }
 
-        /* Back Button */
-        .back-button-container {
-            text-align: center;
-            margin-top: 3rem;
-        }
         .back-btn {
             display: inline-block;
-            background-color: #f09d18; /* สีส้ม */
+            background-color: #002060; /* สีส้ม */
             color: #fff;
             padding: 12px 25px;
             border-radius: 5px;
             text-decoration: none;
-            font-weight: bold;
+            /* font-weight: bold; */
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
         .back-btn:hover {
-            background-color: #d88a0f;
+            background-color: #002060;
             transform: translateY(-2px);
         }
 
@@ -202,15 +188,13 @@
                 font-size: 2rem;
             }
             header .header-content { /* ปรับ header บนจอเล็ก */
-                flex-direction: column;
-                text-align: center;
-                gap: 10px;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
             }
             header .logo img { /* ปรับโลโก้บนจอเล็ก */
                 height: 50px;
             }
-            header h1 { font-size: 1.5rem; margin-bottom: 0; } /* ปรับ h1 บนจอเล็ก */
-            header p { font-size: 0.8rem; margin: 0; } /* ปรับ p บนจอเล็ก */
 
 
             .product-main-area {
@@ -260,7 +244,7 @@
                 min-width: unset;
             }
             .product-image-area img {
-                height: 280px; /* ลดความสูงรูปภาพบนมือถือ */
+                height: 350px; /* ลดความสูงรูปภาพบนมือถือ */
             }
         }
     </style>
@@ -270,6 +254,9 @@
         <div class="container header-content">
             <div class="logo">
                 <a href="#"> <img src="CIS1.jpg" alt="Crystal Ideas Solution Logo"></a>
+            </div>
+            <div class="back-button-container">
+                    <a href="index.html#services" class="back-btn">กลับหน้าหลัก</a>
             </div>
         </div>
     </header>
@@ -292,10 +279,6 @@
                     <div class="product-image-area">
                         <img src="Other1.png" alt="ภาพสินค้า">
                     </div>
-                </div>
-
-                <div class="back-button-container">
-                    <a href="index.html" class="back-btn">← กลับหน้าหลัก</a>
                 </div>
             </div>
         </div>
