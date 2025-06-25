@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Crystal Ideas Solution is a leading inkjet media manufacturer and service provider for advertising solutions in Thailand.">
     <title>Crystal Ideas Solution</title>
     <link rel="stylesheet" href="mainstyle.css">
@@ -203,7 +203,7 @@
         © 2025 Crystal Ideas Solution Co., Ltd. <span data-en="All Right Reserved." data-th="สงวนลิขสิทธิ์.">All Right Reserved.</span> 
     </footer>
     <script>
-              document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
     const allScrollContainers = document.querySelectorAll(".content-con.scroll-x");
 
     allScrollContainers.forEach(scrollContainer => {
@@ -342,6 +342,53 @@
             rightBtn.style.display = 'none';
         }
     }
+    
+    // --- ส่วนใหม่: สำหรับ Clients Carousel (Infinite Scroll) ---
+    const clientsGrid = document.getElementById('clients-carousel-grid'); // ให้แน่ใจว่า clients-grid มี ID นี้
+
+    function calculateScrollDistance() {
+        if (!clientsGrid) return;
+
+        // ดึง client items ทั้งหมด
+        const clientItems = clientsGrid.querySelectorAll('.client-item');
+        if (clientItems.length === 0) return;
+
+        // กำหนดจำนวนโลโก้ใน 1 ชุด (ครึ่งหนึ่งของโลโก้ทั้งหมดที่คุณ duplicate ไว้)
+        const numClientsInOneSet = clientItems.length / 2;
+
+        let totalWidthOfOneSet = 0;
+        let accumulatedGap = 0; // เพื่อเก็บรวม gap ของ item แรกถึง item รองสุดท้าย
+
+        // คำนวณความกว้างของโลโก้ 1 ชุด (เช่น 14 รูปแรก)
+        for (let i = 0; i < numClientsInOneSet; i++) {
+            const item = clientItems[i];
+            totalWidthOfOneSet += item.offsetWidth; // ความกว้างของ item แต่ละตัว
+            if (i < numClientsInOneSet - 1) { // เพิ่ม gap ยกเว้นตัวสุดท้ายในชุดนั้น
+                const style = window.getComputedStyle(item);
+                accumulatedGap += parseFloat(style.marginRight) || 0; // ถ้ามี margin-right
+                const gridStyle = window.getComputedStyle(clientsGrid);
+                accumulatedGap += parseFloat(gridStyle.gap) || 0; // เพิ่ม gap ของ grid
+            }
+        }
+        
+        // ควรจะคำนวณ gap จาก flex container เองด้วย
+        const gridStyle = window.getComputedStyle(clientsGrid);
+        const gapValue = parseFloat(gridStyle.gap) || 0;
+        // ความกว้างของโลโก้ 1 ชุด + (จำนวน gap ใน 1 ชุด) * gap_value
+        totalWidthOfOneSet = (clientItems[0].offsetWidth + gapValue) * numClientsInOneSet;
+
+
+        // กำหนด custom property --scroll-distance
+        // ให้ค่าเป็นติดลบ เพราะเราต้องการเลื่อนไปทางซ้าย
+        clientsGrid.style.setProperty('--scroll-distance', `-${totalWidthOfOneSet}px`);
+        // console.log('Calculated scroll distance:', `-${totalWidthOfOneSet}px`); // สำหรับ debug
+    }
+
+    // เรียกใช้เมื่อโหลดหน้าเว็บ
+    calculateScrollDistance();
+    // เรียกใช้เมื่อปรับขนาดหน้าจอ (เพื่อปรับค่าเมื่อ layout เปลี่ยน)
+    window.addEventListener('resize', calculateScrollDistance);
+    
 
     // --- JavaScript สำหรับ Hamburger Menu (วางส่วนนี้ตรงนี้) ---
     const hamburgerBtn = document.querySelector('.hamburger-menu');
