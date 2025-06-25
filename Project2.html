@@ -71,20 +71,6 @@
             width: auto;
             display: block;
         }
-        header .header-text { /* สไตล์สำหรับ h1 และ p ที่อยู่ข้างโลโก้ */
-            flex-grow: 1; /* ให้ส่วนข้อความยืดเต็มพื้นที่ที่เหลือ */
-            text-align: right; /* จัดข้อความให้ชิดขวา */
-        }
-        header h1 {
-            font-size: 1.8rem; /* ปรับขนาดฟอนต์ให้เข้ากับโลโก้ */
-            margin-bottom: 5px; /* ระยะห่างด้านล่าง h1 */
-            line-height: 1.2;
-        }
-        header p { /* มีในหน้าหลัก (index.html) ไม่มีในหน้านี้ (Project1.html) */
-            font-size: 0.9rem; /* ปรับขนาดฟอนต์ p */
-            opacity: 0.9;
-            margin: 0; /* ลบ margin เริ่มต้นของ p */
-        }
 
         /* Main Content Area */
         .main-content {
@@ -176,24 +162,18 @@
             text-align: center; 
         }
 
-        /* Back Button */
-        .back-button-container {
-            text-align: center;
-            margin-top: 3rem;
-            margin-bottom: 2rem;
-        }
         .back-button {
             display: inline-block;
-            background-color: #f09d18; /* สีส้ม */
+            background-color: #002060; /* สีส้ม */
             color: #fff;
             padding: 12px 25px;
             border-radius: 5px;
             text-decoration: none;
-            font-weight: bold;
+            /* font-weight: bold; */ /* ทำให้ตัวหนา */
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
         .back-button:hover {
-            background-color: #d88a0f;
+            background-color: #002060;
             transform: translateY(-2px);
         }
 
@@ -213,15 +193,13 @@
         /* Responsive adjustments */
         @media (max-width: 768px) {
             header .header-content { /* ปรับ header บนจอเล็ก */
-                flex-direction: column;
-                text-align: center;
-                gap: 10px;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center; 
             }
             header .logo img { /* ปรับโลโก้บนจอเล็ก */
                 height: 50px;
             }
-            header h1 { font-size: 1.5rem; margin-bottom: 0; } 
-            header p { font-size: 0.8rem; margin: 0; } 
 
             .main-content { padding: 2rem 0; }
             .project-section-header h2 { font-size: 2rem; }
@@ -233,8 +211,6 @@
             .gallery-item img.img-custom-2 { height: 150px; } 
             .gallery-item img.img-custom-3 { height: 220px; }
             .gallery-item img.img-custom-4 { height: 190px; }
-            .gallery-item img.img-custom-5 { height: 210px; }
-            .gallery-item img.img-custom-6 { height: 160px; }
 
             .gallery-item-info .gallery-icon {
                 font-size: 2rem; 
@@ -250,8 +226,6 @@
             body {
                 padding-top: 60px; 
             }
-            header h1 { font-size: 1.2rem; } 
-            header p { font-size: 0.7rem; } 
 
             .project-section-header h2 { font-size: 1.8rem; margin-bottom: 1rem; }
             .project-section-header p { font-size: 0.85rem; }
@@ -266,6 +240,9 @@
     <header>
         <div class="container header-content"> <div class="logo">
                 <a href="#"> <img src="CIS1.jpg" alt="Crystal Ideas Solution Logo"></a>
+            </div>
+            <div class="back-button-container">
+                <a href="index.html#project" class="back-button">กลับไปหน้าหลัก</a>
             </div>
         </div>
     </header>
@@ -292,12 +269,6 @@
                     </div>
                 </div>
             </section>
-
-            <div class="back-button-container">
-                <a href="index.html#project" class="back-button">
-                    <i class="fas fa-arrow-left"></i> กลับไปหน้าหลัก
-                </a>
-            </div>
         </div>
     </main>
 
