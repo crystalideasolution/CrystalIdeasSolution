@@ -1,0 +1,649 @@
+/* ================================================================= */
+/* 🎉 CSS GLOBAL & RESET 🎉                     */
+/* ================================================================= */
+:root {
+    /* ตั้งค่าความกว้างสูงสุดของเนื้อหาและระยะห่างซ้ายขวา */
+    --page-max: 1800px;
+    --gutter-desktop: clamp(8px, 1vw, 16px);
+    --gutter-tablet: 16px;
+    --gutter-mobile: 10px; 
+    --nav-height: 78px;
+    --primary-color: #586882;
+    --accent-color: #f09d18;
+    --highlight-color: #C2F1FF;
+}
+
+/* General Resets */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+/* HTML & Body */
+html { scroll-behavior: smooth; height: 100%; }
+body { font-family: 'Nunito Sans', sans-serif; display: flex; flex-direction: column; min-height: 100vh; margin: 0; padding-top: var(--nav-height); }
+.main-content-area { flex-grow: 1; }
+/* 🚀 Container หลักสำหรับจัดกึ่งกลางและระยะห่างของเนื้อหา */
+.container, .home-con { 
+    max-width: var(--page-max); 
+    margin: 0 auto; 
+    padding-left: var(--gutter-desktop); 
+    padding-right: var(--gutter-desktop); 
+    box-sizing: border-box; 
+}
+section { 
+    min-height: 30vh; 
+    padding: 1rem 0; 
+    scroll-margin-top: calc(var(--nav-height) + 18px); 
+}
+#company, #services, #project, #contact, #clients { 
+    scroll-margin-top: calc(var(--nav-height) + 18px); 
+}
+
+/* ================================================================= */
+/* 🌐 NAVIGATION 🌐                        */
+/* ================================================================= */
+
+.lang-switcher { display: flex; gap: 10px; }
+.lang-btn { background-color: #f0f0f0; border: none; padding: 8px 12px; cursor: pointer; border-radius: 5px; font-weight: bold; transition: opacity 0.3s ease; width: 40px; height: 30px; background-size: cover; background-position: center; background-repeat: no-repeat; text-indent: -9999px; }
+.lang-btn[data-lang="en"] { background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/1280px-Flag_of_the_United_Kingdom_%283-5%29.svg.png'); }
+.lang-btn[data-lang="th"] { background-image: url('https://cdn.pixabay.com/photo/2013/07/12/17/58/thailand-152711_1280.png'); }
+.lang-btn:hover { opacity: 0.8; }
+.lang-btn.active-lang { background-color: #007bff; color: white; border-color: #007bff; }
+nav { position: fixed; width: 100%; top: 0; left: 0; z-index: 1000; background-color: #fff; padding: 0.5rem 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.nav-con { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+.nav-end { display: flex; align-items: center; gap: 20px; }
+.logo img { height: 70px; width: auto; text-decoration: none; }
+.hamburger-menu { display: none; background: none; border: none; cursor: pointer; padding: 10px; z-index: 1001; }
+.hamburger-menu .bar { display: block; width: 25px; height: 3px; margin: 5px auto; background-color: var(--primary-color); transition: all 0.3s ease-in-out; }
+.hamburger-menu.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamburger-menu.active .bar:nth-child(2) { opacity: 0; }
+.hamburger-menu.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+.menu { display: flex; list-style: none; margin: 0; padding: 0; }
+.menu li { margin-left: 20px; }
+.menu li a { color: var(--primary-color); text-decoration: none; transition: color 0.3s ease; }
+.menu li a:hover, .menu li a:focus { color: var(--accent-color); }
+
+/* ================================================================= */
+/* 🖼️ HOME SECTION 🖼️                    */
+/* ================================================================= */
+
+.homecontent {
+    position: relative;
+    /* ✅ ใช้ 80vh ตามที่ปรับ */
+    min-height: calc(80vh - var(--nav-height)); 
+    padding: 0; 
+    background-image: url("CIS_Com1.jpg");
+    
+    background-size: cover;
+    background-position: 70% center; 
+    
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.homecontent::after { content:""; position:absolute; inset:0; background: linear-gradient(120deg, rgba(0,0,0,.28) 0%, rgba(0,0,0,.12) 30%, rgba(0,0,0,0) 60%); z-index:0; }
+.home-con { width: 100%; position: relative; z-index: 1; }
+.home-info { text-align: left; width: 100%; }
+.home-info h3 { font-size: 2rem; color: var(--primary-color); margin: 0; padding: 0; text-align: left; }
+.hero-logo { position: absolute; top: 50px; right: 40px; left: auto; text-align: right; z-index: 10; }
+.hero-logo img { width: 200px; height: auto; top: 5%; filter: drop-shadow(0 6px 14px rgba(0,0,0,.3)); }
+.hero-logo img.spin { animation: spin 6s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+:root{ --hero-left: 30%; }
+.hero-title { position: absolute; top: 50%; left: var(--hero-left); transform: translate(-50%, -50%); text-align: left; max-width: min(60ch, 70vw); }
+.hero-title h3 { font-size: clamp(80px, 3vw, 42px); color: #fff; font-weight: 700; text-shadow: 2px 2px 8px rgba(0,0,0,0.6); text-align: center; }
+.hero-title h3 .cl{ white-space: nowrap; display: inline-block; }
+
+
+/* ================================================================= */
+/* 📦 CONTENT SECTIONS 📦                   */
+/* ================================================================= */
+
+/* Content Title Styles */
+.content-title h3 { font-size: 2rem; margin-bottom: 0.5rem; color: var(--primary-color); text-align: left; }
+.content-title p { color: var(--primary-color); }
+.content-title p:not(:first-child) { position: relative; padding-left: 20px; margin-bottom: 0.5rem; }
+.content-title p:not(:first-child)::before { content: "\2022"; color: var(--primary-color); font-size: 1.2em; position: absolute; left: 0; top: 50%; transform: translateY(-50%); }
+
+/* Base style for content items (Projects) */
+.content-item, .projectcontent-item { flex-shrink: 0; width: calc(33.3333% - 13.3333px); box-sizing: border-box; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); text-align: left; display: flex; flex-direction: column; align-items: flex-start; overflow: hidden; background-color: #fff; border: 1px solid var(--primary-color); }
+.projectcontent-item { border: 2px solid var(--primary-color); }
+.content-item h4, .projectcontent-item h4 { margin-top: 10px; margin-bottom: 5px; line-height: 1.3; color: var(--primary-color); text-align: left; }
+.content-item p, .projectcontent-item p { margin-top: 5px; margin-bottom: 10px; line-height: 1.5; align-self: flex-start; flex-grow: 1; color: var(--primary-color); }
+.content-item a, .projectcontent-item a { display: inline-block; color: var(--primary-color); background-color: var(--accent-color) !important; padding: 0.5rem 1rem; text-decoration: none; border-radius: 5px; font-weight: bold; letter-spacing: 0.5px; transition: all 0.3s ease; margin-top: auto; width: fit-content; }
+.content-item a:hover, .projectcontent-item a:hover, .content-item a:focus, .projectcontent-item a:focus { background-color: #d88a0f !important; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
+.content-item img, .projectcontent-item img { width: 100%; height: 200px; object-fit: cover; border-radius: 4px; margin-bottom: 10px; display: block; border: 2px solid var(--primary-color); }
+.content-con { display: flex; flex-wrap: nowrap; overflow-x: scroll; -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; gap: 20px; }
+.content-con::-webkit-scrollbar { height: 8px; display: none; }
+.scroll-container { position: relative; display: flex; align-items: center; margin-top: 20px; padding: 0 12px; }
+.scroll-btn { background-color: rgba(0, 0, 0, 0.5); color: white; border: none; padding: 10px 15px; cursor: pointer; z-index: 10; border-radius: 50%; font-size: 1.5em; position: absolute; top: 50%; transform: translateY(-50%); opacity: 0.7; transition: opacity 0.3s ease, background-color 0.3s ease, border-color 0.3s ease; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; }
+.scroll-btn:hover { background-color: #fff; color: white; border-color: var(--primary-color); opacity: 1; }
+.scroll-btn.left { left: 6px; } 
+.scroll-btn.right { right: 6px; } 
+.projectcontent { background-color: #fff; padding-top: 1rem; padding-bottom: 1rem; width: 100%; }
+.projectcontent-title h3{ text-align: left; margin-bottom: 2rem; color: var(--primary-color); font-size: 2rem; }
+@keyframes scrollProjects { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+
+/* Clients Partners Section (โค้ดส่วนนี้ยังคงเดิม) */
+.clients-partners { background-color: #fff; padding: 1rem 0; }
+.clients-partners .content-title h3 { font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem; text-align: left; display: inline-block; position: relative; padding-bottom: 5px; vertical-align: middle; }
+body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-partners .content-title h3::after { content: ''; display: block; width: 100%; height: 3px; background-color: #fff; left: 0; bottom: 0; }
+.clients-partners .content-title p { color: var(--primary-color); margin-bottom: 2rem; text-align: left; padding-left: 0 !important; position: relative; }
+.clients-partners .content-title p::before { content: none !important; }
+.clients-scroll-container { width: 100%; overflow: hidden; }
+.clients-grid { display: flex; flex-wrap: nowrap; gap: 30px; justify-content: flex-start; align-items: center; padding: 0; height: 150px; animation: scrollLogos 50s linear infinite; transform: translateZ(0); will-change: transform; animation-play-state: running !important; }
+@keyframes scrollLogos { from { transform: translateX(0); } to { transform: translateX(var(--scroll-distance, -50%)); } }
+.client-item { flex-shrink: 0; max-width: 200px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; text-align: center; background-color: #fff; border: 1px solid #eee; border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: all 0.3s ease; height: 100px; justify-content: center; }
+.client-item:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.client-item img { max-width: 100%; max-height: 100%; height: auto; object-fit: contain; transition: all 0.3s ease; margin-bottom: 0; }
+
+/* Contact Section (โค้ดส่วนนี้ยังคงเดิม) */
+.contact { background-color: #fff; padding-top: 0.5rem; padding-bottom: 2rem; }
+.contact .content-title { text-align: left; margin-bottom: 2rem; }
+.contact .content-title h3 { font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem; text-align: left; }
+.contact .content-title p { color: var(--primary-color); font-size: 1.1rem; max-width: 800px; margin: 0; text-align: left; }
+.contact-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; margin-top: 2rem; }
+.contact-item-detail { background-color: #fff; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); padding: 1.5rem; text-align: left; }
+.contact-item-detail h4 { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 1rem; border-bottom: 2px solid var(--accent-color); padding-bottom: 0.5rem; display: inline-block; }
+.contact-item-detail p { margin-bottom: 0.8rem; line-height: 1; color: var(--primary-color) !important; display: flex; align-items: center; justify-content: flex-start; }
+.contact-item-detail i { margin-right: 10px; color: var(--accent-color); font-size: 1.2em; }
+.contact-item-detail a { text-decoration: none; color: #333; transition: color 0.3s ease; }
+.contact-item-detail a:hover { color: var(--primary-color); }
+.contact-item-detail.social-links p { display: flex; align-items: center; margin-bottom: 1rem; }
+.contact-item-detail .fa-phone { color: rgb(0, 150, 0); }
+.contact-item-detail .fa-envelope { color: rgb(233, 5, 5); }
+.fa-facebook, .fa-line { font-size: 30px; }
+.fa-clock { font-size: 30px; }
+.contact-item-detail .social-link-item { display: flex; justify-content: flex-start; align-items: center; }
+.contact-item-detail .social-link-item a { color: var(--primary-color); text-decoration: none; }
+.contact-item-detail .social-link-item i { color: rgb(48, 172, 244); }
+.contact-item-detail .social-link-item a[href*="lin.ee"] i { color: rgb(7, 212, 48); }
+.qr-codes-group { display: flex; justify-content: center; align-items: center; gap: 30px; margin-top: 15px; flex-wrap: wrap; }
+.qr-code-img { max-width: 170px; height: auto; display: block; flex-shrink: 0; flex-basis: 170px; margin: 0; border: 1px solid #eee; padding: 5px; border-radius: 5px; }
+
+/* Footer */
+.footer-buttom { background-color: #ffffff; color: var(--primary-color); padding: 1rem; text-align: center; z-index: 100; }
+/* Sidebar Buttons */
+.fixed-sidebar-buttons { position: fixed; right: 0; bottom: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 1050; }
+.sidebar-btn { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: linear-gradient(to right, #007bff, #0056b3); color: white; border-radius: 50%; text-decoration: none; font-size: 1rem; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; overflow: hidden; }
+.sidebar-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); }
+.sidebar-btn i { font-size: 1.2em; margin-right: 0; }
+.line-btn { background: linear-gradient(to right, #00C300, #008000); }
+.line-btn:hover { background: linear-gradient(to right, #008000, #00C300); }
+.telephone-btn { background: linear-gradient(to right, #28dbff, #5387f5); }
+.telephone-btn:hover { background: linear-gradient(to right, #5387f5, #28dbff); }
+.gmail-btn { background: linear-gradient(to right, #f99b03, #d88a0f) !important; }
+.gmail-btn:hover { background: linear-gradient(to right, #d88a0f, #f09d18) !important; }
+
+/* ================================================================= */
+/* SERVICES (sidebar + detail card)              */
+/* ================================================================= */
+
+#services.services-layout{ padding: 1rem 0; }
+#services.services-layout h3{ margin-bottom: 1.25rem; color: var(--primary-color); font-size: 2rem; }
+
+#project.project-layout{ padding: 1rem 0; }
+#project.project-layout h3{ margin-bottom: 1.25rem; color: #586882; font-size: 2rem; }
+
+.services-layout .services-container ,
+.project-layout .project-container { 
+    display: grid; 
+    grid-template-columns: 260px 1fr; 
+    gap: 24px; }
+
+.services-layout .services-sidebar,
+.project-layout .project-sidebar {
+     background: #fff; 
+     border: 1px solid #e5e8ef; 
+     border-radius: 16px; padding: 12px;
+      display: flex; flex-direction: column; 
+      gap: 12px; position: sticky; 
+      top: calc(var(--nav-height) + 18px); 
+      max-height: 70vh; 
+      overflow: auto; }
+
+.services-layout .service-item,
+.project-layout .project-item {
+     display: flex; 
+     flex-direction: row-reverse; 
+     justify-content: space-between; 
+     cursor: pointer; padding: 12px; 
+     border-radius: 16px; }
+
+.services-layout .service-item img ,
+.project-layout .project-item img{ 
+    width: 70px; 
+    height: 70px; 
+    border-radius: 12px; }
+
+.services-layout .service-item span ,
+.project-layout .project-item span { 
+    color: var(--primary-color); 
+    font-weight: 700; 
+    font-size: 1.5rem; }
+
+.services-layout .service-item:hover ,
+.project-layout .project-item:hover { 
+    background: #f7f9fc; 
+    border-color: #dbe2f0; }
+
+.services-layout .service-item:active ,
+.project-layout .project-item:active { 
+    transform: scale(.97); }
+
+.services-layout .service-item.active ,
+.project-layout .project-item.active{ 
+    background: var(--highlight-color); 
+    outline: 2px solid #76d1ec; 
+    outline-offset: 0; }
+
+/* ✅ แก้ไข Services Detail Layout (Desktop) */
+.services-layout .service-detail ,
+.project-layout .project-detail{
+    display: grid;
+    grid-template-columns: 1.2fr 1fr; /* ซ้าย: รูปใหญ่ / ขวา: Info + Related */
+    grid-template-areas: "image info"; /* จัดให้ Image (ซ้าย) เคียงคู่ Info (ขวา) */
+    gap: 24px;
+    align-items: start; /* จัดให้อยู่ด้านบน */
+    padding: 2rem;
+    background-color: #e8e8e8;
+    border-radius: 16px;
+}
+
+.services-layout .detail-image ,
+.project-layout .detail-image{ 
+    grid-area: image; 
+    display: block; 
+    width: 100%;
+}
+
+.services-layout .detail-image > img:first-child,
+.project-layout .detail-image > img:first-child {
+    width: 100%; 
+    height: auto;
+    max-height: 500px; /* จำกัดความสูงรูปหลัก */
+    object-fit: cover;
+    border-radius: 16px;
+    border: 4px solid #fff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    padding: 4px;
+    background-color: #fff
+}
+
+.services-layout .detail-info ,
+.project-layout .detail-info{ 
+    grid-area: info; 
+    /* Detail Info เป็นคอนเทนเนอร์ Flex แนวตั้งสำหรับข้อความและรูปย่อย */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.services-layout .detail-info h3 ,
+.project-layout .detail-info h3{
+    color: var(--primary-color);
+    font-size: clamp(28px, 3vw, 40px);
+    margin: 0 0 6px 0;
+}
+
+.services-layout .detail-info p ,
+.project-layout .detail-info p{
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    line-height: 1.8;
+}
+
+/* ปุ่ม/คอนโทรล */
+.services-layout .detail-controls,
+.project-layout .detail-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 12px 0 16px;
+}
+.services-layout .detail-controls button,
+.project-layout .detail-controls button {
+    background: #fff;
+    border: 1px solid #dbe2f0;
+    border-radius: 10px;
+    padding: 8px 12px;
+    color: var(--primary-color);
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s ease, border-color .2s ease, transform .08s ease;
+}
+.services-layout .detail-controls button:hover,
+.project-layout .detail-controls button:hover {
+    background: #f7f9fc;
+    border-color: #cfd7e6;
+}
+.services-layout .detail-controls button:active ,
+.project-layout .detail-controls button:active{ 
+    transform: scale(.97); }
+.services-layout .detail-controls .btn-main ,
+.project-layout .detail-controls .btn-main{
+    background: var(--accent-color);
+    border: none;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 800;
+}
+.services-layout .detail-controls .btn-main:hover ,
+.project-layout .detail-controls .btn-main:hover { 
+    background: #d88a0f; }
+
+/* รายการที่เกี่ยวข้อง */
+.services-layout .related-items ,
+.project-layout .related-items {
+    /* ✅ แก้ไข: จัดเรียงรูปภาพย่อยในแนวนอนอยู่ด้านล่างสุด */
+    display: flex;
+    flex-direction: row; 
+    gap: 12px;
+    align-items: flex-start;
+    margin-top: 20px; 
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+    width: 100%;
+}
+
+/* 🚨 ขยายขนาดรูปภาพย่อย */
+.services-layout .related-items img ,
+.project-layout .related-items img {
+    width: 100px; 
+    height: 100px; 
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid #dfe6f3;
+    cursor: pointer; 
+    transition: transform 0.2s;
+}
+.services-layout .related-items img:hover ,
+.project-layout .related-items img:hover { 
+    transform: scale(1.05); }
+
+
+/* ================================================================= */
+/* 🏢 ABOUT US & Gallery 🏢                      */
+/* ================================================================= */
+
+.maincontent {
+    background-color: #fff;
+    padding: 0rem 0;
+}
+.maincontent-con {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 24px;
+    align-items: start;
+}
+.maincontent-info {
+    color: var(--primary-color);
+    max-width: 680px;
+}
+.maincontent-info h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+.maincontent-info p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+/* กล่องรูป (Desktop) */
+.maincontent-img { width: 100%; }
+
+/* Grid layout สำหรับ Desktop/Tablet */
+.about-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* ซ้าย 2 ส่วน / ขวา 1 ส่วน */
+    gap: 20px;
+    align-items: stretch;
+}
+.about-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+}
+.about-thumbs {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr); /* 3 รูปเรียงแนวตั้ง (โครงสร้างเดิม) */
+    gap: 20px;
+}
+.about-thumbs img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+}
+
+/* Mobile Carousel Container */
+#company .about-carousel {
+    display: none; /* ซ่อนบน Desktop/Tablet */
+}
+
+/* #about section general styles */
+#about .about-wrap {
+    display: grid;
+    grid-template-columns: 1fr minmax(200px, 45%);
+    align-items: center;
+    gap: clamp(12px, 2.5vw, 24px);
+}
+#about .text { min-width: 0; }
+#about .image { min-width: 0; justify-self: end; }
+#about .image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 12px;
+}
+/* ================================================================= */
+/* 📱 MEDIA QUERIES 💻                      */
+/* ================================================================= */
+
+/* Mobile (max-width: 767px) */
+@media screen and (max-width: 767px) {
+    /* 💥 ปรับระยะห่างซ้ายขวาด้วยตัวแปร (ลดระยะห่าง) */
+    .container, .home-con { padding-left: var(--gutter-mobile) !important; padding-right: var(--gutter-mobile) !important; }
+    body { padding-top: var(--nav-height) !important; }
+    nav { box-shadow: none; padding: 0; min-height: 80px }
+    section { min-height: auto; padding: 0.5rem 0; }
+    .logo img { height: 60px; }
+    .nav-con { flex-direction: row; justify-content: space-between; padding: 0.5rem var(--gutter-mobile); align-items: center; }
+    .hamburger-menu { display: block; }
+    .nav-end { position: absolute; top: 100%; left: 0; width: 100%; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); flex-direction: column; align-items: center; transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; transform: none; opacity: 0; pointer-events: none; max-height: 0; overflow: hidden; }
+    .nav-end.active { opacity: 1; pointer-events: auto; max-height: 300px; }
+    .menu { flex-direction: column; width: 100%; margin-top: 1rem; }
+    .menu li { margin: 0; width: 100%; border-bottom: 1px solid #eee; }
+    .menu li:last-child { border-bottom: none; }
+    .menu li a { font-size: 1rem; padding: 12px 0; display: block; text-align: center; }
+    .lang-switcher { margin-top: 1rem; margin-bottom: 1rem; }
+    .lang-btn { width: 40px; height: 30px; padding: 0; text-indent: -9999px; background-size: cover; background-position: center; background-repeat: no-repeat; border-radius: 5px; }
+
+    /* Home Content */
+    .homecontent { min-height: calc(50svh - var(--nav-height)); background-position: 80% center; padding: 0; }
+    .hero-logo { top: 30px; right: var(--gutter-mobile); }
+    .hero-logo img { width: 140px; }
+    .hero-title { top: 50%; left: clamp(32px, 8vw, 64px); right: auto; transform: translateY(-50%); max-width: min(85vw, 520px); }
+    .hero-title h3 { font-size: clamp(20px, 6vw, 64px); text-align: left; }
+
+    /* Content / Project Items */
+    .content-item, .projectcontent-item { flex: 0 0 90%; width: 90%; margin-right: 10px; }
+    .content-item img { height: 320px; }
+    .projectcontent-item img { height: 350px; }
+
+    /* Scroll Container (ให้ชิดขอบมากขึ้น) */
+    .scroll-container { padding-left: var(--gutter-mobile) !important; padding-right: var(--gutter-mobile) !important; }
+    .scroll-btn.left { left: 0; } 
+    .scroll-btn.right { right: 0; } 
+
+    /* About Section */
+    .maincontent-con { display: block; }
+    /* ✅ แก้ไข: ลบ padding ที่ไม่จำเป็น และตั้ง order */
+    #company .maincontent-info { margin-bottom: 10px; order: 1; padding: 0 var(--gutter-mobile); } /* ใช้ตัวแปร gutter */
+    #company .maincontent-img { order: 2; padding: 0; } 
+    
+    /* ---------------------------------------------------- */
+    /* ✅ About Us Grid Layout สำหรับ Mobile (2 คอลัมน์) */
+    /* ---------------------------------------------------- */
+    #company .about-carousel { display: none !important; }
+    .about-grid {
+    display: grid !important;
+    grid-template-columns: 3fr 1fr;   /* ซ้ายใหญ่ ขวาเล็ก ใกล้เคียงหน้า web */
+    gap: 8px;
+    padding: var(--gutter-mobile);
+    align-items: stretch;             /* ให้คอลัมน์ซ้าย-ขวาสูงเท่ากัน */
+    }
+
+    /* ซ้าย = รูปใหญ่ */
+    .about-main,
+    .about-thumbs {
+        height: 100%;
+    }
+
+    .about-main img {
+        width: 100%;
+        height: 100%;           /* สูงเท่าคอลัมน์ขวา */
+        object-fit: cover;      /* ให้เต็มกรอบเหมือนหน้า web */
+        border-radius: 12px;
+        display: block;
+    }
+
+    /* ขวา = 3 รูปเล็ก เรียงลงมา */
+    .about-thumbs {
+        display: grid;
+        grid-template-rows: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .about-thumbs img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 12px;
+        display: block;
+    }
+
+    /* ---------------------------------------------------- */
+    
+    /* Services Layout (Stack vertical) */
+    .services-layout .services-container ,
+    .project-layout .project-container
+    { grid-template-columns: 1fr; }
+
+    /* 🚨 แก้ไข: สลับลำดับให้ 'image' อยู่ด้านบน 'info' */
+    .services-layout .service-detail,
+    .project-layout .project-detail { 
+        grid-template-columns: 1fr; 
+        grid-template-areas: "image" "info"; 
+    }
+    .services-layout .services-sidebar ,
+    .project-layout .project-sidebar {
+         position: static; 
+         max-height: none; 
+         overflow: visible; 
+         margin-bottom: 1rem; }
+    
+    /* Fixed Sidebar Buttons */
+    .fixed-sidebar-buttons { right: 0; top: 50%; transform: translateY(-50%); bottom: auto; gap: 8px; }
+    .sidebar-btn { width: 45px; height: 45px; }
+    .line-btn, .telephone-btn, .gmail-btn { width: 45px; height: 45px; }
+
+    /* QR Code in Contact Section */
+    .qr-codes-group { gap: 15px; }
+    .qr-code-img { max-width: 80px; }
+
+    /* Clients Section on mobile */
+    .clients-grid { animation: scrollLogos 20s linear infinite; }
+    .client-item { max-width: 150px; }
+    
+    .services-layout .related-items { display: flex; flex-direction: row; justify-content: flex-start; width: 100%; } 
+    .services-layout .related-items img { width: 100px; height: 100px; margin-top: 10px; }
+
+    .project-layout .related-items { display: flex; flex-direction: row; justify-content: flex-start; width: 100%; } 
+    .project-layout .related-items img { width: 100px; height: 100px; margin-top: 10px; }
+}
+
+/* Tablet (min-width: 768px) */
+@media (min-width: 768px) {
+    .container, .home-con { padding-left: var(--gutter-tablet) !important; padding-right: var(--gutter-tablet) !important; }
+    .content-item, .projectcontent-item { flex: 0 0 calc(50% - 10px); width: calc(50% - 10px); }
+    .content-item img { height: 200px; }
+    .projectcontent-item img { height: 300px; }
+    .clients-grid { animation: scrollLogos 35s linear infinite; }
+    .clients-partners .content-title h3, .clients-partners .content-title p { text-align: left; }
+    .nav-end { position: static; transform: none; opacity: 1; pointer-events: auto; box-shadow: none; flex-direction: row; width: auto; max-height: none; overflow: visible; }
+    #about .about-wrap { grid-template-columns: 1fr minmax(180px, 48%); }
+    #about .text { order: 0; }
+    #about .image { order: 1; }
+    section.homecontent + section#company { margin-top: clamp(10px, 3vw, 24px); }
+    #company .maincontent-img{ margin-top: 22px; }
+    #company .about-carousel { display: none !important; }
+    .about-grid { display: grid !important; }
+}
+
+/* Desktop (min-width: 1024px) */
+@media (min-width: 1024px) {
+    /* 💥 ปรับระยะห่างซ้ายขวาด้วยตัวแปร */
+    .container, .home-con { padding-left: var(--gutter-desktop) !important; padding-right: var(--gutter-desktop) !important; }
+    
+    /* โครงสร้างหลัก: 1. ข้อความ (ซ้าย) 2. รูปภาพ (ขวา) */
+    #company .maincontent-con {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 30px;
+    align-items: start;
+  }
+    #company .maincontent-info { align-self: start; max-width: none; }
+    
+    /* กล่องรูปภาพรวม (maincontent-img) - ถูกแก้ไขให้กินพื้นที่ 1 คอลัมน์ของ maincontent-con */
+    #company .maincontent-img {
+        display: block; 
+        width: 100%;
+    }
+    
+    /* ซ่อน Mobile Carousel บน Desktop */
+    #company .about-carousel { display: none !important; }
+
+    /* ------------------------------------------------------------------ */
+    /* ✅ 1. About Grid: ใช้ Grid 2 คอลัมน์ภายในตัวมันเอง */
+    /* ------------------------------------------------------------------ */
+     .about-grid{
+    display: grid !important;
+    grid-template-columns: 2.2fr 1fr;  /* ซ้ายใหญ่ ขวาเล็ก */
+    gap: 20px;
+    align-items: stretch;              /* สำคัญ: ให้สองคอลัมน์สูงเท่ากัน */
+    width: 100%;
+    }
+    
+    /* ------------------------------------------------------------------ */
+    /* ✅ 2. รูปใหญ่ (about-main) - อยู่ฝั่งซ้ายของ about-grid */
+    /* ------------------------------------------------------------------ */
+    .about-main,
+    .about-thumbs{ height: 100%; }
+
+    .about-main img{
+    width: 100%;
+    height: 100%;        /* ✅ ให้สูงเท่าคอลัมน์ขวา */
+    object-fit: cover;   /* เติมเต็มโดยไม่บุ๋มขอบ */
+    border-radius: 12px;
+    background: #f0f0f0;
+        }
+
+
+    /* ------------------------------------------------------------------ */
+    /* ✅ 3. 3 รูปเล็ก (about-thumbs) - อยู่ฝั่งขวาของ about-grid */
+    /* ------------------------------------------------------------------ */
+    .about-thumbs{
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .about-thumbs img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+  }
+}
