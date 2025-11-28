@@ -385,6 +385,7 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
 .maincontent-info p {
     margin-bottom: 1rem;
     line-height: 1.6;
+    font-size: 20px;
 }
 
 /* กล่องรูป (Desktop) */
@@ -393,13 +394,13 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
 /* Grid layout สำหรับ Desktop/Tablet */
 .about-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr; /* ซ้าย 2 ส่วน / ขวา 1 ส่วน */
+    grid-template-columns: 3fr 1fr; /* ซ้าย 2 ส่วน / ขวา 1 ส่วน */
     gap: 20px;
     align-items: stretch;
 }
 .about-main img {
     width: 100%;
-    height: 100%;
+    height: 80%;
     object-fit: cover;
     border-radius: 12px;
     display: block;
@@ -407,7 +408,7 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
 .about-thumbs {
     display: grid;
     grid-template-rows: repeat(3, 1fr); /* 3 รูปเรียงแนวตั้ง (โครงสร้างเดิม) */
-    gap: 20px;
+    gap: 5px;
 }
 .about-thumbs img {
     width: 100%;
@@ -437,6 +438,23 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
     object-fit: cover;
     border-radius: 12px;
 }
+
+.map-wrapper {
+    position: relative;
+}
+
+.map-wrapper iframe {
+    display: block;
+    width: 100%;
+}
+
+.map-overlay-link {
+    position: absolute;
+    inset: 0;          /* ครอบเต็มกรอบ iframe */
+    z-index: 5;
+    display: block;
+}
+
 /* ================================================================= */
 /* 📱 MEDIA QUERIES 💻                      */
 /* ================================================================= */
@@ -460,12 +478,37 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
     .lang-switcher { margin-top: 1rem; margin-bottom: 1rem; }
     .lang-btn { width: 40px; height: 30px; padding: 0; text-indent: -9999px; background-size: cover; background-position: center; background-repeat: no-repeat; border-radius: 5px; }
 
-    /* Home Content */
-    .homecontent { min-height: calc(50svh - var(--nav-height)); background-position: 80% center; padding: 0; }
-    .hero-logo { top: 30px; right: var(--gutter-mobile); }
-    .hero-logo img { width: 140px; }
-    .hero-title { top: 50%; left: clamp(32px, 8vw, 64px); right: auto; transform: translateY(-50%); max-width: min(85vw, 520px); }
-    .hero-title h3 { font-size: clamp(20px, 6vw, 64px); text-align: left; }
+    /* Home Content (Mobile) */
+    .homecontent {
+        min-height: calc(55svh - var(--nav-height));
+        background-position: 70% center;
+        padding: 0;
+    }
+
+    .hero-logo { 
+        top: 30px; 
+        right: var(--gutter-mobile); 
+    }
+
+    .hero-logo img { 
+        width: 140px; 
+    }
+
+    /* ✅ ขยับตัวหนังสือลง + บีบความกว้างให้ตัดบรรทัด */
+    .hero-title {
+        top: 50%;                                  /* เลื่อนลงมาจากกลางจอ */
+        left: clamp(32px, 8vw, 64px);
+        right: auto;        
+        transform: translateY(-50%);
+        max-width: 80vw;         
+        text-align: center;                  /* ทำให้ชื่อบริษัทห่อเป็น 2–3 บรรทัด */
+    }
+
+    .hero-title h3 {
+        font-size: clamp(20px, 5.2vw, 26px);       /* เล็กลงนิดนึงจะได้ไม่ทับรูป */
+        line-height: 1.4;
+        text-align: left;
+    }
 
     /* Content / Project Items */
     .content-item, .projectcontent-item { flex: 0 0 90%; width: 90%; margin-right: 10px; }
@@ -477,6 +520,10 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
     .scroll-btn.left { left: 0; } 
     .scroll-btn.right { right: 0; } 
 
+    /* ✅ เพิ่มช่องว่างระหว่าง Hero กับ "เกี่ยวกับเรา" บนมือถือ */
+    section.homecontent + section#company {
+    margin-top: 16px;   /* จะเพิ่มระยะห่างแบบเดียวกับ section อื่น ๆ */
+}
     /* About Section */
     .maincontent-con { display: block; }
     /* ✅ แก้ไข: ลบ padding ที่ไม่จำเป็น และตั้ง order */
@@ -523,6 +570,10 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
         border-radius: 12px;
         display: block;
     }
+    /* ✅ เพิ่มช่องว่างระหว่าง Hero กับ "เกี่ยวกับเรา" บนมือถือ */
+section.homecontent + section#company {
+    margin-top: 16px;   /* จะเพิ่มระยะห่างแบบเดียวกับ section อื่น ๆ */
+}
 
     /* ---------------------------------------------------- */
     
@@ -564,6 +615,7 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
     .project-layout .related-items img { width: 100px; height: 100px; margin-top: 10px; }
 }
 
+
 /* Tablet (min-width: 768px) */
 @media (min-width: 768px) {
     .container, .home-con { padding-left: var(--gutter-tablet) !important; padding-right: var(--gutter-tablet) !important; }
@@ -600,6 +652,7 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
     #company .maincontent-img {
         display: block; 
         width: 100%;
+        
     }
     
     /* ซ่อน Mobile Carousel บน Desktop */
@@ -611,7 +664,7 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
      .about-grid{
     display: grid !important;
     grid-template-columns: 2.2fr 1fr;  /* ซ้ายใหญ่ ขวาเล็ก */
-    gap: 20px;
+    gap: 10px;
     align-items: stretch;              /* สำคัญ: ให้สองคอลัมน์สูงเท่ากัน */
     width: 100%;
     }
@@ -624,7 +677,7 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
 
     .about-main img{
     width: 100%;
-    height: 100%;        /* ✅ ให้สูงเท่าคอลัมน์ขวา */
+    height: 99%;        /* ✅ ให้สูงเท่าคอลัมน์ขวา */
     object-fit: cover;   /* เติมเต็มโดยไม่บุ๋มขอบ */
     border-radius: 12px;
     background: #f0f0f0;
@@ -637,11 +690,11 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
     .about-thumbs{
     display: grid;
     grid-template-rows: repeat(3, 1fr);
-    gap: 10px;
+    gap: 5px;
   }
   .about-thumbs img{
     width: 100%;
-    height: 100%;
+    height: 97%;
     object-fit: cover;
     border-radius: 12px;
     display: block;
