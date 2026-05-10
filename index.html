@@ -30,8 +30,9 @@
                     <div class="nav-end">
                         <ul class="menu">
                             <li><a href="#company" data-en="Company" data-th="บริษัทฯ">Company</a></li>
-                            <li><a href="#services" data-en="Products/Services" data-th="สินค้า/บริการ">Products/Services</a></li>
+                            <li><a href="#services" data-en="Services" data-th="บริการ">Services</a></li>
                             <li><a href="#project" data-en="Projects" data-th="โปรเจกต์">Projects</a></li>
+                            <li><a href="#products" data-en="Productions" data-th="ผลิตภัณฑ์ของเรา">Productions</a></li>
                             <li><a href="#contact" data-en="Contact Us" data-th="ติดต่อเรา">Contact Us</a></li>
                         </ul>
                         <div class="lang-switcher">
@@ -88,60 +89,78 @@
         
         <section id="services" class="services-layout">
             <div class="container">
-                <h3 data-en="OUR SERVICES" data-th="สินค้า/บริการ">OUR SERVICES</h3>
+                <h3 data-en="OUR SERVICES" data-th="บริการ">OUR SERVICES</h3>
 
                 <div class="services-container">
                     <div class="services-sidebar">
-                        <div class="service-item active"
-                            data-key="vinyl"
-                            data-image="Vinyl1.png"
-                            data-title-en="Vinyl Printing"
-                            data-title-th="ป้ายไวนิล"
-                            data-desc-en="There are two main types of inkjet vinyl printing: Outdoor and Indoor."
-                            data-desc-th="งานพิมพ์ไวนิลมี 2 แบบ คือ งานนอกอาคาร และงานในอาคาร"
-                            data-related1="Sticker.png"
-                            data-related2="Other1.png">
-                            <img src="Vinyl1.png" alt="Vinyl">  
-                            <span data-en="Vinyl Printing" data-th="ป้ายไวนิล">Vinyl Printing</span>
+                        <div class="service-category open" data-category="offline">
+                            <button type="button" class="category-header">
+                                <span data-en="Offline" data-th="ออฟไลน์">Offline</span>
+                                <i class="fas fa-chevron-down category-icon"></i>
+                            </button>
+                            <div class="category-items">
+                                <div class="service-item active"
+                                    data-key="vinyl"
+                                    data-image="Vinyl1.png"
+                                    data-title-en="Vinyl Printing"
+                                    data-title-th="ป้ายไวนิล"
+                                    data-desc-en="There are two main types of inkjet vinyl printing: Outdoor and Indoor."
+                                    data-desc-th="งานพิมพ์ไวนิลมี 2 แบบ คือ งานนอกอาคาร และงานในอาคาร"
+                                    data-related1="Sticker.png"
+                                    data-related2="Other1.png">
+                                    <img src="Vinyl1.png" alt="Vinyl">
+                                    <span data-en="Vinyl Printing" data-th="ป้ายไวนิล">Vinyl Printing</span>
+                                </div>
+
+                                <div class="service-item"
+                                    data-key="sticker"
+                                    data-image="Sticker.png"
+                                    data-title-en="Sticker"
+                                    data-title-th="งานพิมพ์สติ๊กเกอร์"
+                                    data-desc-en="Indoor & outdoor stickers for glass, wall, car wraps, etc."
+                                    data-desc-th="สติ๊กเกอร์สำหรับงานภายใน/ภายนอก กระจก ผนัง รถ ฯลฯ"
+                                    data-related1="Vinyl1.png"
+                                    data-related2="Other1.png">
+                                    <img src="Sticker.png" alt="Sticker">
+                                    <span data-en="Sticker" data-th="งานพิมพ์สติ๊กเกอร์">Sticker</span>
+                                </div>
+
+                                <div class="service-item"
+                                    data-key="Lighting"
+                                    data-image="Other1.png"
+                                    data-title-en="Lighting Signs & Light Boxes"
+                                    data-title-th="ป้ายไฟ กล่องไฟ"
+                                    data-desc-en="Mesh, fabric, backlit film, standees and more."
+                                    data-desc-th="ตาข่าย ผ้า ฟิล์มเรืองแสง สแตนดี้ และอื่น ๆ"
+                                    data-related1="Vinyl1.png"
+                                    data-related2="Sticker.png">
+                                    <img src="Other1.png" alt="Other">
+                                    <span data-en="Lighting Signs & Light Boxes" data-th="ป้ายไฟ กล่องไฟ">Lighting Signs & Light Boxes</span>
+                                </div>
+
+                                <div class="service-item"
+                                    data-key="Structure"
+                                    data-image="Other1.png"
+                                    data-title-en="Structure and Installation"
+                                    data-title-th=" งานโครงสร้างและคอมโพสิต"
+                                    data-desc-en="Mesh, fabric, backlit film, standees and more."
+                                    data-desc-th="ตาข่าย ผ้า ฟิล์มเรืองแสง สแตนดี้ และอื่น ๆ"
+                                    data-related1="Vinyl1.png"
+                                    data-related2="Sticker.png">
+                                    <img src="Other1.png" alt="Other">
+                                    <span data-en="Structure and Installation" data-th=" งานโครงสร้างและคอมโพสิต">Structure and Installation</span>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="service-item"
-                            data-key="sticker"
-                            data-image="Sticker.png"
-                            data-title-en="Sticker"
-                            data-title-th="งานพิมพ์สติ๊กเกอร์"
-                            data-desc-en="Indoor & outdoor stickers for glass, wall, car wraps, etc."
-                            data-desc-th="สติ๊กเกอร์สำหรับงานภายใน/ภายนอก กระจก ผนัง รถ ฯลฯ"
-                            data-related1="Vinyl1.png"
-                            data-related2="Other1.png">
-                            <img src="Sticker.png" alt="Sticker">
-                            <span data-en="Sticker" data-th="งานพิมพ์สติ๊กเกอร์">Sticker</span>
-                        </div>
-
-                        <div class="service-item"
-                            data-key="Lighting"
-                            data-image="Other1.png"
-                            data-title-en="Lighting Signs & Light Boxes"
-                            data-title-th="ป้ายไฟ กล่องไฟ"
-                            data-desc-en="Mesh, fabric, backlit film, standees and more."
-                            data-desc-th="ตาข่าย ผ้า ฟิล์มเรืองแสง สแตนดี้ และอื่น ๆ"
-                            data-related1="Vinyl1.png"
-                            data-related2="Sticker.png">
-                            <img src="Other1.png" alt="Other">
-                            <span data-en="Lighting Signs & Light Boxes" data-th="ป้ายไฟ กล่องไฟ">Lighting Signs & Light Boxes</span>
-                        </div>
-
-                        <div class="service-item"
-                            data-key="Structure"
-                            data-image="Other1.png"
-                            data-title-en="Structure and Installation"
-                            data-title-th=" งานโครงสร้างและคอมโพสิต"
-                            data-desc-en="Mesh, fabric, backlit film, standees and more."
-                            data-desc-th="ตาข่าย ผ้า ฟิล์มเรืองแสง สแตนดี้ และอื่น ๆ"
-                            data-related1="Vinyl1.png"
-                            data-related2="Sticker.png">
-                            <img src="Other1.png" alt="Other">
-                            <span data-en="Structure and Installation" data-th=" งานโครงสร้างและคอมโพสิต">Structure and Installation</span>
+                        <div class="service-category" data-category="online">
+                            <button type="button" class="category-header">
+                                <span data-en="Online" data-th="ออนไลน์">Online</span>
+                                <i class="fas fa-chevron-down category-icon"></i>
+                            </button>
+                            <div class="category-items">
+                                <p class="category-placeholder" data-en="Coming soon..." data-th="เร็ว ๆ นี้...">Coming soon...</p>
+                            </div>
                         </div>
                     </div>
 
@@ -212,11 +231,76 @@
                         <img src="ProjectOther.jpg">
                         <span data-en="Other" data-th="งานอื่นๆ">Other</span>
                     </div>
-
                 </div>
 
                 <!-- 🟧 Detail Panel (เหมือน service-detail) -->
                 <div class="project-detail">
+                    <div class="detail-image">  
+                        <img src="ProjectVinyl.jpg">
+                    </div>
+                    <div class="detail-info">
+                        <h3 data-en="Vinyl printing" data-th="ป้ายไวนิล">vinyl printing</h3>
+                        <p>Large-scale outdoor vinyl printing.</p>
+
+                        <div class="related-items">
+                            <img src="ProjectSticker.jpg">
+                            <img src="ProjectOther.jpg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+
+
+        <!-- ⭐ ส่วนของ Products จะมีโครงสร้างและฟังก์ชันการทำงานเหมือนกับ Services แต่เปลี่ยนเนื้อหาและรูปภาพเป็นของโปรเจกต์แทน -->
+         <section id="products" class="productions-layout">
+        <div class="container">
+
+            <h3 data-en="Products" data-th="ผลิตภัณฑ์ของเรา">Products</h3>
+
+            <div class="products-container">
+
+                <!-- 🟦 Sidebar (เหมือน Services Sidebar) -->
+                <div class="products-sidebar">
+
+                    <div class="products-item active"
+                        data-title="Vinyl Printing"
+                        data-desc-en="Large-scale outdoor vinyl printing."
+                        data-desc-th="Large-scale outdoor vinyl printing."
+                        data-image="ProjectVinyl.jpg"
+                        data-related1="ProjectSticker.jpg"
+                        data-related2="ProjectOther.jpg">
+                        <img src="ProjectVinyl.jpg">
+                        <span data-en="Vinyl Printing" data-th="ป้ายไวนิล">Vinyl Printing</span>
+                    </div>
+
+                    <div class="products-item"
+                        data-title="Sticker Printing"
+                        data-desc-en="Indoor/outdoor sticker applications."
+                        data-desc-th="Indoor/outdoor sticker applications."
+                        data-image="ProjectSticker.jpg"
+                        data-related1="ProjectVinyl.jpg"
+                        data-related2="ProjectOther.jpg">
+                        <img src="ProjectSticker.jpg">
+                        <span data-en="Sticker Printing" data-th="งานพิมพ์สติ๊กเกอร์">Sticker Printing</span>
+                    </div>
+
+                    <div class="products-item"
+                        data-title="Other"
+                        data-desc-en="Various printing solutions."
+                        data-desc-th="Various printing solutions."
+                        data-image="ProjectOther.jpg"
+                        data-related1="ProjectVinyl.jpg"
+                        data-related2="ProjectSticker.jpg">
+                        <img src="ProjectOther.jpg">
+                        <span data-en="Other" data-th="งานอื่นๆ">Other</span>
+                    </div>
+
+                </div>
+
+                <!-- 🟧 Detail Panel (เหมือน service-detail) -->
+                <div class="products-detail">
 
                     <div class="detail-image">  
                         <img src="ProjectVinyl.jpg">
@@ -231,9 +315,7 @@
                             <img src="ProjectOther.jpg">
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </section>
@@ -272,7 +354,6 @@
                         <div class="client-item"><img src="Jiayijia.png" alt="Jiayijia Logo"></div>
                         <div class="client-item"><img src="Proudie.png" alt="Proudie Logo"></div>
                         <div class="client-item"><img src="Termbaan.png" alt="Termbaan Logo"></div>
-                        
                     </div>
                 </div>
             </div>
@@ -312,7 +393,7 @@
                         <p><i class="fa-solid fa-phone"></i> +66 (6) 4 775 5089 </p>
                         <p><i class="fa-solid fa-phone"></i> +66 (9) 0 996 6147 </p>
                         <p><i class="fa-solid fa-envelope"></i> crystalideasolution@gmail.com</p>
-                        <p class="social-link-item"><a href="https://www.facebook.com/CISGroups/" target="_blank" style="color: #586882 !important;">
+                        <p class="social-link-item"><a href="https://www.facebook.com/share/1DjgQfeJMo/?mibextid=wwXIfr" target="_blank" style="color: #586882 !important;">
                         <i class="fa-brands fa-facebook" style="color: rgb(48, 172, 244);"></i> cisgroups</a></p>
                         <p class="social-link-item"><a href="https://lin.ee/xLwpbal" target="_blank" style="color: #586882 !important;">
                         <i class="fa-brands fa-line" style="color: rgb(7, 212, 48);"></i> @cisgroups</a></p>
@@ -566,6 +647,18 @@
         }
 
 
+        // === SERVICES: Sidebar Accordion (Offline / Online) ===
+        const serviceCategories = document.querySelectorAll('.services-sidebar .service-category');
+        serviceCategories.forEach(cat => {
+            const header = cat.querySelector('.category-header');
+            if (!header) return;
+            header.addEventListener('click', () => {
+                const isOpen = cat.classList.contains('open');
+                serviceCategories.forEach(c => c.classList.remove('open'));
+                if (!isOpen) cat.classList.add('open');
+            });
+        });
+
         // === SERVICES: Service Detail Logic ===
         const serviceItems  = document.querySelectorAll('.services-sidebar .service-item');
         const detailImgEl = document.querySelector('.service-detail .detail-image img');
@@ -663,16 +756,39 @@
             document.querySelector('.project-item.active')?.classList.remove('active');
             item.classList.add('active');
 
+            const lang = document.body.classList.contains('lang-th') ? 'th' : 'en';
+
             projectMainImg.src = item.dataset.image;
-            projectTitle.textContent = item.dataset.title;
-            projectDesc.textContent = item.dataset.desc;
+            projectTitle.textContent = item.querySelector('span')?.textContent || item.dataset.title;
+            projectDesc.textContent = item.dataset[lang === 'th' ? 'descTh' : 'descEn'] || item.dataset.desc || '';
 
             projectRelated[0].src = item.dataset.related1;
             projectRelated[1].src = item.dataset.related2;
         });
     });
 
+    const productItems = document.querySelectorAll('.products-sidebar .products-item');
+    const productMainImg = document.querySelector('.products-detail .detail-image img');
+    const productTitle = document.querySelector('.products-detail .detail-info h3');
+    const productDesc = document.querySelector('.products-detail .detail-info p');
+    const productRelated = document.querySelectorAll('.products-detail .related-items img');
+
+    productItems.forEach(item => {
+        item.addEventListener('click', () => {
+            document.querySelector('.products-item.active')?.classList.remove('active');
+            item.classList.add('active');
+
+            const lang = document.body.classList.contains('lang-th') ? 'th' : 'en';
+
+            productMainImg.src = item.dataset.image;
+            productTitle.textContent = item.querySelector('span')?.textContent || item.dataset.title;
+            productDesc.textContent = item.dataset[lang === 'th' ? 'descTh' : 'descEn'] || item.dataset.desc || '';
+
+            productRelated[0].src = item.dataset.related1;
+            productRelated[1].src = item.dataset.related2;
+        });
+    });
+
         </script>
     </body>
     </html>
-
