@@ -3,10 +3,10 @@
 /* ================================================================= */
 :root {
     /* ตั้งค่าความกว้างสูงสุดของเนื้อหาและระยะห่างซ้ายขวา */
-    --page-max: 1800px;
-    --gutter-desktop: clamp(8px, 1vw, 16px);
-    --gutter-tablet: 16px;
-    --gutter-mobile: 10px; 
+    --page-max: none;
+    --gutter-desktop: clamp(16px, 4vw, 96px);
+    --gutter-tablet: clamp(16px, 3vw, 40px);
+    --gutter-mobile: 14px; 
     --nav-height: 78px;
     --primary-color: #586882;
     --accent-color: #f09d18;
@@ -17,10 +17,11 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 /* HTML & Body */
 html { scroll-behavior: smooth; height: 100%; }
-body { font-family: 'Nunito Sans', sans-serif; display: flex; flex-direction: column; min-height: 100vh; margin: 0; padding-top: var(--nav-height); }
+body { font-family: 'Nunito Sans', sans-serif; display: flex; flex-direction: column; min-height: 100vh; margin: 0; padding-top: var(--nav-height); overflow-x: hidden; }
 .main-content-area { flex-grow: 1; }
 /* 🚀 Container หลักสำหรับจัดกึ่งกลางและระยะห่างของเนื้อหา */
 .container, .home-con { 
+    width: 100%;
     max-width: var(--page-max); 
     margin: 0 auto; 
     padding-left: var(--gutter-desktop); 
@@ -32,7 +33,7 @@ section {
     padding: 1rem 0; 
     scroll-margin-top: calc(var(--nav-height) + 18px); 
 }
-#company, #services, #project, #contact, #clients { 
+#company, #services, #project, #products, #contact, #clients { 
     scroll-margin-top: calc(var(--nav-height) + 18px); 
 }
 
@@ -67,12 +68,12 @@ nav { position: fixed; width: 100%; top: 0; left: 0; z-index: 1000; background-c
 .homecontent {
     position: relative;
     /* ✅ ใช้ 80vh ตามที่ปรับ */
-    min-height: calc(80vh - var(--nav-height)); 
+    min-height: clamp(520px, calc(80svh - var(--nav-height)), 820px); 
     padding: 0; 
     background-image: url("CIS_Com1.jpg");
     
     background-size: cover;
-    background-position: 70% center; 
+    background-position: center center; 
     
     background-repeat: no-repeat;
     overflow: hidden;
@@ -86,9 +87,9 @@ nav { position: fixed; width: 100%; top: 0; left: 0; z-index: 1000; background-c
 .hero-logo img { width: 200px; height: auto; top: 5%; filter: drop-shadow(0 6px 14px rgba(0,0,0,.3)); }
 .hero-logo img.spin { animation: spin 6s linear infinite; }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-:root{ --hero-left: 30%; }
+:root{ --hero-left: clamp(180px, 32vw, 620px); }
 .hero-title { position: absolute; top: 50%; left: var(--hero-left); transform: translate(-50%, -50%); text-align: left; max-width: min(60ch, 70vw); }
-.hero-title h3 { font-size: clamp(80px, 3vw, 42px); color: #fff; font-weight: 700; text-shadow: 2px 2px 8px rgba(0,0,0,0.6); text-align: center; }
+.hero-title h3 { font-size: clamp(32px, 4.2vw, 80px); color: #fff; font-weight: 700; text-shadow: 2px 2px 8px rgba(0,0,0,0.6); text-align: center; line-height: 1.15; }
 .hero-title h3 .cl{ white-space: nowrap; display: inline-block; }
 
 
@@ -182,25 +183,86 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
 #project.project-layout{ padding: 1rem 0; }
 #project.project-layout h3{ margin-bottom: 1.25rem; color: #586882; font-size: 2rem; }
 
+#products.productions-layout{ padding: 1rem 0; }
+#products.productions-layout h3{ margin-bottom: 1.25rem; color: #586882; font-size: 2rem; }
+
 .services-layout .services-container ,
-.project-layout .project-container { 
+.project-layout .project-container,
+.productions-layout .products-container { 
     display: grid; 
     grid-template-columns: 260px 1fr; 
     gap: 24px; }
 
 .services-layout .services-sidebar,
-.project-layout .project-sidebar {
-     background: #fff; 
-     border: 1px solid #e5e8ef; 
+.project-layout .project-sidebar,
+.productions-layout .products-sidebar {
+     background: #fff;
+     border: 1px solid #e5e8ef;
      border-radius: 16px; padding: 12px;
-      display: flex; flex-direction: column; 
-      gap: 12px; position: sticky; 
-      top: calc(var(--nav-height) + 18px); 
-      max-height: 70vh; 
+      display: flex; flex-direction: column;
+      gap: 12px; position: sticky;
+      top: calc(var(--nav-height) + 18px);
+      max-height: 70vh;
       overflow: auto; }
 
+/* Services sidebar accordion (Offline / Online) */
+.services-layout .service-category {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.services-layout .category-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 14px 16px;
+    background: #fff;
+    border: 1px solid #e5e8ef;
+    border-radius: 12px;
+    cursor: pointer;
+    color: var(--primary-color);
+    font-family: inherit;
+    font-weight: 500;
+    font-size: clamp(1.15rem, 1.4vw, 1.7rem);
+    text-align: left;
+    transition: background-color .2s ease, border-color .2s ease;
+}
+.services-layout .category-header:hover {
+    background: #f7f9fc;
+    border-color: #dbe2f0;
+}
+.services-layout .service-category.open .category-header {
+    background: var(--highlight-color);
+    border-color: #76d1ec;
+}
+.services-layout .category-icon {
+    transition: transform .25s ease;
+    font-size: 0.85em;
+}
+.services-layout .service-category.open .category-icon {
+    transform: rotate(180deg);
+}
+.services-layout .category-items {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 8px;
+}
+.services-layout .service-category.open .category-items {
+    display: flex;
+}
+.services-layout .category-placeholder {
+    color: var(--primary-color);
+    padding: 12px;
+    font-style: italic;
+    opacity: 0.7;
+    text-align: center;
+}
+
 .services-layout .service-item,
-.project-layout .project-item {
+.project-layout .project-item,
+.productions-layout .products-item {
      display: flex; 
      flex-direction: row-reverse; 
      justify-content: space-between; 
@@ -208,35 +270,41 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
      border-radius: 16px; }
 
 .services-layout .service-item img ,
-.project-layout .project-item img{ 
+.project-layout .project-item img,
+.productions-layout .products-item img{ 
     width: 70px; 
     height: 70px; 
     border-radius: 12px; }
 
 .services-layout .service-item span ,
-.project-layout .project-item span { 
+.project-layout .project-item span,
+.productions-layout .products-item span { 
     color: var(--primary-color); 
     font-weight: 700; 
     font-size: 1.5rem; }
 
 .services-layout .service-item:hover ,
-.project-layout .project-item:hover { 
+.project-layout .project-item:hover,
+.productions-layout .products-item:hover { 
     background: #f7f9fc; 
     border-color: #dbe2f0; }
 
 .services-layout .service-item:active ,
-.project-layout .project-item:active { 
+.project-layout .project-item:active,
+.productions-layout .products-item:active { 
     transform: scale(.97); }
 
 .services-layout .service-item.active ,
-.project-layout .project-item.active{ 
+.project-layout .project-item.active,
+.productions-layout .products-item.active{ 
     background: var(--highlight-color); 
     outline: 2px solid #76d1ec; 
     outline-offset: 0; }
 
 /* ✅ แก้ไข Services Detail Layout (Desktop) */
 .services-layout .service-detail ,
-.project-layout .project-detail{
+.project-layout .project-detail,
+.productions-layout .products-detail{
     display: grid;
     grid-template-columns: 1.2fr 1fr; /* ซ้าย: รูปใหญ่ / ขวา: Info + Related */
     grid-template-areas: "image info"; /* จัดให้ Image (ซ้าย) เคียงคู่ Info (ขวา) */
@@ -248,14 +316,16 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
 }
 
 .services-layout .detail-image ,
-.project-layout .detail-image{ 
+.project-layout .detail-image,
+.productions-layout .detail-image{ 
     grid-area: image; 
     display: block; 
     width: 100%;
 }
 
 .services-layout .detail-image > img:first-child,
-.project-layout .detail-image > img:first-child {
+.project-layout .detail-image > img:first-child,
+.productions-layout .detail-image > img:first-child {
     width: 100%; 
     height: auto;
     max-height: 500px; /* จำกัดความสูงรูปหลัก */
@@ -268,7 +338,8 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
 }
 
 .services-layout .detail-info ,
-.project-layout .detail-info{ 
+.project-layout .detail-info,
+.productions-layout .detail-info{ 
     grid-area: info; 
     /* Detail Info เป็นคอนเทนเนอร์ Flex แนวตั้งสำหรับข้อความและรูปย่อย */
     display: flex;
@@ -277,14 +348,16 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
 }
 
 .services-layout .detail-info h3 ,
-.project-layout .detail-info h3{
+.project-layout .detail-info h3,
+.productions-layout .detail-info h3{
     color: var(--primary-color);
     font-size: clamp(28px, 3vw, 40px);
     margin: 0 0 6px 0;
 }
 
 .services-layout .detail-info p ,
-.project-layout .detail-info p{
+.project-layout .detail-info p,
+.productions-layout .detail-info p{
     color: var(--primary-color);
     font-size: 1.2rem;
     line-height: 1.8;
@@ -292,14 +365,16 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
 
 /* ปุ่ม/คอนโทรล */
 .services-layout .detail-controls,
-.project-layout .detail-controls {
+.project-layout .detail-controls,
+.productions-layout .detail-controls {
     display: flex;
     align-items: center;
     gap: 10px;
     margin: 12px 0 16px;
 }
 .services-layout .detail-controls button,
-.project-layout .detail-controls button {
+.project-layout .detail-controls button,
+.productions-layout .detail-controls button {
     background: #fff;
     border: 1px solid #dbe2f0;
     border-radius: 10px;
@@ -310,15 +385,18 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
     transition: background .2s ease, border-color .2s ease, transform .08s ease;
 }
 .services-layout .detail-controls button:hover,
-.project-layout .detail-controls button:hover {
+.project-layout .detail-controls button:hover,
+.productions-layout .detail-controls button:hover {
     background: #f7f9fc;
     border-color: #cfd7e6;
 }
 .services-layout .detail-controls button:active ,
-.project-layout .detail-controls button:active{ 
+.project-layout .detail-controls button:active,
+.productions-layout .detail-controls button:active{ 
     transform: scale(.97); }
 .services-layout .detail-controls .btn-main ,
-.project-layout .detail-controls .btn-main{
+.project-layout .detail-controls .btn-main,
+.productions-layout .detail-controls .btn-main{
     background: var(--accent-color);
     border: none;
     color: #fff;
@@ -327,12 +405,14 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
     font-weight: 800;
 }
 .services-layout .detail-controls .btn-main:hover ,
-.project-layout .detail-controls .btn-main:hover { 
+.project-layout .detail-controls .btn-main:hover,
+.productions-layout .detail-controls .btn-main:hover { 
     background: #d88a0f; }
 
 /* รายการที่เกี่ยวข้อง */
 .services-layout .related-items ,
-.project-layout .related-items {
+.project-layout .related-items,
+.productions-layout .related-items {
     /* ✅ แก้ไข: จัดเรียงรูปภาพย่อยในแนวนอนอยู่ด้านล่างสุด */
     display: flex;
     flex-direction: row; 
@@ -346,7 +426,8 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
 
 /* 🚨 ขยายขนาดรูปภาพย่อย */
 .services-layout .related-items img ,
-.project-layout .related-items img {
+.project-layout .related-items img,
+.productions-layout .related-items img {
     width: 100px; 
     height: 100px; 
     object-fit: cover;
@@ -356,8 +437,38 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
     transition: transform 0.2s;
 }
 .services-layout .related-items img:hover ,
-.project-layout .related-items img:hover { 
+.project-layout .related-items img:hover,
+.productions-layout .related-items img:hover { 
     transform: scale(1.05); }
+
+/* Responsive fluid sizing for content sections */
+.services-layout .services-container,
+.project-layout .project-container,
+.productions-layout .products-container {
+    grid-template-columns: clamp(220px, 18vw, 320px) minmax(0, 1fr);
+    gap: clamp(16px, 2vw, 32px);
+}
+
+.services-layout .service-item span,
+.project-layout .project-item span,
+.productions-layout .products-item span {
+    font-size: clamp(1rem, 1.25vw, 1.5rem);
+}
+
+.services-layout .service-detail,
+.project-layout .project-detail,
+.productions-layout .products-detail {
+    grid-template-columns: minmax(0, 1.2fr) minmax(260px, .8fr);
+    gap: clamp(16px, 2vw, 32px);
+    padding: clamp(16px, 2.5vw, 40px);
+}
+
+.services-layout .detail-image > img:first-child,
+.project-layout .detail-image > img:first-child,
+.productions-layout .detail-image > img:first-child {
+    height: clamp(260px, 38vw, 560px);
+    max-height: 560px;
+}
 
 
 /* ================================================================= */
@@ -370,13 +481,13 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
 }
 .maincontent-con {
     display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 24px;
+    grid-template-columns: minmax(280px, .9fr) minmax(0, 1.4fr);
+    gap: clamp(18px, 2.4vw, 40px);
     align-items: start;
 }
 .maincontent-info {
     color: var(--primary-color);
-    max-width: 680px;
+    max-width: none;
 }
 .maincontent-info h3 {
     font-size: 2rem;
@@ -385,7 +496,7 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
 .maincontent-info p {
     margin-bottom: 1rem;
     line-height: 1.6;
-    font-size: 20px;
+    font-size: clamp(16px, 1.05vw, 20px);
 }
 
 /* กล่องรูป (Desktop) */
@@ -395,12 +506,12 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
 .about-grid {
     display: grid;
     grid-template-columns: 3fr 1fr; /* ซ้าย 2 ส่วน / ขวา 1 ส่วน */
-    gap: 20px;
+    gap: clamp(8px, 1vw, 20px);
     align-items: stretch;
 }
 .about-main img {
     width: 100%;
-    height: 80%;
+    height: clamp(280px, 36vw, 620px);
     object-fit: cover;
     border-radius: 12px;
     display: block;
@@ -579,17 +690,20 @@ section.homecontent + section#company {
     
     /* Services Layout (Stack vertical) */
     .services-layout .services-container ,
-    .project-layout .project-container
+    .project-layout .project-container,
+    .productions-layout .products-container
     { grid-template-columns: 1fr; }
 
     /* 🚨 แก้ไข: สลับลำดับให้ 'image' อยู่ด้านบน 'info' */
     .services-layout .service-detail,
-    .project-layout .project-detail { 
+    .project-layout .project-detail,
+    .productions-layout .products-detail { 
         grid-template-columns: 1fr; 
         grid-template-areas: "image" "info"; 
     }
     .services-layout .services-sidebar ,
-    .project-layout .project-sidebar {
+    .project-layout .project-sidebar,
+    .productions-layout .products-sidebar {
          position: static; 
          max-height: none; 
          overflow: visible; 
@@ -613,6 +727,9 @@ section.homecontent + section#company {
 
     .project-layout .related-items { display: flex; flex-direction: row; justify-content: flex-start; width: 100%; } 
     .project-layout .related-items img { width: 100px; height: 100px; margin-top: 10px; }
+
+    .productions-layout .related-items { display: flex; flex-direction: row; justify-content: flex-start; width: 100%; } 
+    .productions-layout .related-items img { width: 100px; height: 100px; margin-top: 10px; }
 }
 
 
@@ -699,4 +816,107 @@ section.homecontent + section#company {
     border-radius: 12px;
     display: block;
   }
+}
+
+/* ================================================================
+   Clean responsive overrides
+   Put new fixes here so older rules above do not fight each other.
+   ================================================================ */
+
+/* About section: big image height equals the full stack of 3 small images. */
+#company .maincontent-con {
+    display: grid;
+    grid-template-columns: minmax(320px, .9fr) minmax(0, 1.55fr);
+    gap: clamp(20px, 2.8vw, 48px);
+    align-items: start;
+}
+
+#company .maincontent-img {
+    margin-top: 0;
+    width: 100%;
+}
+
+#company .about-grid {
+    --about-gap: clamp(8px, .8vw, 12px);
+    --about-gallery-height: clamp(420px, 36vw, 680px);
+
+    display: grid !important;
+    grid-template-columns: minmax(0, 2.2fr) minmax(180px, 1fr);
+    gap: var(--about-gap);
+    align-items: stretch;
+    width: 100%;
+}
+
+#company .about-main,
+#company .about-thumbs {
+    height: var(--about-gallery-height);
+    min-height: 0;
+}
+
+#company .about-main img,
+#company .about-thumbs img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+#company .about-thumbs {
+    display: grid;
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    gap: var(--about-gap);
+}
+
+/* Service, project and product panels: switch earlier before layouts get tight. */
+@media (max-width: 1100px) {
+    #company .maincontent-con {
+        grid-template-columns: 1fr;
+    }
+
+    #company .about-grid {
+        --about-gallery-height: clamp(320px, 58vw, 560px);
+    }
+
+    .services-layout .services-container,
+    .project-layout .project-container,
+    .productions-layout .products-container {
+        grid-template-columns: 1fr;
+    }
+
+    .services-layout .services-sidebar,
+    .project-layout .project-sidebar,
+    .productions-layout .products-sidebar {
+        position: static;
+        max-height: none;
+    }
+
+    .services-layout .service-detail,
+    .project-layout .project-detail,
+    .productions-layout .products-detail {
+        grid-template-columns: 1fr;
+        grid-template-areas: "image" "info";
+    }
+}
+
+@media (max-width: 767px) {
+    #company .about-grid {
+        --about-gallery-height: clamp(240px, 70vw, 420px);
+        grid-template-columns: 1fr;
+    }
+
+    #company .about-main {
+        height: var(--about-gallery-height);
+    }
+
+    #company .about-thumbs {
+        height: auto;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: none;
+    }
+
+    #company .about-thumbs img {
+        aspect-ratio: 1 / 1;
+        height: auto;
+    }
 }
