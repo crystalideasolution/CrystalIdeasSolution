@@ -89,8 +89,8 @@ nav { position: fixed; width: 100%; top: 0; left: 0; z-index: 1000; background-c
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 :root{ --hero-left: clamp(180px, 32vw, 620px); }
 .hero-title { position: absolute; top: 50%; left: var(--hero-left); transform: translate(-50%, -50%); text-align: left; max-width: min(60ch, 70vw); }
-.hero-title h3 { font-size: clamp(32px, 4.2vw, 80px); color: #fff; font-weight: 700; text-shadow: 2px 2px 8px rgba(0,0,0,0.6); text-align: center; line-height: 1.15; }
-.hero-title h3 .cl{ white-space: nowrap; display: inline-block; }
+.hero-title h1 { font-size: clamp(32px, 4.2vw, 80px); color: #fff; font-weight: 700; text-shadow: 2px 2px 8px rgba(0,0,0,0.6); text-align: center; line-height: 1.15; margin: 0; }
+.hero-title h1 .cl{ white-space: nowrap; display: inline-block; }
 
 
 /* ================================================================= */
@@ -615,7 +615,7 @@ body.lang-en .clients-partners .content-title h3::after, body.lang-th .clients-p
         text-align: center;                  /* ทำให้ชื่อบริษัทห่อเป็น 2–3 บรรทัด */
     }
 
-    .hero-title h3 {
+    .hero-title h1 {
         font-size: clamp(20px, 5.2vw, 26px);       /* เล็กลงนิดนึงจะได้ไม่ทับรูป */
         line-height: 1.4;
         text-align: left;
