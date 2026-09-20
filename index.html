@@ -3,6 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>
+/* ต้องรันก่อนอย่างอื่นทั้งหมด
+   1) จำโฟลเดอร์ที่เว็บติดตั้งอยู่ (คำนวณจาก URL ตอนเปิดหน้าเท่านั้น)
+   2) ประกาศ <base> เพื่อให้รูปและไฟล์ต่าง ๆ ที่อ้างแบบสั้น เช่น CIS.png หาเจอเสมอ
+      แม้ URL จะเป็น /admin/hero หรือ /project/xxx
+   3) ถอดพาธที่ 404.html ส่งต่อมา (รูปแบบ ?/พาธ) กลับเป็น URL ปกติ */
+(function (l, d) {
+  var p = l.pathname;
+  window.__BASE__ = p.slice(0, p.lastIndexOf("/") + 1);
+  if (l.protocol !== "file:") {
+    var b = d.createElement("base");
+    b.href = window.__BASE__;
+    d.head.appendChild(b);
+  }
+  if (l.search[1] === "/") {
+    var decoded = l.search.slice(1).split("&").map(function (s) { return s.replace(/~and~/g, "&"); }).join("?");
+    history.replaceState(null, "", p.replace(/\/$/, "") + decoded + l.hash);
+  }
+})(window.location, document);
+</script>
 <title>บริษัท คริสตัล ไอเดีย โซลูชั่น จำกัด | Crystal Ideas Solution</title>
 <meta name="description" content="Crystal Ideas Solution ออกแบบ ผลิต และติดตั้งสื่อโฆษณาครบวงจร งานพิมพ์ไวนิล สติ๊กเกอร์ ป้ายไฟ กล่องไฟ และงานโครงสร้าง ในกรุงเทพฯ">
 <meta name="keywords" content="บริษัท คริสตัล ไอเดีย โซลูชั่น, Crystal Ideas Solution, Crystal Idea Solution, CIS Groups, พิมพ์ไวนิล, สติ๊กเกอร์, ป้ายไฟ, กล่องไฟ, สื่อโฆษณา, inkjet media">
@@ -19,17 +39,6 @@
 <meta name="twitter:description" content="บริการสื่อโฆษณา งานพิมพ์ไวนิล สติ๊กเกอร์ ป้ายไฟ กล่องไฟ และงานติดตั้งครบวงจร">
 <meta name="twitter:image" content="CIS1.jpg">
 <link rel="icon" href="CIS.png">
-<script>
-/* เก็บโฟลเดอร์ที่เว็บติดตั้งอยู่ไว้ก่อนแก้ URL และถอดพาธที่ 404.html ส่งต่อมาให้กลับเป็น URL สวย ๆ */
-(function (l) {
-  var p = l.pathname;
-  window.__BASE__ = p.slice(0, p.lastIndexOf("/") + 1);
-  if (l.search[1] === "/") {
-    var decoded = l.search.slice(1).split("&").map(function (s) { return s.replace(/~and~/g, "&"); }).join("?");
-    history.replaceState(null, "", p.replace(/\/$/, "") + decoded + l.hash);
-  }
-})(window.location);
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
