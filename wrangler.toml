@@ -4,4 +4,4 @@ pages_build_output_dir = "."
 
 [[kv_namespaces]]
 binding = "CIS_KV"
-id = "PLACEHOLDER"
+id = "d9c679386e4149a5946b8c4fbaff02ac"
