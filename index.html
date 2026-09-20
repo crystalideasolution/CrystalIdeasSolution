@@ -607,6 +607,9 @@ body.is-admin .site-header,body.is-admin .site-footer{display:none}
 .login-box .btn:disabled{opacity:.55;cursor:default}
 .login-box .btn{justify-content:center;width:100%;text-transform:none;letter-spacing:0}
 .login-box>a{color:var(--muted);font-size:14px;text-align:center;margin-top:12px}
+.link-reset{background:none;border:0;color:var(--muted);font-size:13px;text-decoration:underline;cursor:pointer;margin-top:6px;padding:4px}
+.link-reset:hover{color:var(--blue)}
+.adm-ver{font-size:12px;color:#7A8CB0}
 .err-line{color:#B42318;font-size:14px;margin:0 0 8px}
 
 /* toast + modal */
@@ -706,6 +709,24 @@ const clone = o => JSON.parse(JSON.stringify(o));
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 const slugify = s => String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 const telHref = p => "tel:" + String(p).replace(/[^\d+]/g, "");
+
+/* ---------- เวอร์ชันของไฟล์นี้ (ต้องตรงกับไฟล์ version.txt ที่อัปขึ้นเซิร์ฟเวอร์) ---------- */
+const APP_VERSION = "2026.09.20-7";
+/* GitHub Pages สั่งให้เบราว์เซอร์เก็บไฟล์ไว้ 10 นาที ถ้าเพิ่งอัปเดตเว็บ ผู้ใช้อาจยังเห็นของเก่า
+   ตรงนี้จึงถามเซิร์ฟเวอร์ว่าเวอร์ชันล่าสุดคืออะไร ถ้าไม่ตรงกับไฟล์ที่กำลังรันอยู่ ให้โหลดใหม่ให้เองหนึ่งครั้ง */
+async function checkVersion() {
+  if (location.protocol === "file:") return;
+  try {
+    const r = await fetch("version.txt?t=" + Date.now(), { cache: "no-store" });
+    if (!r.ok) return;
+    const v = (await r.text()).trim();
+    if (!v || v === APP_VERSION) return;
+    if (sessionStorage.getItem("cis-updated") === v) return;   // กันโหลดวนซ้ำ
+    sessionStorage.setItem("cis-updated", v);
+    await fetch(location.href, { cache: "reload" }).catch(() => {});
+    location.reload();
+  } catch (e) {}
+}
 
 /* ---------- URL ของแต่ละหน้า (ไม่มี # เมื่อเปิดผ่านเว็บเซิร์ฟเวอร์) ---------- */
 const HASHMODE = location.protocol === "file:";          // เปิดไฟล์ตรง ๆ ต้องใช้ # เพราะเบราว์เซอร์ไม่ให้เปลี่ยน path
@@ -1044,16 +1065,18 @@ async function pwSet(pw) {
   D().admin = { salt, iter: PW_ITER, hash: await pwHash(pw, salt, PW_ITER) };
 }
 async function pwCheck(pw) {
-  const a = D().admin || {};
-  if (a.password !== undefined) {            // ข้อมูลเก่าที่เคยเก็บเป็นข้อความ -> ตรวจแล้วแปลงเป็นแฮชให้
-    if (pw !== a.password) return false;
-    await pwSet(pw);
-    if (await pwIsFactory(pw)) D().admin.isDefault = true;
-    await Store.save(); return true;
-  }
-  if (!a.hash || !hasCrypto()) return false;
-  const got = await pwHash(pw, a.salt, a.iter);
-  return got.length === a.hash.length && got === a.hash;
+  try {
+    const a = D().admin || {};
+    if (a.password !== undefined) {          // ข้อมูลเก่าที่เคยเก็บเป็นข้อความ -> ตรวจแล้วแปลงเป็นแฮชให้
+      if (pw !== a.password) return false;
+      await pwSet(pw);
+      if (await pwIsFactory(pw)) D().admin.isDefault = true;
+      await Store.save(); return true;
+    }
+    if (!a.hash || !hasCrypto()) return false;
+    const got = await pwHash(pw, a.salt, a.iter);
+    return got.length === a.hash.length && got === a.hash;
+  } catch (e) { return false; }              // ข้อมูลในเครื่องเสียหาย -> ถือว่ารหัสผ่านไม่ผ่าน จะได้ขึ้นข้อความให้ผู้ใช้เห็น
 }
 const pwIsDefault = () => (D().admin || {}).isDefault === true;
 async function pwIsFactory(pw) { const d = DEFAULTS.admin; try { return hasCrypto() && (await pwHash(pw, d.salt, d.iter)) === d.hash; } catch (e) { return false; } }
@@ -1671,6 +1694,7 @@ const shell = (active, title, html, action = "") => `
       <div class="adm-side-foot">
         <a href="#/">ดูหน้าเว็บไซต์</a>
         <button type="button" id="logout">ออกจากระบบ</button>
+        <span class="adm-ver">เวอร์ชัน ${APP_VERSION}</span>
       </div>
     </aside>
     <div class="adm-scrim" id="admScrim"></div>
@@ -2217,6 +2241,7 @@ function loginHTML() {
       <p class="err-line" id="loginErr" hidden></p>
       <button class="btn btn-primary" id="loginBtn">เข้าสู่ระบบ</button>
       <a href="#/">← กลับไปหน้าเว็บไซต์</a>
+      <button type="button" class="link-reset" id="pwHelp">เข้าสู่ระบบไม่ได้ กดที่นี่</button>
     </form>
   </div>`;
 }
@@ -2280,6 +2305,13 @@ function renderAdmin(sub, a, b) {
     cleanup.push(() => clearTimeout(tick));
     lockCheck();
     $("#capNew").onclick = () => { code = drawCaptcha(); $("#cap").value = ""; $("#cap").focus(); };
+    $("#pwHelp").onclick = async () => {
+      if (!await ask("ล้างข้อมูลระบบจัดการที่เก็บไว้ในเบราว์เซอร์เครื่องนี้ แล้วเริ่มใหม่จากเนื้อหาตั้งต้นใช่ไหม (เนื้อหาที่เคยแก้ไว้ในเครื่องนี้จะหาย ส่วนเว็บที่เผยแพร่อยู่ไม่กระทบ)", "ล้างข้อมูล")) return;
+      try { sessionStorage.clear(); localStorage.removeItem("cis-login-lock"); } catch (e) {}
+      try { if (Store.db) Store.db.close(); indexedDB.deleteDatabase("crystal-cms"); } catch (e) {}
+      try { await fetch(location.href, { cache: "reload" }); } catch (e) {}
+      setTimeout(() => location.reload(), 300);
+    };
     $("#pwEye").onclick = () => {
       const inp = $("#pw"), eye = $("#pwEye"), show = inp.type === "password";
       inp.type = show ? "text" : "password";
@@ -2301,7 +2333,8 @@ function renderAdmin(sub, a, b) {
         return;
       }
       btn.disabled = true;
-      const ok = await pwCheck($("#pw").value);
+      let ok = false;
+      try { ok = await pwCheck($("#pw").value); } catch (err) { ok = false; }
       btn.disabled = false;
       if (ok) { setFails({}); setAuth(true); route(); return; }
       const f = fails(), n = (f.n || 0) + 1;
@@ -2388,7 +2421,7 @@ else {
   new MutationObserver(() => fixLinks(app)).observe(app, { childList: true, subtree: true });
 }
 fixLinks(document);
-Store.load().then(() => { applyChrome(); route(); });
+Store.load().then(() => { applyChrome(); route(); checkVersion(); });
 
 </script>
 </body>
