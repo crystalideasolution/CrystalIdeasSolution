@@ -574,8 +574,12 @@ body.is-admin .site-header,body.is-admin .site-footer{display:none}
 /* login */
 .login{min-height:100vh;min-height:100dvh;display:grid;place-items:center;padding:24px;background:linear-gradient(160deg,#0A1630,#15305f)}
 .login-box{background:#fff;border-radius:10px;padding:34px;width:100%;max-width:380px;display:grid;gap:4px}
-.login-box .logo{margin-bottom:18px}
-.login-box h1{font-size:20px;margin:0 0 16px}
+.login-box .logo{margin-bottom:18px;justify-content:center}
+.login-box h1{font-size:20px;margin:0 0 18px;text-align:center}
+.cap-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.cap-row canvas{border:1px solid var(--line);border-radius:4px;background:#EEF2F8;flex:1;max-width:100%;height:60px;-webkit-user-select:none;user-select:none}
+.login-box .err-line{text-align:center}
+.login-box .btn:disabled{opacity:.55;cursor:default}
 .login-box .btn{justify-content:center;width:100%;text-transform:none;letter-spacing:0}
 .login-box>a{color:var(--muted);font-size:14px;text-align:center;margin-top:12px}
 .err-line{color:#B42318;font-size:14px;margin:0 0 8px}
@@ -705,7 +709,7 @@ const DEFAULTS = {
     hoursNote: "(ปิดวันเสาร์ - อาทิตย์)",
     hoursNoteEn: "(Closed Saturday - Sunday)"
   },
-  admin: { password: "admin1234" },
+  admin: { salt: "vYK9n6msyk9wmZor1QRVJA==", iter: 150000, hash: "obXi7kLgFBhIuxN2+PJBjN3e4XpvmHlOWqn5DsATY1o=", isDefault: true },
   hero: [
     { id: "h1", title: "WE TURN IDEAS\nINTO REALITY.", titleEn: "WE TURN IDEAS\nINTO REALITY.",
       sub: "ออกแบบ ผลิต และติดตั้งสื่อโฆษณาครบวงจร ทั้งงานพิมพ์ไวนิล สติ๊กเกอร์ ป้ายไฟ และงานโครงสร้าง",
@@ -976,6 +980,36 @@ function migrate(d) {
   return out;
 }
 const D = () => Store.data;
+
+/* ---------- รหัสผ่านผู้ดูแล: เก็บเฉพาะค่าแฮช (PBKDF2-SHA256) ---------- */
+const PW_ITER = 150000;
+const b64 = buf => btoa(String.fromCharCode(...new Uint8Array(buf)));
+const unb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+const hasCrypto = () => !!(window.crypto && window.crypto.subtle);
+const newSalt = () => b64(crypto.getRandomValues(new Uint8Array(16)));
+async function pwHash(pw, salt, iter) {
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveBits"]);
+  const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", salt: unb64(salt), iterations: iter || PW_ITER, hash: "SHA-256" }, key, 256);
+  return b64(bits);
+}
+async function pwSet(pw) {
+  const salt = newSalt();
+  D().admin = { salt, iter: PW_ITER, hash: await pwHash(pw, salt, PW_ITER) };
+}
+async function pwCheck(pw) {
+  const a = D().admin || {};
+  if (a.password !== undefined) {            // ข้อมูลเก่าที่เคยเก็บเป็นข้อความ -> ตรวจแล้วแปลงเป็นแฮชให้
+    if (pw !== a.password) return false;
+    await pwSet(pw);
+    if (await pwIsFactory(pw)) D().admin.isDefault = true;
+    await Store.save(); return true;
+  }
+  if (!a.hash || !hasCrypto()) return false;
+  const got = await pwHash(pw, a.salt, a.iter);
+  return got.length === a.hash.length && got === a.hash;
+}
+const pwIsDefault = () => (D().admin || {}).isDefault === true;
+async function pwIsFactory(pw) { const d = DEFAULTS.admin; try { return hasCrypto() && (await pwHash(pw, d.salt, d.iter)) === d.hash; } catch (e) { return false; } }
 const pubProjects = () => D().projects.filter(p => p.published !== false);
 const unread = () => D().messages.filter(m => !m.read).length;
 
@@ -1019,7 +1053,8 @@ const AI = {
   up:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 15l6-6 6 6"/></svg>`,
   down:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg>`,
   trash:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>`,
-  edit:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M14.5 5.5l4 4L9 19H5v-4z"/></svg>`
+  edit:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M14.5 5.5l4 4L9 19H5v-4z"/></svg>`,
+  reload:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v4h-4"/></svg>`
 };
 
 /* ---------- Photo renderer (ไม่มีรูป = เว้นว่าง) ---------- */
@@ -1275,8 +1310,8 @@ contact() {
           <div class="cblock">${I.phone}<div><b>${t("contact.phone")}</b>${phoneLinks("<br>")}</div></div>
           <div class="cblock">${I.mail}<div><b>${t("contact.email")}</b><a href="mailto:${esc(c.email)}">${esc(c.email)}</a></div></div>
           <div class="cblock">${I.line}<div><b>LINE</b><p>${c.lineUrl ? `<a href="${esc(c.lineUrl)}" target="_blank" rel="noopener">${esc(c.line)}</a>` : esc(c.line)}</p>
-            <div class="qr-row">${qrBox(c.lineQR, "LINE " + c.line)}${c.fbQR ? qrBox(c.fbQR, "Facebook") : ""}</div></div></div>
-          ${c.facebook ? `<div class="cblock">${I.fb}<div><b>Facebook</b><a href="${esc(c.facebook)}" target="_blank" rel="noopener">${esc(c.fbName || "Facebook")}</a></div></div>` : ""}
+            ${qrBox(c.lineQR, "LINE " + c.line)}</div></div>
+          ${c.facebook || c.fbQR ? `<div class="cblock">${I.fb}<div><b>Facebook</b>${c.facebook ? `<a href="${esc(c.facebook)}" target="_blank" rel="noopener">${esc(c.fbName || "Facebook")}</a>` : ""}${c.fbQR ? qrBox(c.fbQR, "Facebook " + (c.fbName || "")) : ""}</div></div>` : ""}
           <div class="cblock">${I.pin}<div><b>${t("contact.address")}</b><p>${esc(pick(c.address, c.addressEn))}</p></div></div>
           <div class="cblock">${I.clock}<div><b>${t("contact.hours")}</b><p>${esc(pick(c.hours, c.hoursEn))}</p><p style="color:var(--muted)">${esc(pick(c.hoursNote, c.hoursNoteEn))}</p></div></div>
         </div>
@@ -1605,6 +1640,7 @@ const AdminViews = {
   const pub = pubProjects().length, hidden = D().projects.length - pub, un = unread();
   const recent = D().messages.slice(0, 5);
   return { title: "แดชบอร์ด", html: `
+    ${pwIsDefault() ? `<div class="note warn"><b>ยังใช้รหัสผ่านตั้งต้นอยู่</b> รหัสผ่านตั้งต้นเป็นค่าที่รู้กันทั่วไป ใครก็เข้าระบบจัดการได้ กรุณา<a href="#/admin/company" style="color:#7A4B00;text-decoration:underline">เปลี่ยนรหัสผ่าน</a>ที่เมนูข้อมูลบริษัท</div>` : ""}
     <div class="stats">
       <a class="stat" href="#/admin/projects"><b>${pub}</b><span>ผลงานที่แสดงบนเว็บ</span></a>
       <a class="stat" href="#/admin/projects"><b>${hidden}</b><span>ผลงานที่ซ่อนอยู่</span></a>
@@ -1939,7 +1975,7 @@ company() {
     <form id="pwForm" class="card" style="margin-top:20px">
       <h2>เปลี่ยนรหัสผ่านผู้ดูแล</h2>
       <div class="grid3">
-        <div class="field"><label for="pw1">รหัสผ่านใหม่</label><input id="pw1" type="password" autocomplete="new-password" minlength="6"></div>
+        <div class="field"><label for="pw1">รหัสผ่านใหม่</label><input id="pw1" type="password" autocomplete="new-password" minlength="8"><small class="hint">อย่างน้อย 8 ตัวอักษร ระบบเก็บเฉพาะค่าที่เข้ารหัสไว้ ไม่เก็บรหัสผ่านจริง</small></div>
         <div class="field"><label for="pw2">ยืนยันรหัสผ่านใหม่</label><input id="pw2" type="password" autocomplete="new-password"></div>
         <div class="field" style="align-self:end"><button class="btn btn-line btn-sm">เปลี่ยนรหัสผ่าน</button></div>
       </div>
@@ -1956,11 +1992,12 @@ company() {
       });
       commit("บันทึกข้อมูลบริษัทแล้ว");
     };
-    $("#pwForm").onsubmit = e => {
+    $("#pwForm").onsubmit = async e => {
       e.preventDefault(); const a = $("#pw1").value, b = $("#pw2").value;
-      if (a.length < 6) return toast("รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร", "err");
+      if (a.length < 8) return toast("รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร", "err");
       if (a !== b) return toast("รหัสผ่านทั้งสองช่องไม่ตรงกัน", "err");
-      D().admin.password = a; e.target.reset(); commit("เปลี่ยนรหัสผ่านแล้ว");
+      if (!hasCrypto()) return toast("เบราว์เซอร์นี้เปลี่ยนรหัสผ่านไม่ได้ ต้องเปิดผ่าน https://", "err");
+      await pwSet(a); e.target.reset(); commit("เปลี่ยนรหัสผ่านแล้ว"); route();
     };
   } };
 },
@@ -2109,16 +2146,59 @@ function projectForm(id) {
 function loginHTML() {
   return `
   <div class="login">
-    <form class="login-box" id="loginForm">
+    <form class="login-box" id="loginForm" autocomplete="off">
       <span class="logo">${logoImg()}</span>
       <h1>เข้าสู่ระบบจัดการเว็บไซต์</h1>
       <div class="field"><label for="pw">รหัสผ่าน</label><input type="password" id="pw" autocomplete="current-password" required></div>
-      <p class="err-line" id="loginErr" hidden>รหัสผ่านไม่ถูกต้อง ลองอีกครั้ง</p>
-      <button class="btn btn-primary">เข้าสู่ระบบ</button>
-      <small class="hint">รหัสผ่านตั้งต้น: admin1234 (เปลี่ยนได้ที่เมนู ข้อมูลบริษัท)</small>
+      <div class="field">
+        <label for="cap">พิมพ์อักษรที่เห็นในภาพ</label>
+        <div class="cap-row">
+          <canvas id="capImg" width="170" height="60" role="img" aria-label="ภาพอักษรสำหรับยืนยันว่าไม่ใช่โปรแกรมอัตโนมัติ"></canvas>
+          <button type="button" class="icon-btn" id="capNew" aria-label="สุ่มอักษรใหม่">${AI.reload}</button>
+        </div>
+        <input id="cap" autocomplete="off" spellcheck="false" inputmode="latin" required>
+      </div>
+      <p class="err-line" id="loginErr" hidden></p>
+      <button class="btn btn-primary" id="loginBtn">เข้าสู่ระบบ</button>
       <a href="#/">← กลับไปหน้าเว็บไซต์</a>
     </form>
   </div>`;
+}
+
+/* แคปช่า: วาดอักษรสุ่มลงบน canvas กันบอทกรอกอัตโนมัติ */
+function drawCaptcha() {
+  const cv = $("#capImg"); if (!cv) return "";
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let code = "";
+  for (let i = 0; i < 5; i++) code += chars[Math.floor(Math.random() * chars.length)];
+  const x = cv.getContext("2d"), w = cv.width, hgt = cv.height;
+  x.clearRect(0, 0, w, hgt);
+  x.fillStyle = "#EEF2F8"; x.fillRect(0, 0, w, hgt);
+  for (let i = 0; i < 5; i++) {
+    x.strokeStyle = `rgba(${40 + Math.random() * 120},${90 + Math.random() * 110},${180 + Math.random() * 70},.5)`;
+    x.lineWidth = 1 + Math.random();
+    x.beginPath(); x.moveTo(Math.random() * w, Math.random() * hgt);
+    x.bezierCurveTo(Math.random() * w, Math.random() * hgt, Math.random() * w, Math.random() * hgt, Math.random() * w, Math.random() * hgt);
+    x.stroke();
+  }
+  for (let i = 0; i < 90; i++) {
+    x.fillStyle = `rgba(10,22,48,${.08 + Math.random() * .22})`;
+    x.fillRect(Math.random() * w, Math.random() * hgt, 2, 2);
+  }
+  const step = (w - 22) / code.length;
+  for (let i = 0; i < code.length; i++) {
+    x.save();
+    x.translate(14 + i * step, hgt / 2 + (Math.random() * 8 - 4));
+    x.rotate((Math.random() * 46 - 23) * Math.PI / 180);
+    x.font = `800 ${32 + Math.round(Math.random() * 6)}px Arial, Helvetica, sans-serif`;
+    x.textAlign = "center"; x.textBaseline = "middle";
+    x.lineWidth = 3; x.strokeStyle = "rgba(255,255,255,.85)";
+    x.strokeText(code[i], 0, 0);
+    x.fillStyle = `hsl(${208 + Math.random() * 26},${60 + Math.random() * 25}%,${16 + Math.random() * 12}%)`;
+    x.fillText(code[i], 0, 0);
+    x.restore();
+  }
+  return code;
 }
 
 function renderAdmin(sub, a, b) {
@@ -2126,11 +2206,43 @@ function renderAdmin(sub, a, b) {
   document.title = "ระบบจัดการเว็บไซต์ | Crystal Ideas Solution";
   if (!authed) {
     app.innerHTML = loginHTML();
+    let code = drawCaptcha();
+    const err = $("#loginErr"), btn = $("#loginBtn");
+    const show = m => { err.textContent = m; err.hidden = !m; };
+    const fails = () => { try { return JSON.parse(localStorage.getItem("cis-login-lock") || "{}"); } catch (e) { return {}; } };
+    const setFails = v => { try { localStorage.setItem("cis-login-lock", JSON.stringify(v)); } catch (e) {} };
+    let tick;
+    const lockCheck = () => {
+      const f = fails(), left = Math.ceil(((f.until || 0) - Date.now()) / 1000);
+      if (left > 0) {
+        btn.disabled = true; show(`ใส่รหัสผ่านผิดหลายครั้ง กรุณารออีก ${left} วินาที`);
+        clearTimeout(tick); tick = setTimeout(lockCheck, 1000);
+        return true;
+      }
+      btn.disabled = false; return false;
+    };
+    cleanup.push(() => clearTimeout(tick));
+    lockCheck();
+    $("#capNew").onclick = () => { code = drawCaptcha(); $("#cap").value = ""; $("#cap").focus(); };
     $("#pw").focus();
-    $("#loginForm").onsubmit = e => {
+    if (!hasCrypto()) show("เบราว์เซอร์นี้เข้าระบบจัดการไม่ได้ กรุณาเปิดเว็บผ่าน https:// หรือใช้ Chrome / Edge รุ่นใหม่");
+    $("#loginForm").onsubmit = async e => {
       e.preventDefault();
-      if ($("#pw").value === D().admin.password) { setAuth(true); route(); }
-      else { $("#loginErr").hidden = false; $("#pw").select(); }
+      if (lockCheck()) return;
+      if ($("#cap").value.trim().toUpperCase() !== code) {
+        code = drawCaptcha(); $("#cap").value = "";
+        show("อักษรยืนยันไม่ถูกต้อง ลองใหม่อีกครั้ง"); $("#cap").focus();
+        return;
+      }
+      btn.disabled = true;
+      const ok = await pwCheck($("#pw").value);
+      btn.disabled = false;
+      if (ok) { setFails({}); setAuth(true); route(); return; }
+      const f = fails(), n = (f.n || 0) + 1;
+      setFails(n >= 5 ? { n: 0, until: Date.now() + 60000 } : { n });
+      code = drawCaptcha(); $("#cap").value = "";
+      if (!lockCheck()) show(`รหัสผ่านไม่ถูกต้อง ลองอีกครั้ง (เหลืออีก ${5 - n} ครั้งก่อนถูกล็อกชั่วคราว)`);
+      $("#pw").select();
     };
     return;
   }
