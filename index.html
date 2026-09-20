@@ -596,6 +596,11 @@ body.is-admin .site-header,body.is-admin .site-footer{display:none}
 .login-box{background:#fff;border-radius:10px;padding:34px;width:100%;max-width:380px;display:grid;gap:4px}
 .login-box .logo{margin-bottom:18px;justify-content:center}
 .login-box h1{font-size:20px;margin:0 0 18px;text-align:center}
+.pw-wrap{position:relative;display:flex;align-items:center}
+.pw-wrap input{padding-right:46px}
+.pw-eye{position:absolute;right:6px;width:34px;height:34px;display:grid;place-items:center;border:0;background:none;color:var(--muted);cursor:pointer;border-radius:6px;padding:0}
+.pw-eye:hover{color:var(--blue);background:var(--blue-l)}
+.pw-eye svg{width:19px;height:19px;display:block}
 .cap-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .cap-row canvas{border:1px solid var(--line);border-radius:4px;background:#EEF2F8;flex:1;max-width:100%;height:60px;-webkit-user-select:none;user-select:none}
 .login-box .err-line{text-align:center}
@@ -1096,7 +1101,9 @@ const AI = {
   down:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg>`,
   trash:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>`,
   edit:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M14.5 5.5l4 4L9 19H5v-4z"/></svg>`,
-  reload:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v4h-4"/></svg>`
+  reload:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v4h-4"/></svg>`,
+  eye:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>`,
+  eyeOff:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.6 6.2A9.6 9.6 0 0 1 12 6c6.4 0 10 6 10 6a17 17 0 0 1-3.3 3.9M6.3 8.1A16.9 16.9 0 0 0 2 12s3.6 6 10 6c1.4 0 2.7-.3 3.8-.8"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2M3 3l18 18"/></svg>`
 };
 
 /* ---------- Photo renderer (ไม่มีรูป = เว้นว่าง) ---------- */
@@ -2192,7 +2199,13 @@ function loginHTML() {
     <form class="login-box" id="loginForm" autocomplete="off">
       <span class="logo">${logoImg()}</span>
       <h1>เข้าสู่ระบบจัดการเว็บไซต์</h1>
-      <div class="field"><label for="pw">รหัสผ่าน</label><input type="password" id="pw" autocomplete="current-password" required></div>
+      <div class="field">
+        <label for="pw">รหัสผ่าน</label>
+        <div class="pw-wrap">
+          <input type="password" id="pw" autocomplete="current-password" required>
+          <button type="button" class="pw-eye" id="pwEye" aria-label="แสดงรหัสผ่าน" aria-pressed="false" title="แสดงรหัสผ่าน">${AI.eye}</button>
+        </div>
+      </div>
       <div class="field">
         <label for="cap">พิมพ์อักษรที่เห็นในภาพ</label>
         <div class="cap-row">
@@ -2267,6 +2280,16 @@ function renderAdmin(sub, a, b) {
     cleanup.push(() => clearTimeout(tick));
     lockCheck();
     $("#capNew").onclick = () => { code = drawCaptcha(); $("#cap").value = ""; $("#cap").focus(); };
+    $("#pwEye").onclick = () => {
+      const inp = $("#pw"), eye = $("#pwEye"), show = inp.type === "password";
+      inp.type = show ? "text" : "password";
+      eye.innerHTML = show ? AI.eyeOff : AI.eye;
+      eye.setAttribute("aria-pressed", show);
+      eye.setAttribute("aria-label", show ? "ซ่อนรหัสผ่าน" : "แสดงรหัสผ่าน");
+      eye.title = show ? "ซ่อนรหัสผ่าน" : "แสดงรหัสผ่าน";
+      const end = inp.value.length;
+      inp.focus(); try { inp.setSelectionRange(end, end); } catch (err) {}
+    };
     $("#pw").focus();
     if (!hasCrypto()) show("เบราว์เซอร์นี้เข้าระบบจัดการไม่ได้ กรุณาเปิดเว็บผ่าน https:// หรือใช้ Chrome / Edge รุ่นใหม่");
     $("#loginForm").onsubmit = async e => {
