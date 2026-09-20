@@ -11,7 +11,14 @@
    3) ถอดพาธที่ 404.html ส่งต่อมา (รูปแบบ ?/พาธ) กลับเป็น URL ปกติ */
 (function (l, d) {
   var p = l.pathname;
-  window.__BASE__ = p.slice(0, p.lastIndexOf("/") + 1);
+  /* โฟลเดอร์ที่เว็บติดตั้งอยู่
+     - เปิดไฟล์ตรง ๆ : ใช้โฟลเดอร์ของไฟล์
+     - GitHub Pages  : เว็บอยู่ในโฟลเดอร์ชื่อ repo และ 404.html พาเรากลับมาที่โฟลเดอร์นั้นเสมอ
+     - ที่อื่น ๆ     : เว็บอยู่ที่รากของโดเมน (เช่น Cloudflare Pages) ซึ่งเสิร์ฟ URL ลึกได้ตรง ๆ
+                       จึงคำนวณจาก pathname ไม่ได้ */
+  window.__BASE__ = l.protocol === "file:" ? p.slice(0, p.lastIndexOf("/") + 1)
+    : /\.github\.io$/i.test(l.hostname) ? p.slice(0, p.lastIndexOf("/") + 1)
+    : "/";
   if (l.protocol !== "file:") {
     var b = d.createElement("base");
     b.href = window.__BASE__;
@@ -607,9 +614,12 @@ body.is-admin .site-header,body.is-admin .site-footer{display:none}
 .login-box .btn:disabled{opacity:.55;cursor:default}
 .login-box .btn{justify-content:center;width:100%;text-transform:none;letter-spacing:0}
 .login-box>a{color:var(--muted);font-size:14px;text-align:center;margin-top:12px}
-.link-reset{background:none;border:0;color:var(--muted);font-size:13px;text-decoration:underline;cursor:pointer;margin-top:6px;padding:4px}
-.link-reset:hover{color:var(--blue)}
+.login-note{margin:-8px 0 14px;font-size:13.5px;color:var(--muted);text-align:center;line-height:1.5}
 .adm-ver{font-size:12px;color:#7A8CB0}
+.adm-me{display:block;color:#fff;font-weight:700;font-size:14.5px;line-height:1.3}
+.adm-me small{display:block;font-weight:400;font-size:12.5px;color:#9FB0CE}
+.modal-box .field{text-align:left}
+.modal-box h2{color:var(--ink)}
 .err-line{color:#B42318;font-size:14px;margin:0 0 8px}
 
 /* toast + modal */
@@ -711,7 +721,7 @@ const slugify = s => String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").
 const telHref = p => "tel:" + String(p).replace(/[^\d+]/g, "");
 
 /* ---------- เวอร์ชันของไฟล์นี้ (ต้องตรงกับไฟล์ version.txt ที่อัปขึ้นเซิร์ฟเวอร์) ---------- */
-const APP_VERSION = "2026.09.20-7";
+const APP_VERSION = "2026.09.20-9";
 /* GitHub Pages สั่งให้เบราว์เซอร์เก็บไฟล์ไว้ 10 นาที ถ้าเพิ่งอัปเดตเว็บ ผู้ใช้อาจยังเห็นของเก่า
    ตรงนี้จึงถามเซิร์ฟเวอร์ว่าเวอร์ชันล่าสุดคืออะไร ถ้าไม่ตรงกับไฟล์ที่กำลังรันอยู่ ให้โหลดใหม่ให้เองหนึ่งครั้ง */
 async function checkVersion() {
@@ -777,7 +787,6 @@ const DEFAULTS = {
     hoursNote: "(ปิดวันเสาร์ - อาทิตย์)",
     hoursNoteEn: "(Closed Saturday - Sunday)"
   },
-  admin: { salt: "vYK9n6msyk9wmZor1QRVJA==", iter: 150000, hash: "obXi7kLgFBhIuxN2+PJBjN3e4XpvmHlOWqn5DsATY1o=", isDefault: true },
   hero: [
     { id: "h1", title: "WE TURN IDEAS\nINTO REALITY.", titleEn: "WE TURN IDEAS\nINTO REALITY.",
       sub: "ออกแบบ ผลิต และติดตั้งสื่อโฆษณาครบวงจร ทั้งงานพิมพ์ไวนิล สติ๊กเกอร์ ป้ายไฟ และงานโครงสร้าง",
@@ -873,8 +882,7 @@ const DEFAULTS = {
     { id:"c11", name:"Jiayijia", img:"Jiayijia.png" },
     { id:"c12", name:"Proudie", img:"Proudie.png" },
     { id:"c13", name:"Termbaan", img:"Termbaan.png" }
-  ],
-  messages: []
+  ]
 };
 
 /* =========================================================
@@ -985,7 +993,8 @@ const TXT = {
   "form.msg":        ["รายละเอียดงาน", "Project details"],
   "form.msgPH":      ["เช่น ขนาดงาน สถานที่ติดตั้ง และวันที่ต้องการใช้งาน", "e.g. size, installation site and the date you need it"],
   "form.send":       ["ส่งข้อความ", "Send message"],
-  "form.ok":         ["ส่งข้อความแล้ว ทีมงานจะติดต่อกลับภายใน 1 วันทำการ", "Message sent — we will get back to you within one business day."]
+  "form.ok":         ["ส่งข้อความแล้ว ทีมงานจะติดต่อกลับภายใน 1 วันทำการ", "Message sent — we will get back to you within one business day."],
+  "form.fail":       ["ส่งข้อความไม่สำเร็จ กรุณาลองใหม่ หรือโทรหาเราโดยตรง", "Could not send the message — please try again or call us directly."]
 };
 
 const CATS = [["vinyl","ไวนิล","Vinyl"],["sticker","สติ๊กเกอร์","Sticker"],["sign","ป้ายไฟ กล่องไฟ","Sign & Light Box"],["structure","งานโครงสร้าง","Structure"],["other","อื่น ๆ","Other"]];
@@ -993,95 +1002,81 @@ const catLabel = k => { const c = CATS.find(x => x[0] === k); return c ? pick(c[
 const CAT_LABEL = Object.fromEntries(CATS.map(c => [c[0], c[1]]));
 
 /* =========================================================
-   STORE — เก็บข้อมูลใน IndexedDB ของเบราว์เซอร์
-   (เมื่อขึ้นระบบจริง ให้เปลี่ยน load/save เป็นการเรียก API ของเซิร์ฟเวอร์)
+   STORE — คุยกับ API ที่ Cloudflare (ข้อมูลชุดเดียว ใช้ร่วมกันทุกเครื่อง)
+   ถ้าเปิดไฟล์ตรง ๆ หรือโฮสต์ที่ไม่มี API จะกลายเป็นโหมดดูอย่างเดียว
    ========================================================= */
+const API = () => (location.protocol === "file:" ? "" : (window.__BASE__ || "/")) + "api/";
+async function api(path, options) {
+  const r = await fetch(API() + path, { cache: "no-store", credentials: "same-origin", ...options });
+  let body = null;
+  try { body = await r.json(); } catch (e) {}
+  return { ok: r.ok, status: r.status, body, error: (body && body.error) || "" };
+}
+
 const Store = {
-  data: null, db: null,
-  open() {
-    return new Promise(res => {
-      try {
-        const r = indexedDB.open("crystal-cms", 1);
-        r.onupgradeneeded = () => r.result.createObjectStore("kv");
-        r.onsuccess = () => { this.db = r.result; res(); };
-        r.onerror = () => res();
-        r.onblocked = () => res();
-      } catch (e) { res(); }
-    });
-  },
+  data: null,          // เนื้อหาเว็บไซต์
+  msgs: null,          // ข้อความจากลูกค้า (โหลดเมื่อเข้าระบบจัดการ)
+  me: null,            // ผู้ใช้ที่กำลังเข้าสู่ระบบอยู่
+  online: false,       // ต่อ API ได้ไหม
+  ready: false,        // มีผู้ใช้งานในระบบแล้วหรือยัง
   async load() {
-    await this.open();
-    let d = null;
-    if (this.db) {
-      d = await new Promise(res => {
-        try {
-          const q = this.db.transaction("kv").objectStore("kv").get("content");
-          q.onsuccess = () => res(q.result || null);
-          q.onerror = () => res(null);
-        } catch (e) { res(null); }
-      });
+    if (location.protocol === "file:") { this.data = clone(DEFAULTS); return; }
+    try {
+      const r = await fetch(API() + "content", { cache: "no-store", credentials: "same-origin" });
+      if (r.ok) {
+        const j = await r.json();
+        this.online = true;
+        this.data = j ? migrate(j) : clone(DEFAULTS);
+      }
+    } catch (e) {}
+    if (!this.data) this.data = clone(DEFAULTS);
+    if (this.online) {
+      const s = await api("state");
+      if (s.ok) { this.ready = !!s.body.ready; setAuth(!!s.body.authed, s.body.me); }
     }
-    this.data = d ? migrate(d) : clone(DEFAULTS);
   },
-  save() {
-    if (!this.db) return Promise.resolve(false);
-    return new Promise(res => {
-      try {
-        const tx = this.db.transaction("kv", "readwrite");
-        tx.objectStore("kv").put(this.data, "content");
-        tx.oncomplete = () => res(true);
-        tx.onerror = tx.onabort = () => res(false);
-      } catch (e) { res(false); }
+  async save() {
+    if (!this.online) return false;
+    const r = await api("content", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(this.data)
     });
+    if (r.status === 401) { setAuth(false); route(); }
+    return r.ok;
+  },
+  async loadMessages() {
+    if (!this.online) { this.msgs = []; return; }
+    const r = await api("messages");
+    this.msgs = r.ok && Array.isArray(r.body) ? r.body : [];
+  },
+  async saveMessages() {
+    if (!this.online) return false;
+    const r = await api("messages", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(this.msgs || [])
+    });
+    return r.ok;
   }
 };
+
 function migrate(d) {
   const base = clone(DEFAULTS);
   const out = { ...base, ...d };
   out.company = { ...base.company, ...(d.company || {}) };
-  out.admin = { ...base.admin, ...(d.admin || {}) };
   out.pageHero = { ...base.pageHero, ...(d.pageHero || {}) };
   out.about = { ...base.about, ...(d.about || {}) };
   if (!Array.isArray(out.about.gallery)) out.about.gallery = base.about.gallery;
-  ["hero","services","projects","clients","messages"].forEach(k => { if (!Array.isArray(out[k])) out[k] = base[k]; });
+  ["hero","services","projects","clients"].forEach(k => { if (!Array.isArray(out[k])) out[k] = base[k]; });
   out.projects = out.projects.map(p => ({ img:"", gallery:[], published:true, ...p }));
+  delete out.admin;       // รหัสผ่านอยู่ที่เซิร์ฟเวอร์แล้ว ไม่เก็บปนกับเนื้อหา
+  delete out.messages;    // ข้อความจากลูกค้าเก็บแยกที่เซิร์ฟเวอร์
   return out;
 }
 const D = () => Store.data;
-
-/* ---------- รหัสผ่านผู้ดูแล: เก็บเฉพาะค่าแฮช (PBKDF2-SHA256) ---------- */
-const PW_ITER = 150000;
-const b64 = buf => btoa(String.fromCharCode(...new Uint8Array(buf)));
-const unb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
-const hasCrypto = () => !!(window.crypto && window.crypto.subtle);
-const newSalt = () => b64(crypto.getRandomValues(new Uint8Array(16)));
-async function pwHash(pw, salt, iter) {
-  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveBits"]);
-  const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", salt: unb64(salt), iterations: iter || PW_ITER, hash: "SHA-256" }, key, 256);
-  return b64(bits);
-}
-async function pwSet(pw) {
-  const salt = newSalt();
-  D().admin = { salt, iter: PW_ITER, hash: await pwHash(pw, salt, PW_ITER) };
-}
-async function pwCheck(pw) {
-  try {
-    const a = D().admin || {};
-    if (a.password !== undefined) {          // ข้อมูลเก่าที่เคยเก็บเป็นข้อความ -> ตรวจแล้วแปลงเป็นแฮชให้
-      if (pw !== a.password) return false;
-      await pwSet(pw);
-      if (await pwIsFactory(pw)) D().admin.isDefault = true;
-      await Store.save(); return true;
-    }
-    if (!a.hash || !hasCrypto()) return false;
-    const got = await pwHash(pw, a.salt, a.iter);
-    return got.length === a.hash.length && got === a.hash;
-  } catch (e) { return false; }              // ข้อมูลในเครื่องเสียหาย -> ถือว่ารหัสผ่านไม่ผ่าน จะได้ขึ้นข้อความให้ผู้ใช้เห็น
-}
-const pwIsDefault = () => (D().admin || {}).isDefault === true;
-async function pwIsFactory(pw) { const d = DEFAULTS.admin; try { return hasCrypto() && (await pwHash(pw, d.salt, d.iter)) === d.hash; } catch (e) { return false; } }
 const pubProjects = () => D().projects.filter(p => p.published !== false);
-const unread = () => D().messages.filter(m => !m.read).length;
+const unread = () => (Store.msgs || []).filter(m => !m.read).length;
 
 /* =========================================================
    ICONS
@@ -1126,6 +1121,9 @@ const AI = {
   edit:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M14.5 5.5l4 4L9 19H5v-4z"/></svg>`,
   reload:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v4h-4"/></svg>`,
   eye:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>`,
+  users:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16.5 5.3a3.2 3.2 0 0 1 0 5.4M18 20a6 6 0 0 0-2.2-4.6"/></svg>`,
+  lock:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4.5" y="10" width="15" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>`,
+  unlock:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4.5" y="10" width="15" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 7.5-1.9"/></svg>`,
   eyeOff:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.6 6.2A9.6 9.6 0 0 1 12 6c6.4 0 10 6 10 6a17 17 0 0 1-3.3 3.9M6.3 8.1A16.9 16.9 0 0 0 2 12s3.6 6 10 6c1.4 0 2.7-.3 3.8-.8"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2M3 3l18 18"/></svg>`
 };
 
@@ -1527,10 +1525,15 @@ const after = {
       });
       if (!valid) return;
       const fd = new FormData(f);
-      D().messages.unshift({ id: uid(), date: new Date().toISOString(), read: false,
-        name: fd.get("name").trim(), tel: fd.get("tel").trim(), email: fd.get("email").trim(), type: fd.get("type"), message: fd.get("message").trim() });
-      await Store.save();
-      // เมื่อขึ้นระบบจริง: ส่งข้อมูลไปยังเซิร์ฟเวอร์ / อีเมล / LINE ที่นี่ด้วย
+      const btn = f.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      const r = await api("messages", {
+        method: "POST", headers: { "content-type": "application/json" },
+        body: JSON.stringify({ name: fd.get("name").trim(), tel: fd.get("tel").trim(), email: fd.get("email").trim(), type: fd.get("type"), message: fd.get("message").trim() })
+      }).catch(() => ({ ok: false }));
+      btn.disabled = false;
+      if (!r.ok) { ok.style.display = "none"; toast(t("form.fail"), "err"); return; }
+      Store.msgs = null;
       ok.style.display = "block"; f.reset();
     });
     f.addEventListener("input", e => { const fld = e.target.closest(".field"); if (fld && fld.classList.contains("invalid") && e.target.checkValidity()) fld.classList.remove("invalid"); });
@@ -1570,8 +1573,7 @@ function applyChrome() {
    ADMIN — utilities
    ========================================================= */
 let authed = false;
-try { authed = sessionStorage.getItem("cis-admin") === "1"; } catch (e) {}
-function setAuth(v) { authed = v; try { v ? sessionStorage.setItem("cis-admin", "1") : sessionStorage.removeItem("cis-admin"); } catch (e) {} }
+function setAuth(v, me) { authed = !!v; Store.me = v ? (me || Store.me) : null; }
 
 function toast(msg, type = "ok") {
   let t = $("#toast");
@@ -1595,7 +1597,7 @@ async function commit(msg = "บันทึกแล้ว") {
   const ok = await Store.save();
   applyChrome();
   if (ok) toast(msg);
-  else toast("เบราว์เซอร์นี้เก็บข้อมูลถาวรไม่ได้ การแก้ไขจะหายเมื่อปิดหน้า", "warn");
+  else toast("บันทึกไม่สำเร็จ กรุณาลองใหม่อีกครั้ง หรือตรวจสอบการเชื่อมต่ออินเทอร์เน็ต", "err");
   return ok;
 }
 function download(name, text, type) {
@@ -1683,15 +1685,16 @@ const val = (root, n) => (root.querySelector(`[name="${n}"]`)?.value ?? "").trim
 /* =========================================================
    ADMIN — views
    ========================================================= */
-const ADM_NAV = [["","แดชบอร์ด","dash"],["hero","แบนเนอร์","img"],["services","บริการ","grid"],["projects","ผลงาน","folder"],["about","เกี่ยวกับเรา","info"],["clients","โลโก้ลูกค้า","star"],["company","ข้อมูลบริษัท","building"],["messages","ข้อความจากลูกค้า","inbox"]];
+const ADM_NAV = [["","แดชบอร์ด","dash"],["hero","แบนเนอร์","img"],["services","บริการ","grid"],["projects","ผลงาน","folder"],["about","เกี่ยวกับเรา","info"],["clients","โลโก้ลูกค้า","star"],["company","ข้อมูลบริษัท","building"],["messages","ข้อความจากลูกค้า","inbox"],["users","ผู้ใช้งาน","users"]];
 /* หน้า "สำรองข้อมูล" ถูกซ่อนจากเมนู แต่ยังเข้าได้โดยพิมพ์ #/admin/backup ที่ช่อง URL */
 
 const shell = (active, title, html, action = "") => `
   <div class="adm" id="adm">
     <aside class="adm-side" aria-label="เมนูระบบจัดการ">
       <a class="adm-brand" href="#/admin">${logoImg()}<small>ระบบจัดการเว็บไซต์</small></a>
-      <nav>${ADM_NAV.map(([k,l,ic]) => `<a href="#/admin${k ? "/" + k : ""}" data-adm="${k}" class="${active === k ? "on" : ""}" ${active === k ? 'aria-current="page"' : ""}>${AI[ic]}<span>${l}</span>${k === "messages" && unread() ? `<em>${unread()}</em>` : ""}</a>`).join("")}</nav>
+      <nav>${ADM_NAV.filter(([k]) => k !== "users" || isOwner()).map(([k,l,ic]) => `<a href="#/admin${k ? "/" + k : ""}" data-adm="${k}" class="${active === k ? "on" : ""}" ${active === k ? 'aria-current="page"' : ""}>${AI[ic]}<span>${l}</span>${k === "messages" && unread() ? `<em>${unread()}</em>` : ""}</a>`).join("")}</nav>
       <div class="adm-side-foot">
+        ${Store.me ? `<span class="adm-me">${esc(Store.me.name)}<small>${ROLE_TH[Store.me.role] || Store.me.role}</small></span>` : ""}
         <a href="#/">ดูหน้าเว็บไซต์</a>
         <button type="button" id="logout">ออกจากระบบ</button>
         <span class="adm-ver">เวอร์ชัน ${APP_VERSION}</span>
@@ -1704,7 +1707,7 @@ const shell = (active, title, html, action = "") => `
         <h1>${title}</h1>
         <div class="sp">${action}</div>
       </header>
-      <div class="adm-body">${Store.db ? "" : `<div class="note warn">เบราว์เซอร์นี้ไม่อนุญาตให้เก็บข้อมูลถาวร การแก้ไขจะหายเมื่อปิดหน้า ลองเปิดเว็บนี้ด้วย Chrome หรือ Edge โดยไม่ใช้โหมดไม่ระบุตัวตน</div>`}${html}</div>
+      <div class="adm-body">${Store.online ? "" : `<div class="note warn">ตอนนี้ติดต่อเซิร์ฟเวอร์ไม่ได้ จึงแก้ไขเนื้อหาไม่ได้ กรุณาเปิดเว็บผ่านที่อยู่จริงของเว็บไซต์</div>`}${html}</div>
     </div>
   </div>`;
 
@@ -1712,9 +1715,8 @@ const AdminViews = {
 /* ---------- Dashboard ---------- */
 ""() {
   const pub = pubProjects().length, hidden = D().projects.length - pub, un = unread();
-  const recent = D().messages.slice(0, 5);
+  const recent = (Store.msgs || []).slice(0, 5);
   return { title: "แดชบอร์ด", html: `
-    ${pwIsDefault() ? `<div class="note warn"><b>ยังใช้รหัสผ่านตั้งต้นอยู่</b> รหัสผ่านตั้งต้นเป็นค่าที่รู้กันทั่วไป ใครก็เข้าระบบจัดการได้ กรุณา<a href="#/admin/company" style="color:#7A4B00;text-decoration:underline">เปลี่ยนรหัสผ่าน</a>ที่เมนูข้อมูลบริษัท</div>` : ""}
     <div class="stats">
       <a class="stat" href="#/admin/projects"><b>${pub}</b><span>ผลงานที่แสดงบนเว็บ</span></a>
       <a class="stat" href="#/admin/projects"><b>${hidden}</b><span>ผลงานที่ซ่อนอยู่</span></a>
@@ -2047,12 +2049,14 @@ company() {
       <div class="bar"><div class="r"><button class="btn btn-primary btn-sm">บันทึกข้อมูลบริษัท</button></div></div>
     </form>
     <form id="pwForm" class="card" style="margin-top:20px">
-      <h2>เปลี่ยนรหัสผ่านผู้ดูแล</h2>
+      <h2>เปลี่ยนรหัสผ่านของฉัน</h2>
+      <p class="lead-a">เปลี่ยนเฉพาะบัญชีที่กำลังใช้งานอยู่${Store.me ? " (" + esc(Store.me.username) + ")" : ""}</p>
       <div class="grid3">
-        <div class="field"><label for="pw1">รหัสผ่านใหม่</label><input id="pw1" type="password" autocomplete="new-password" minlength="8"><small class="hint">อย่างน้อย 8 ตัวอักษร ระบบเก็บเฉพาะค่าที่เข้ารหัสไว้ ไม่เก็บรหัสผ่านจริง</small></div>
+        <div class="field"><label for="pw0">รหัสผ่านเดิม</label><input id="pw0" type="password" autocomplete="current-password"></div>
+        <div class="field"><label for="pw1">รหัสผ่านใหม่</label><input id="pw1" type="password" autocomplete="new-password" minlength="8"><small class="hint">อย่างน้อย 8 ตัวอักษร</small></div>
         <div class="field"><label for="pw2">ยืนยันรหัสผ่านใหม่</label><input id="pw2" type="password" autocomplete="new-password"></div>
-        <div class="field" style="align-self:end"><button class="btn btn-line btn-sm">เปลี่ยนรหัสผ่าน</button></div>
       </div>
+      <button class="btn btn-line btn-sm">เปลี่ยนรหัสผ่าน</button>
     </form>`,
   bind() {
     $("#coForm").onsubmit = e => {
@@ -2067,11 +2071,12 @@ company() {
       commit("บันทึกข้อมูลบริษัทแล้ว");
     };
     $("#pwForm").onsubmit = async e => {
-      e.preventDefault(); const a = $("#pw1").value, b = $("#pw2").value;
-      if (a.length < 8) return toast("รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร", "err");
+      e.preventDefault(); const cur = $("#pw0").value, a = $("#pw1").value, b = $("#pw2").value;
+      if (a.length < 8) return toast("รหัสผ่านใหม่ต้องมีอย่างน้อย 8 ตัวอักษร", "err");
       if (a !== b) return toast("รหัสผ่านทั้งสองช่องไม่ตรงกัน", "err");
-      if (!hasCrypto()) return toast("เบราว์เซอร์นี้เปลี่ยนรหัสผ่านไม่ได้ ต้องเปิดผ่าน https://", "err");
-      await pwSet(a); e.target.reset(); commit("เปลี่ยนรหัสผ่านแล้ว"); route();
+      const r = await api("password", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ current: cur, next: a }) });
+      if (!r.ok) return toast(r.error || "เปลี่ยนรหัสผ่านไม่สำเร็จ", "err");
+      e.target.reset(); toast("เปลี่ยนรหัสผ่านแล้ว ทุกเครื่องต้องใช้รหัสใหม่");
     };
   } };
 },
@@ -2086,7 +2091,7 @@ messages() {
   bind() {
     const box = $("#msgs"), mf = $("#mf");
     const draw = () => {
-      const list = D().messages.filter(m => mf.value === "all" || !m.read);
+      const list = (Store.msgs || []).filter(m => mf.value === "all" || !m.read);
       box.innerHTML = list.length ? list.map(m => `
         <details class="msg ${m.read ? "" : "unread"}" data-id="${m.id}">
           <summary><b>${esc(m.name)}</b><small>${fmtDate(m.date)}</small><small>${esc(m.type || "ไม่ระบุประเภทงาน")} · ${esc(m.tel)}</small></summary>
@@ -2100,25 +2105,29 @@ messages() {
             <div class="row-act"><button type="button" class="btn btn-line btn-xs" data-unread>ทำเครื่องหมายว่ายังไม่อ่าน</button><button type="button" class="btn-text" data-del>ลบข้อความ</button></div>
           </div>
         </details>`).join("")
-        : `<div class="card empty-a"><b>${D().messages.length ? "อ่านครบทุกข้อความแล้ว" : "ยังไม่มีข้อความ"}</b>ข้อความที่ลูกค้าส่งจากฟอร์มหน้า "ติดต่อเรา" จะแสดงที่นี่</div>`;
+        : `<div class="card empty-a"><b>${(Store.msgs || []).length ? "อ่านครบทุกข้อความแล้ว" : "ยังไม่มีข้อความ"}</b>ข้อความที่ลูกค้าส่งจากฟอร์มหน้า "ติดต่อเรา" จะแสดงที่นี่</div>`;
     };
     const refreshBadge = () => { const a = document.querySelector('.adm-side a[data-adm="messages"]'); const em = a.querySelector("em"); const n = unread(); if (n) { if (em) em.textContent = n; else a.insertAdjacentHTML("beforeend", `<em>${n}</em>`); } else if (em) em.remove(); };
     draw(); mf.onchange = draw;
     box.addEventListener("toggle", e => {
       const d = e.target; if (!d.open) return;
-      const m = D().messages.find(x => x.id === d.dataset.id);
-      if (m && !m.read) { m.read = true; d.classList.remove("unread"); Store.save(); refreshBadge(); }
+      const m = (Store.msgs || []).find(x => x.id === d.dataset.id);
+      if (m && !m.read) { m.read = true; d.classList.remove("unread"); Store.saveMessages(); refreshBadge(); }
     }, true);
     box.addEventListener("click", async e => {
       const d = e.target.closest(".msg"); if (!d) return;
-      const M = D().messages, i = M.findIndex(x => x.id === d.dataset.id);
-      if (e.target.closest("[data-unread]")) { M[i].read = false; draw(); refreshBadge(); Store.save(); }
-      if (e.target.closest("[data-del]") && await ask(`ลบข้อความจาก "${M[i].name}" ใช่ไหม`)) { M.splice(i, 1); draw(); refreshBadge(); commit("ลบข้อความแล้ว"); }
+      const M = Store.msgs || [], i = M.findIndex(x => x.id === d.dataset.id);
+      if (i < 0) return;
+      if (e.target.closest("[data-unread]")) { M[i].read = false; draw(); refreshBadge(); Store.saveMessages(); }
+      if (e.target.closest("[data-del]") && await ask(`ลบข้อความจาก "${M[i].name}" ใช่ไหม`)) {
+        M.splice(i, 1); draw(); refreshBadge();
+        toast(await Store.saveMessages() ? "ลบข้อความแล้ว" : "ลบไม่สำเร็จ กรุณาลองใหม่", await Store.saveMessages() ? "ok" : "err");
+      }
     });
     $("#csv").onclick = () => {
-      if (!D().messages.length) return toast("ยังไม่มีข้อความให้ดาวน์โหลด", "err");
+      if (!(Store.msgs || []).length) return toast("ยังไม่มีข้อความให้ดาวน์โหลด", "err");
       const q = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
-      const rows = [["วันที่","ชื่อ","เบอร์โทร","อีเมล","ประเภทงาน","รายละเอียด","อ่านแล้ว"], ...D().messages.map(m => [fmtDate(m.date), m.name, m.tel, m.email, m.type, m.message, m.read ? "ใช่" : "ไม่"])];
+      const rows = [["วันที่","ชื่อ","เบอร์โทร","อีเมล","ประเภทงาน","รายละเอียด","อ่านแล้ว"], ...(Store.msgs || []).map(m => [fmtDate(m.date), m.name, m.tel, m.email, m.type, m.message, m.read ? "ใช่" : "ไม่"])];
       download("crystal-messages.csv", "﻿" + rows.map(r => r.map(q).join(",")).join("\r\n"), "text/csv;charset=utf-8");
     };
   } };
@@ -2128,11 +2137,11 @@ messages() {
 backup() {
   const size = (new Blob([JSON.stringify(D())]).size / 1024 / 1024).toFixed(2);
   return { title: "สำรองข้อมูล", html: `
-    <div class="note info">ข้อมูลทั้งหมด (รวมรูปที่อัปโหลดผ่านระบบจัดการ) เก็บอยู่ในเบราว์เซอร์เครื่องนี้ ขนาดปัจจุบันประมาณ ${size} MB ถ้าล้างข้อมูลเบราว์เซอร์หรือเปลี่ยนเครื่อง ข้อมูลจะไม่ตามไปด้วย ควรดาวน์โหลดไฟล์สำรองเก็บไว้เป็นประจำ</div>
+    <div class="note info">เนื้อหาทั้งหมดเก็บอยู่ที่เซิร์ฟเวอร์ ทุกเครื่องเห็นชุดเดียวกัน ขนาดปัจจุบันประมาณ ${size} MB (จำกัดไม่เกิน 10 MB) ควรดาวน์โหลดไฟล์สำรองเก็บไว้เป็นระยะ</div>
     <div class="grid3">
       <section class="card"><h2>ดาวน์โหลดไฟล์สำรอง</h2><p class="lead-a">บันทึกเนื้อหาทั้งหมดเป็นไฟล์ .json เก็บไว้ หรือนำไปใช้ต่อในเครื่องอื่น</p><button type="button" class="btn btn-primary btn-sm" id="exp">ดาวน์โหลดไฟล์สำรอง</button></section>
       <section class="card"><h2>นำเข้าไฟล์สำรอง</h2><p class="lead-a">แทนที่เนื้อหาปัจจุบันทั้งหมดด้วยข้อมูลจากไฟล์ .json ที่เคยดาวน์โหลดไว้</p><label class="btn btn-line btn-sm" style="cursor:pointer">เลือกไฟล์ .json<input type="file" accept="application/json,.json" hidden id="imp"></label></section>
-      <section class="card"><h2>คืนค่าตั้งต้น</h2><p class="lead-a">ลบการแก้ไขทั้งหมดและกลับไปใช้เนื้อหาตั้งต้น ข้อความจากลูกค้าจะถูกลบด้วย</p><button type="button" class="btn btn-line btn-sm" id="rst" style="color:#B42318">คืนค่าตั้งต้น</button></section>
+      <section class="card"><h2>คืนค่าตั้งต้น</h2><p class="lead-a">ลบการแก้ไขทั้งหมดและกลับไปใช้เนื้อหาตั้งต้น (ข้อความจากลูกค้าไม่ถูกลบ)</p><button type="button" class="btn btn-line btn-sm" id="rst" style="color:#B42318">คืนค่าตั้งต้น</button></section>
     </div>`,
   bind() {
     $("#exp").onclick = () => { const d = new Date().toISOString().slice(0, 10); download(`crystal-website-backup-${d}.json`, JSON.stringify(D(), null, 1), "application/json"); };
@@ -2146,12 +2155,153 @@ backup() {
     };
     $("#rst").onclick = async () => {
       if (!await ask("คืนค่าตั้งต้นและลบการแก้ไขทั้งหมด ใช่ไหม", "คืนค่าตั้งต้น")) return;
-      const pw = D().admin.password; Store.data = clone(DEFAULTS); Store.data.admin.password = pw;
+      Store.data = migrate(clone(DEFAULTS));
       await commit("คืนค่าตั้งต้นแล้ว"); route();
     };
   } };
 }
 };
+
+/* =========================================================
+   หน้าจัดการผู้ใช้งาน (เฉพาะเจ้าของระบบ)
+   ========================================================= */
+const ROLE_TH = { owner: "เจ้าของระบบ", editor: "ผู้ดูแลเนื้อหา" };
+const isOwner = () => !!(Store.me && Store.me.role === "owner");
+
+function userModal(u) {
+  const edit = !!u;
+  return new Promise(res => {
+    const m = document.createElement("div");
+    m.className = "modal";
+    m.innerHTML = `
+      <div class="modal-box" role="dialog" aria-modal="true" aria-label="${edit ? "แก้ไขผู้ใช้งาน" : "เพิ่มผู้ใช้งาน"}">
+        <h2 style="margin:0 0 16px;font-size:17px;font-weight:800">${edit ? "แก้ไขผู้ใช้งาน" : "เพิ่มผู้ใช้งาน"}</h2>
+        <form id="uForm" autocomplete="off">
+          <div class="field"><label for="u-name">ชื่อที่แสดง</label><input id="u-name" value="${esc(edit ? u.name : "")}" placeholder="เช่น สมชาย ใจดี"></div>
+          <div class="field"><label for="u-username">ชื่อผู้ใช้ (ใช้เข้าสู่ระบบ)</label>
+            <input id="u-username" value="${esc(edit ? u.username : "")}" ${edit ? "disabled" : ""} autocomplete="off" placeholder="เช่น somchai">
+            <small class="hint">${edit ? "ชื่อผู้ใช้เปลี่ยนไม่ได้" : "ใช้ a-z 0-9 . _ - ยาว 3-32 ตัว"}</small></div>
+          <div class="field"><label for="u-role">สิทธิ์การใช้งาน</label>
+            <select id="u-role">
+              <option value="editor">ผู้ดูแลเนื้อหา — แก้เนื้อหาและข้อความได้</option>
+              <option value="owner">เจ้าของระบบ — จัดการผู้ใช้งานได้ด้วย</option>
+            </select></div>
+          <div class="field"><label for="u-pw">${edit ? "ตั้งรหัสผ่านใหม่" : "รหัสผ่าน"}</label>
+            <div class="pw-wrap">
+              <input id="u-pw" type="password" autocomplete="new-password">
+              <button type="button" class="pw-eye" data-eye="u-pw" aria-label="แสดงรหัสผ่าน" aria-pressed="false">${AI.eye}</button>
+            </div>
+            <small class="hint">${edit ? "เว้นว่างไว้ถ้าไม่ต้องการเปลี่ยนรหัสผ่าน" : "อย่างน้อย 8 ตัวอักษร"}</small></div>
+          <p class="err-line" id="uErr" hidden></p>
+          <div class="modal-act">
+            <button type="button" class="btn btn-line btn-sm" data-no>ยกเลิก</button>
+            <button class="btn btn-primary btn-sm">${edit ? "บันทึก" : "เพิ่มผู้ใช้"}</button>
+          </div>
+        </form>
+      </div>`;
+    document.body.appendChild(m);
+    const q = s => m.querySelector(s);
+    q("#u-role").value = edit ? u.role : "editor";
+    setTimeout(() => q(edit ? "#u-name" : "#u-username").focus(), 30);
+    const done = v => { m.remove(); document.removeEventListener("keydown", key); res(v); };
+    const key = e => { if (e.key === "Escape") done(null); };
+    document.addEventListener("keydown", key);
+    m.addEventListener("click", e => { if (e.target === m || e.target.closest("[data-no]")) done(null); });
+    q("#uForm").onsubmit = e => {
+      e.preventDefault();
+      const err = msg => { q("#uErr").textContent = msg; q("#uErr").hidden = false; };
+      const out = { name: q("#u-name").value.trim(), role: q("#u-role").value, password: q("#u-pw").value };
+      if (!edit) {
+        out.username = q("#u-username").value.trim().toLowerCase();
+        if (!/^[a-z0-9._-]{3,32}$/.test(out.username)) return err("ชื่อผู้ใช้ต้องเป็น a-z 0-9 . _ - ยาว 3-32 ตัว");
+        if (out.password.length < 8) return err("รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร");
+      } else if (out.password && out.password.length < 8) return err("รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร");
+      done(out);
+    };
+  });
+}
+
+const AdminUsers = {
+users() {
+  if (!isOwner()) return { title: "ผู้ใช้งาน", html: `<div class="card empty-a"><b>เข้าหน้านี้ไม่ได้</b>เฉพาะเจ้าของระบบเท่านั้นที่จัดการผู้ใช้งานได้</div>` };
+  return { title: "ผู้ใช้งาน", action: `<button type="button" class="btn btn-primary btn-sm" id="addUser">+ <span>เพิ่มผู้ใช้</span></button>`, html: `
+    <p class="lead-a">ทุกคนใช้ระบบจัดการเดียวกัน เข้าสู่ระบบด้วยชื่อผู้ใช้และรหัสผ่านของตัวเอง</p>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>ชื่อที่แสดง</th><th>ชื่อผู้ใช้</th><th>สิทธิ์</th><th>สถานะ</th><th>เข้าใช้ล่าสุด</th><th>จัดการ</th></tr></thead>
+        <tbody id="utb"><tr><td colspan="6" class="tbl-empty">กำลังโหลด…</td></tr></tbody>
+      </table>
+    </div>
+    <div class="note info" style="margin-top:18px"><b>สิทธิ์การใช้งาน</b><br>
+      เจ้าของระบบ: แก้เนื้อหา ตอบข้อความ และเพิ่ม/ลบผู้ใช้งานได้<br>
+      ผู้ดูแลเนื้อหา: แก้เนื้อหาและตอบข้อความได้ แต่จัดการผู้ใช้งานไม่ได้</div>`,
+  bind() {
+    const tb = $("#utb");
+    let list = [];
+    const draw = () => {
+      tb.innerHTML = list.length ? list.map(u => `
+        <tr data-id="${esc(u.id)}">
+          <td><b>${esc(u.name)}</b>${u.id === Store.me.id ? '<small>บัญชีของคุณ</small>' : ""}</td>
+          <td>${esc(u.username)}</td>
+          <td><span class="tag">${ROLE_TH[u.role] || u.role}</span></td>
+          <td>${u.active ? '<span class="tag" style="background:#E6F6EC;color:#146C43">ใช้งานได้</span>' : '<span class="tag" style="background:#FDE8E8;color:#B42318">ถูกระงับ</span>'}</td>
+          <td><small>${u.lastLogin ? fmtDate(u.lastLogin) : "ยังไม่เคยเข้า"}</small></td>
+          <td><div class="row-act">
+            <button type="button" class="icon-btn" data-edit aria-label="แก้ไข ${esc(u.name)}">${AI.edit}</button>
+            <button type="button" class="icon-btn" data-toggle aria-label="${u.active ? "ระงับ" : "เปิดใช้"} ${esc(u.name)}" title="${u.active ? "ระงับการใช้งาน" : "เปิดใช้งาน"}">${u.active ? AI.lock : AI.unlock}</button>
+            <button type="button" class="icon-btn danger" data-del aria-label="ลบ ${esc(u.name)}">${AI.trash}</button>
+          </div></td>
+        </tr>`).join("") : `<tr><td colspan="6" class="tbl-empty">ยังไม่มีผู้ใช้งาน</td></tr>`;
+    };
+    const reload = async () => {
+      const r = await api("users");
+      if (!r.ok) { tb.innerHTML = `<tr><td colspan="6" class="tbl-empty">${esc(r.error || "โหลดรายชื่อไม่สำเร็จ")}</td></tr>`; return; }
+      list = r.body || []; draw();
+    };
+    reload();
+
+    $("#addUser").onclick = async () => {
+      const data = await userModal(null);
+      if (!data) return;
+      const r = await api("users", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(data) });
+      if (!r.ok) return toast(r.error || "เพิ่มผู้ใช้ไม่สำเร็จ", "err");
+      toast(`เพิ่มผู้ใช้ "${data.username}" แล้ว`); reload();
+    };
+
+    tb.addEventListener("click", async e => {
+      const btn = e.target.closest("[data-edit],[data-toggle],[data-del]"); if (!btn) return;
+      const u = list.find(x => x.id === btn.closest("tr").dataset.id); if (!u) return;
+
+      if (btn.hasAttribute("data-edit")) {
+        const data = await userModal(u);
+        if (!data) return;
+        const payload = { id: u.id, name: data.name, role: data.role };
+        if (data.password) payload.password = data.password;
+        const r = await api("users", { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
+        if (!r.ok) return toast(r.error || "บันทึกไม่สำเร็จ", "err");
+        toast("บันทึกข้อมูลผู้ใช้แล้ว"); reload();
+      }
+
+      if (btn.hasAttribute("data-toggle")) {
+        const on = !u.active;
+        if (!on && !await ask(`ระงับการใช้งานของ "${u.name}" ใช่ไหม ผู้ใช้จะเข้าระบบไม่ได้ทันที`, "ระงับ")) return;
+        const r = await api("users", { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify({ id: u.id, active: on }) });
+        if (!r.ok) return toast(r.error || "ทำรายการไม่สำเร็จ", "err");
+        toast(on ? `เปิดใช้งาน "${u.name}" แล้ว` : `ระงับ "${u.name}" แล้ว`); reload();
+      }
+
+      if (btn.hasAttribute("data-del")) {
+        if (!await ask(`ลบผู้ใช้ "${u.name}" ใช่ไหม ลบแล้วกู้คืนไม่ได้`)) return;
+        const r = await api("users?id=" + encodeURIComponent(u.id), { method: "DELETE" });
+        if (!r.ok) return toast(r.error || "ลบไม่สำเร็จ", "err");
+        toast(`ลบผู้ใช้ "${u.name}" แล้ว`); reload();
+      }
+    });
+  } };
+}
+};
+
+Object.assign(AdminViews, AdminUsers);
 
 function projectForm(id) {
   const blank = { id: "", name: "", cat: "vinyl", type: "", area: "", location: "", product: "", size: "", scope: "", year: String(new Date().getFullYear()), text: "", img: "", gallery: [], published: true };
@@ -2217,19 +2367,32 @@ function projectForm(id) {
   } };
 }
 
-function loginHTML() {
+function loginHTML(firstRun) {
   return `
   <div class="login">
     <form class="login-box" id="loginForm" autocomplete="off">
       <span class="logo">${logoImg()}</span>
-      <h1>เข้าสู่ระบบจัดการเว็บไซต์</h1>
+      <h1>${firstRun ? "สร้างบัญชีผู้ดูแลคนแรก" : "เข้าสู่ระบบจัดการเว็บไซต์"}</h1>
+      ${firstRun ? `<p class="login-note">ยังไม่มีผู้ใช้งานในระบบ บัญชีแรกที่สร้างจะเป็นเจ้าของระบบ</p>` : ""}
+      ${firstRun ? `<div class="field"><label for="uname">ชื่อที่แสดง</label><input id="uname" autocomplete="name" placeholder="เช่น สมชาย ใจดี"></div>` : ""}
       <div class="field">
-        <label for="pw">รหัสผ่าน</label>
+        <label for="user">ชื่อผู้ใช้</label>
+        <input id="user" autocomplete="username" spellcheck="false" required ${firstRun ? 'placeholder="ใช้ a-z 0-9 . _ - ยาว 3-32 ตัว"' : ""}>
+      </div>
+      <div class="field">
+        <label for="pw">${firstRun ? "ตั้งรหัสผ่าน (อย่างน้อย 8 ตัวอักษร)" : "รหัสผ่าน"}</label>
         <div class="pw-wrap">
-          <input type="password" id="pw" autocomplete="current-password" required>
-          <button type="button" class="pw-eye" id="pwEye" aria-label="แสดงรหัสผ่าน" aria-pressed="false" title="แสดงรหัสผ่าน">${AI.eye}</button>
+          <input type="password" id="pw" autocomplete="${firstRun ? "new-password" : "current-password"}" required>
+          <button type="button" class="pw-eye" data-eye="pw" aria-label="แสดงรหัสผ่าน" aria-pressed="false" title="แสดงรหัสผ่าน">${AI.eye}</button>
         </div>
       </div>
+      ${firstRun ? `<div class="field">
+        <label for="pw2">ยืนยันรหัสผ่าน</label>
+        <div class="pw-wrap">
+          <input type="password" id="pw2" autocomplete="new-password" required>
+          <button type="button" class="pw-eye" data-eye="pw2" aria-label="แสดงรหัสผ่าน" aria-pressed="false" title="แสดงรหัสผ่าน">${AI.eye}</button>
+        </div>
+      </div>` : ""}
       <div class="field">
         <label for="cap">พิมพ์อักษรที่เห็นในภาพ</label>
         <div class="cap-row">
@@ -2239,9 +2402,8 @@ function loginHTML() {
         <input id="cap" autocomplete="off" spellcheck="false" inputmode="latin" required>
       </div>
       <p class="err-line" id="loginErr" hidden></p>
-      <button class="btn btn-primary" id="loginBtn">เข้าสู่ระบบ</button>
+      <button class="btn btn-primary" id="loginBtn">${firstRun ? "สร้างบัญชีและเข้าสู่ระบบ" : "เข้าสู่ระบบ"}</button>
       <a href="#/">← กลับไปหน้าเว็บไซต์</a>
-      <button type="button" class="link-reset" id="pwHelp">เข้าสู่ระบบไม่ได้ กดที่นี่</button>
     </form>
   </div>`;
 }
@@ -2282,76 +2444,61 @@ function drawCaptcha() {
   return code;
 }
 
-function renderAdmin(sub, a, b) {
+async function renderAdmin(sub, a, b) {
   document.body.classList.add("is-admin");
   document.title = "ระบบจัดการเว็บไซต์ | Crystal Ideas Solution";
+
   if (!authed) {
-    app.innerHTML = loginHTML();
+    const firstRun = Store.online && !Store.ready;
+    app.innerHTML = loginHTML(firstRun);
     let code = drawCaptcha();
     const err = $("#loginErr"), btn = $("#loginBtn");
     const show = m => { err.textContent = m; err.hidden = !m; };
-    const fails = () => { try { return JSON.parse(localStorage.getItem("cis-login-lock") || "{}"); } catch (e) { return {}; } };
-    const setFails = v => { try { localStorage.setItem("cis-login-lock", JSON.stringify(v)); } catch (e) {} };
-    let tick;
-    const lockCheck = () => {
-      const f = fails(), left = Math.ceil(((f.until || 0) - Date.now()) / 1000);
-      if (left > 0) {
-        btn.disabled = true; show(`ใส่รหัสผ่านผิดหลายครั้ง กรุณารออีก ${left} วินาที`);
-        clearTimeout(tick); tick = setTimeout(lockCheck, 1000);
-        return true;
-      }
-      btn.disabled = false; return false;
-    };
-    cleanup.push(() => clearTimeout(tick));
-    lockCheck();
     $("#capNew").onclick = () => { code = drawCaptcha(); $("#cap").value = ""; $("#cap").focus(); };
-    $("#pwHelp").onclick = async () => {
-      if (!await ask("ล้างข้อมูลระบบจัดการที่เก็บไว้ในเบราว์เซอร์เครื่องนี้ แล้วเริ่มใหม่จากเนื้อหาตั้งต้นใช่ไหม (เนื้อหาที่เคยแก้ไว้ในเครื่องนี้จะหาย ส่วนเว็บที่เผยแพร่อยู่ไม่กระทบ)", "ล้างข้อมูล")) return;
-      try { sessionStorage.clear(); localStorage.removeItem("cis-login-lock"); } catch (e) {}
-      try { if (Store.db) Store.db.close(); indexedDB.deleteDatabase("crystal-cms"); } catch (e) {}
-      try { await fetch(location.href, { cache: "reload" }); } catch (e) {}
-      setTimeout(() => location.reload(), 300);
-    };
-    $("#pwEye").onclick = () => {
-      const inp = $("#pw"), eye = $("#pwEye"), show = inp.type === "password";
-      inp.type = show ? "text" : "password";
-      eye.innerHTML = show ? AI.eyeOff : AI.eye;
-      eye.setAttribute("aria-pressed", show);
-      eye.setAttribute("aria-label", show ? "ซ่อนรหัสผ่าน" : "แสดงรหัสผ่าน");
-      eye.title = show ? "ซ่อนรหัสผ่าน" : "แสดงรหัสผ่าน";
-      const end = inp.value.length;
-      inp.focus(); try { inp.setSelectionRange(end, end); } catch (err) {}
-    };
-    $("#pw").focus();
-    if (!hasCrypto()) show("เบราว์เซอร์นี้เข้าระบบจัดการไม่ได้ กรุณาเปิดเว็บผ่าน https:// หรือใช้ Chrome / Edge รุ่นใหม่");
+    $("#user").focus();
+    if (!Store.online) show("เครื่องนี้ยังติดต่อเซิร์ฟเวอร์ไม่ได้ จึงเข้าระบบจัดการไม่ได้ (เปิดเว็บผ่านที่อยู่จริงของเว็บไซต์ ไม่ใช่การเปิดไฟล์ตรง ๆ)");
+
     $("#loginForm").onsubmit = async e => {
       e.preventDefault();
-      if (lockCheck()) return;
+      if (!Store.online) return;
       if ($("#cap").value.trim().toUpperCase() !== code) {
         code = drawCaptcha(); $("#cap").value = "";
         show("อักษรยืนยันไม่ถูกต้อง ลองใหม่อีกครั้ง"); $("#cap").focus();
         return;
       }
+      const pw = $("#pw").value, username = $("#user").value.trim().toLowerCase();
+      if (!username) return show("กรุณากรอกชื่อผู้ใช้");
       btn.disabled = true;
-      let ok = false;
-      try { ok = await pwCheck($("#pw").value); } catch (err) { ok = false; }
+      let r;
+      if (firstRun) {
+        if (!/^[a-z0-9._-]{3,32}$/.test(username)) { btn.disabled = false; return show("ชื่อผู้ใช้ต้องเป็น a-z 0-9 . _ - ยาว 3-32 ตัว"); }
+        if (pw.length < 8) { btn.disabled = false; return show("รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร"); }
+        if (pw !== $("#pw2").value) { btn.disabled = false; return show("รหัสผ่านทั้งสองช่องไม่ตรงกัน"); }
+        r = await api("setup", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ username, name: $("#uname").value.trim(), password: pw }) });
+      } else {
+        r = await api("login", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ username, password: pw }) });
+      }
       btn.disabled = false;
-      if (ok) { setFails({}); setAuth(true); route(); return; }
-      const f = fails(), n = (f.n || 0) + 1;
-      setFails(n >= 5 ? { n: 0, until: Date.now() + 60000 } : { n });
+      if (r.ok) { Store.ready = true; setAuth(true, r.body && r.body.me); route(); return; }
       code = drawCaptcha(); $("#cap").value = "";
-      if (!lockCheck()) show(`รหัสผ่านไม่ถูกต้อง ลองอีกครั้ง (เหลืออีก ${5 - n} ครั้งก่อนถูกล็อกชั่วคราว)`);
+      show(r.error || "เข้าสู่ระบบไม่สำเร็จ ลองอีกครั้ง");
       $("#pw").select();
     };
     return;
   }
+
+  if (Store.msgs === null) await Store.loadMessages();
   const key = AdminViews.hasOwnProperty(sub) ? sub : "";
   const v = AdminViews[key](a, b);
   app.innerHTML = shell(key, v.title, v.html, v.action || "");
+  fixLinks(app);
   const adm = $("#adm");
   $("#admMenu").onclick = () => adm.classList.add("nav-open");
   $("#admScrim").onclick = () => adm.classList.remove("nav-open");
-  $("#logout").onclick = () => { setAuth(false); go(""); };
+  $("#logout").onclick = async () => {
+    await api("logout", { method: "POST" });
+    setAuth(false); Store.msgs = null; go("");
+  };
   v.bind && v.bind();
 }
 
@@ -2394,6 +2541,18 @@ mbtn.addEventListener("click", () => {
   document.body.style.overflow = open ? "hidden" : "";
 });
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
+document.addEventListener("click", e => {
+  const eye = e.target.closest("[data-eye]"); if (!eye) return;
+  const inp = document.getElementById(eye.dataset.eye); if (!inp) return;
+  const showing = inp.type === "password";
+  inp.type = showing ? "text" : "password";
+  eye.innerHTML = showing ? AI.eyeOff : AI.eye;
+  eye.setAttribute("aria-pressed", showing);
+  eye.setAttribute("aria-label", showing ? "ซ่อนรหัสผ่าน" : "แสดงรหัสผ่าน");
+  eye.title = showing ? "ซ่อนรหัสผ่าน" : "แสดงรหัสผ่าน";
+  const end = inp.value.length;
+  inp.focus(); try { inp.setSelectionRange(end, end); } catch (err) {}
+});
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-lang]"); if (!b || b.dataset.lang === LANG) return;
   LANG = b.dataset.lang;

@@ -10,7 +10,8 @@
    จึงตกมาที่ไฟล์นี้ แล้วส่งต่อกลับไปที่ index.html พร้อมแนบพาธเดิมไปในรูปแบบ ?/พาธ
    (index.html มีสคริปต์ถอดกลับเป็น URL เดิมให้อัตโนมัติ) */
 (function (l) {
-  var keep = /\.github\.io$/i.test(l.hostname) ? 1 : 0;   // บน github.io เว็บอยู่ในโฟลเดอร์ชื่อ repo
+  if (!/\.github\.io$/i.test(l.hostname)) return;   // ใช้เฉพาะตอนโฮสต์อยู่บน GitHub Pages เท่านั้น
+  var keep = 1;                                      // เว็บอยู่ในโฟลเดอร์ชื่อ repo
   var segs = l.pathname.split("/").filter(function (s) { return s; });
   var base = "/" + segs.slice(0, keep).join("/") + (keep ? "/" : "");
   var rest = segs.slice(keep).join("/");

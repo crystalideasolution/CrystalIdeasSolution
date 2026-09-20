@@ -1,0 +1,7 @@
+name = "crystal-ideas-solution"
+compatibility_date = "2026-09-01"
+pages_build_output_dir = "."
+
+[[kv_namespaces]]
+binding = "CIS_KV"
+id = "PLACEHOLDER"
