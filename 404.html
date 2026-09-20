@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crystal Ideas Solution</title>
+<meta name="robots" content="noindex">
+<script>
+/* GitHub Pages ไม่มีฝั่งเซิร์ฟเวอร์ให้ตั้งค่า rewrite เวลาเปิด URL ตรง ๆ เช่น /projects
+   จึงตกมาที่ไฟล์นี้ แล้วส่งต่อกลับไปที่ index.html พร้อมแนบพาธเดิมไปในรูปแบบ ?/พาธ
+   (index.html มีสคริปต์ถอดกลับเป็น URL เดิมให้อัตโนมัติ) */
+(function (l) {
+  var keep = /\.github\.io$/i.test(l.hostname) ? 1 : 0;   // บน github.io เว็บอยู่ในโฟลเดอร์ชื่อ repo
+  var segs = l.pathname.split("/").filter(function (s) { return s; });
+  var base = "/" + segs.slice(0, keep).join("/") + (keep ? "/" : "");
+  var rest = segs.slice(keep).join("/");
+  l.replace(l.protocol + "//" + l.host + base + "?/" + rest +
+    (l.search ? "&" + l.search.slice(1).replace(/&/g, "~and~") : "") + l.hash);
+})(window.location);
+</script>
+<style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0A1630;color:#C9D3E8;
+     font-family:'Manrope','Noto Sans Thai',system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif}
+a{color:#fff}
+</style>
+</head>
+<body>
+  <p>กำลังพาไปยังหน้าที่ต้องการ… <a href="/">กลับหน้าแรก</a></p>
+</body>
+</html>

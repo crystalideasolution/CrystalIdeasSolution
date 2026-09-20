@@ -19,6 +19,17 @@
 <meta name="twitter:description" content="บริการสื่อโฆษณา งานพิมพ์ไวนิล สติ๊กเกอร์ ป้ายไฟ กล่องไฟ และงานติดตั้งครบวงจร">
 <meta name="twitter:image" content="CIS1.jpg">
 <link rel="icon" href="CIS.png">
+<script>
+/* เก็บโฟลเดอร์ที่เว็บติดตั้งอยู่ไว้ก่อนแก้ URL และถอดพาธที่ 404.html ส่งต่อมาให้กลับเป็น URL สวย ๆ */
+(function (l) {
+  var p = l.pathname;
+  window.__BASE__ = p.slice(0, p.lastIndexOf("/") + 1);
+  if (l.search[1] === "/") {
+    var decoded = l.search.slice(1).split("&").map(function (s) { return s.replace(/~and~/g, "&"); }).join("?");
+    history.replaceState(null, "", p.replace(/\/$/, "") + decoded + l.hash);
+  }
+})(window.location);
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -681,6 +692,28 @@ const clone = o => JSON.parse(JSON.stringify(o));
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 const slugify = s => String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 const telHref = p => "tel:" + String(p).replace(/[^\d+]/g, "");
+
+/* ---------- URL ของแต่ละหน้า (ไม่มี # เมื่อเปิดผ่านเว็บเซิร์ฟเวอร์) ---------- */
+const HASHMODE = location.protocol === "file:";          // เปิดไฟล์ตรง ๆ ต้องใช้ # เพราะเบราว์เซอร์ไม่ให้เปลี่ยน path
+const BASE = HASHMODE ? "" : (window.__BASE__ || "/");
+const U = p => HASHMODE ? "#/" + p : BASE + p;
+function currentPath() {
+  if (HASHMODE) return location.hash.replace(/^#\/?/, "").replace(/^\/+|\/+$/g, "");
+  let p = location.pathname;
+  if (p.toLowerCase().indexOf(BASE.toLowerCase()) === 0) p = p.slice(BASE.length);
+  return p.replace(/^index\.html/i, "").replace(/^\/+|\/+$/g, "");
+}
+function go(path) {
+  const url = U(path);
+  if (HASHMODE) { location.hash = url; return; }
+  if (location.pathname !== url) history.pushState({}, "", url);
+  route();
+}
+/* ลิงก์ในโค้ดเขียนเป็น #/xxx ไว้ ตรงนี้แปลงให้เป็น URL จริงตอนแสดงผล */
+function fixLinks(root) {
+  if (HASHMODE) return;
+  (root || document).querySelectorAll('a[href^="#/"]').forEach(a => a.setAttribute("href", U(a.getAttribute("href").slice(2))));
+}
 
 /* =========================================================
    ข้อมูลตั้งต้น (ใช้เมื่อยังไม่เคยแก้ไขผ่านระบบจัดการ)
@@ -1523,7 +1556,7 @@ async function commit(msg = "บันทึกแล้ว") {
   const ok = await Store.save();
   applyChrome();
   if (ok) toast(msg);
-  else toast("เบราว์เซอร์นี้เก็บข้อมูลถาวรไม่ได้ ดาวน์โหลดไฟล์สำรองในเมนูสำรองข้อมูลก่อนปิดหน้า", "warn");
+  else toast("เบราว์เซอร์นี้เก็บข้อมูลถาวรไม่ได้ การแก้ไขจะหายเมื่อปิดหน้า", "warn");
   return ok;
 }
 function download(name, text, type) {
@@ -1611,13 +1644,14 @@ const val = (root, n) => (root.querySelector(`[name="${n}"]`)?.value ?? "").trim
 /* =========================================================
    ADMIN — views
    ========================================================= */
-const ADM_NAV = [["","แดชบอร์ด","dash"],["hero","แบนเนอร์","img"],["services","บริการ","grid"],["projects","ผลงาน","folder"],["about","เกี่ยวกับเรา","info"],["clients","โลโก้ลูกค้า","star"],["company","ข้อมูลบริษัท","building"],["messages","ข้อความจากลูกค้า","inbox"],["backup","สำรองข้อมูล","db"]];
+const ADM_NAV = [["","แดชบอร์ด","dash"],["hero","แบนเนอร์","img"],["services","บริการ","grid"],["projects","ผลงาน","folder"],["about","เกี่ยวกับเรา","info"],["clients","โลโก้ลูกค้า","star"],["company","ข้อมูลบริษัท","building"],["messages","ข้อความจากลูกค้า","inbox"]];
+/* หน้า "สำรองข้อมูล" ถูกซ่อนจากเมนู แต่ยังเข้าได้โดยพิมพ์ #/admin/backup ที่ช่อง URL */
 
 const shell = (active, title, html, action = "") => `
   <div class="adm" id="adm">
     <aside class="adm-side" aria-label="เมนูระบบจัดการ">
       <a class="adm-brand" href="#/admin">${logoImg()}<small>ระบบจัดการเว็บไซต์</small></a>
-      <nav>${ADM_NAV.map(([k,l,ic]) => `<a href="#/admin${k ? "/" + k : ""}" class="${active === k ? "on" : ""}" ${active === k ? 'aria-current="page"' : ""}>${AI[ic]}<span>${l}</span>${k === "messages" && unread() ? `<em>${unread()}</em>` : ""}</a>`).join("")}</nav>
+      <nav>${ADM_NAV.map(([k,l,ic]) => `<a href="#/admin${k ? "/" + k : ""}" data-adm="${k}" class="${active === k ? "on" : ""}" ${active === k ? 'aria-current="page"' : ""}>${AI[ic]}<span>${l}</span>${k === "messages" && unread() ? `<em>${unread()}</em>` : ""}</a>`).join("")}</nav>
       <div class="adm-side-foot">
         <a href="#/">ดูหน้าเว็บไซต์</a>
         <button type="button" id="logout">ออกจากระบบ</button>
@@ -1630,7 +1664,7 @@ const shell = (active, title, html, action = "") => `
         <h1>${title}</h1>
         <div class="sp">${action}</div>
       </header>
-      <div class="adm-body">${Store.db ? "" : `<div class="note warn">เบราว์เซอร์นี้ไม่อนุญาตให้เก็บข้อมูลถาวร การแก้ไขจะหายเมื่อปิดหน้า ให้ดาวน์โหลดไฟล์สำรองในเมนู "สำรองข้อมูล" ก่อนปิด หรือเปิดไฟล์นี้ใน Chrome / Edge โดยตรง</div>`}${html}</div>
+      <div class="adm-body">${Store.db ? "" : `<div class="note warn">เบราว์เซอร์นี้ไม่อนุญาตให้เก็บข้อมูลถาวร การแก้ไขจะหายเมื่อปิดหน้า ลองเปิดเว็บนี้ด้วย Chrome หรือ Edge โดยไม่ใช้โหมดไม่ระบุตัวตน</div>`}${html}</div>
     </div>
   </div>`;
 
@@ -2028,7 +2062,7 @@ messages() {
         </details>`).join("")
         : `<div class="card empty-a"><b>${D().messages.length ? "อ่านครบทุกข้อความแล้ว" : "ยังไม่มีข้อความ"}</b>ข้อความที่ลูกค้าส่งจากฟอร์มหน้า "ติดต่อเรา" จะแสดงที่นี่</div>`;
     };
-    const refreshBadge = () => { const a = document.querySelector('.adm-side a[href="#/admin/messages"]'); const em = a.querySelector("em"); const n = unread(); if (n) { if (em) em.textContent = n; else a.insertAdjacentHTML("beforeend", `<em>${n}</em>`); } else if (em) em.remove(); };
+    const refreshBadge = () => { const a = document.querySelector('.adm-side a[data-adm="messages"]'); const em = a.querySelector("em"); const n = unread(); if (n) { if (em) em.textContent = n; else a.insertAdjacentHTML("beforeend", `<em>${n}</em>`); } else if (em) em.remove(); };
     draw(); mf.onchange = draw;
     box.addEventListener("toggle", e => {
       const d = e.target; if (!d.open) return;
@@ -2138,7 +2172,7 @@ function projectForm(id) {
         while (D().projects.some(x => x.id === sid)) sid = `${base}-${k++}`;
         D().projects.unshift({ id: sid, ...upd });
       }
-      commit(id ? "บันทึกผลงานแล้ว" : "เพิ่มผลงานแล้ว").then(() => { location.hash = "#/admin/projects"; });
+      commit(id ? "บันทึกผลงานแล้ว" : "เพิ่มผลงานแล้ว").then(() => go("admin/projects"));
     };
   } };
 }
@@ -2252,7 +2286,7 @@ function renderAdmin(sub, a, b) {
   const adm = $("#adm");
   $("#admMenu").onclick = () => adm.classList.add("nav-open");
   $("#admScrim").onclick = () => adm.classList.remove("nav-open");
-  $("#logout").onclick = () => { setAuth(false); location.hash = "#/"; };
+  $("#logout").onclick = () => { setAuth(false); go(""); };
   v.bind && v.bind();
 }
 
@@ -2261,14 +2295,14 @@ function renderAdmin(sub, a, b) {
    ========================================================= */
 function route() {
   cleanup.forEach(fn => fn()); cleanup = [];
-  const hash = location.hash.replace(/^#\/?/, "");
-  const parts = hash.split("/");
+  const parts = currentPath().split("/");
   closeMenu();
-  if (parts[0] === "admin") { renderAdmin(parts[1] || "", parts[2], parts[3]); window.scrollTo(0, 0); return; }
+  if (parts[0] === "admin") { renderAdmin(parts[1] || "", parts[2], parts[3]); fixLinks(app); window.scrollTo(0, 0); return; }
   document.body.classList.remove("is-admin");
   const name = parts[0];
   const page = name === "project" ? "project" : (Pages.hasOwnProperty(name) && name !== "project" ? name : "home");
   app.innerHTML = Pages[page](parts[1]);
+  fixLinks(app);
   after[page] && after[page]();
   const navKey = page === "project" ? "projects" : page;
   document.querySelectorAll("[data-nav]").forEach(a => {
@@ -2302,7 +2336,26 @@ document.addEventListener("click", e => {
   applyChrome(); route();
 });
 
-window.addEventListener("hashchange", route);
+if (HASHMODE) window.addEventListener("hashchange", route);
+else {
+  window.addEventListener("popstate", route);
+  document.addEventListener("click", e => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest("a"); if (!a || a.target === "_blank" || a.hasAttribute("download")) return;
+    const href = a.getAttribute("href"); if (!href) return;
+    let path = null;
+    if (href.indexOf("#/") === 0) path = href.slice(2);
+    else if (href.indexOf(BASE) === 0 && !/^[a-z]+:/i.test(href)) path = href.slice(BASE.length);
+    if (path === null) return;
+    e.preventDefault();
+    go(path);
+  });
+  /* ลิงก์เก่าแบบ #/xxx ที่เคยบันทึกไว้ ให้เด้งไปหน้าเดียวกันแบบไม่มี # */
+  if (location.hash.indexOf("#/") === 0) history.replaceState({}, "", U(location.hash.slice(2)));
+  else if (/index.html$/i.test(location.pathname)) history.replaceState({}, "", BASE);
+  new MutationObserver(() => fixLinks(app)).observe(app, { childList: true, subtree: true });
+}
+fixLinks(document);
 Store.load().then(() => { applyChrome(); route(); });
 
 </script>
