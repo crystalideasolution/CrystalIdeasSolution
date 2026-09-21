@@ -201,7 +201,9 @@ button,input,select,textarea{font:inherit}
 .phero{position:relative;background:var(--navy);color:#fff;overflow:hidden}
 .phero-bg{position:absolute;inset:0;background-size:cover;background-position:center}
 .phero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,15,34,.95) 0%,rgba(7,15,34,.82) 45%,rgba(7,15,34,.5) 100%)}
-.phero-inner{position:relative;z-index:2;padding-block:72px 64px}
+/* ทุกหน้าสูงเท่ากัน ไม่ว่าหัวข้อจะยาวกี่บรรทัด เนื้อหาจัดไว้กลางแนวตั้ง */
+.phero-inner{position:relative;z-index:2;padding-block:48px;min-height:360px;display:flex;flex-direction:column;justify-content:center}
+.phero-inner>:last-child{margin-bottom:0}
 .phero h1{font-size:clamp(28px,3.6vw,44px);line-height:1.25;font-weight:800;margin:0 0 14px;max-width:18em}
 .phero p{color:#D5DEEE;max-width:34em;margin:0}
 .phero .eyebrow{color:#9DBBFF}
@@ -342,6 +344,7 @@ body.is-admin .fab{display:none}
 .vision{display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:center}
 .vision blockquote{margin:0;font-size:clamp(18px,1.8vw,22px);font-weight:700;line-height:1.6;color:var(--ink);border-left:4px solid var(--blue);padding-left:20px}
 .vision .ph{aspect-ratio:4/3}
+.about-intro{margin:0 0 36px;font-size:17px;line-height:1.85;color:#374151;white-space:pre-line}
 .values{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
 .value{text-align:center;padding:28px 16px;background:#fff;border:1px solid var(--line)}
 .value svg{width:44px;height:44px;color:var(--blue);margin:0 auto 14px}
@@ -455,6 +458,7 @@ body.is-admin .fab{display:none}
   .hero-side{display:none}
   .hero-shade{background:linear-gradient(180deg,rgba(7,15,34,.55) 0%,rgba(7,15,34,.9) 55%)}
   .phero-shade{background:linear-gradient(180deg,rgba(7,15,34,.6) 0%,rgba(7,15,34,.92) 70%)}
+  .phero-inner{min-height:300px;padding-block:40px}
   .wall-text{opacity:.5}
   .contact-grid,.map-row,.vision,.pd-grid{grid-template-columns:1fr}
   .proj-grid{grid-template-columns:repeat(2,1fr)}
@@ -766,7 +770,7 @@ const slugify = s => String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").
 const telHref = p => "tel:" + String(p).replace(/[^\d+]/g, "");
 
 /* ---------- เวอร์ชันของไฟล์นี้ (ต้องตรงกับไฟล์ version.txt ที่อัปขึ้นเซิร์ฟเวอร์) ---------- */
-const APP_VERSION = "2026.09.21-5";
+const APP_VERSION = "2026.09.21-6";
 /* GitHub Pages สั่งให้เบราว์เซอร์เก็บไฟล์ไว้ 10 นาที ถ้าเพิ่งอัปเดตเว็บ ผู้ใช้อาจยังเห็นของเก่า
    ตรงนี้จึงถามเซิร์ฟเวอร์ว่าเวอร์ชันล่าสุดคืออะไร ถ้าไม่ตรงกับไฟล์ที่กำลังรันอยู่ ให้โหลดใหม่ให้เองหนึ่งครั้ง */
 async function checkVersion() {
@@ -1198,7 +1202,7 @@ const pageHero = (key, eyebrow, title, sub, wall = "") => {
     ${bg ? `<div class="phero-bg" style="background-image:url('${esc(bg)}')"></div>` : ""}
     <div class="phero-shade"></div>
     ${wall ? `<div class="wall-text" aria-hidden="true">${wall}</div>` : ""}
-    <div class="wrap phero-inner"><p class="eyebrow">${eyebrow}</p><h1>${title}</h1><p>${sub}</p></div>
+    <div class="wrap phero-inner"><p class="eyebrow">${eyebrow}</p><h1>${title}</h1>${sub ? `<p>${sub}</p>` : ""}</div>
   </section>`;
 };
 
@@ -1381,10 +1385,11 @@ projects() {
 about() {
   const a = D().about;
   return `
-  ${pageHero("about","About us",t("about.title"),esc(pick(a.text, a.textEn)))}
+  ${pageHero("about","About us",t("about.title"),"")}
   <section class="sec">
     <div class="wrap vision">
       <div>
+        ${pick(a.text, a.textEn) ? `<p class="about-intro">${esc(pick(a.text, a.textEn))}</p>` : ""}
         <p class="eyebrow">Our vision</p>
         <blockquote>${esc(pick(a.vision, a.visionEn))}</blockquote>
       </div>
