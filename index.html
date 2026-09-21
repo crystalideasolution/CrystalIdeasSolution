@@ -395,7 +395,14 @@ body.is-admin .fab{display:none}
    ========================================================= */
 .back{display:inline-flex;gap:6px;align-items:center;font-size:13px;font-weight:700;color:var(--blue);letter-spacing:.04em;text-transform:uppercase;margin-bottom:20px}
 .gallery{display:grid;grid-template-columns:1fr 150px;gap:14px}
-.gallery .main .ph{aspect-ratio:16/9}
+/* มีรูปเดียวก็ไม่ต้องจองคอลัมน์รูปย่อไว้ รูปหลักจะได้เต็มกรอบและอยู่กึ่งกลาง */
+.gallery.single{grid-template-columns:1fr}
+/* รูปหลักแสดงเต็มรูปเสมอ (contain) ไม่ว่าจะเป็นแนวตั้ง จัตุรัส หรือกว้างพิเศษ
+   ส่วนที่เหลือของกรอบใช้รูปเดียวกันแบบเบลอเติมแทนแถบสีทึบ */
+.pd-view{aspect-ratio:16/9;background:#0E1A33}
+.pd-view img{position:absolute;inset:0;width:100%;height:100%}
+.pd-view .pd-bg{object-fit:cover;filter:blur(24px) brightness(.55);transform:scale(1.15)}
+.pd-view .pd-fg{object-fit:contain}
 .thumbs{display:grid;gap:14px;align-content:start}
 .thumbs button{padding:0;border:2px solid transparent;background:none;cursor:pointer}
 .thumbs button[aria-current="true"]{border-color:var(--blue)}
@@ -759,7 +766,7 @@ const slugify = s => String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").
 const telHref = p => "tel:" + String(p).replace(/[^\d+]/g, "");
 
 /* ---------- เวอร์ชันของไฟล์นี้ (ต้องตรงกับไฟล์ version.txt ที่อัปขึ้นเซิร์ฟเวอร์) ---------- */
-const APP_VERSION = "2026.09.21-4";
+const APP_VERSION = "2026.09.21-5";
 /* GitHub Pages สั่งให้เบราว์เซอร์เก็บไฟล์ไว้ 10 นาที ถ้าเพิ่งอัปเดตเว็บ ผู้ใช้อาจยังเห็นของเก่า
    ตรงนี้จึงถามเซิร์ฟเวอร์ว่าเวอร์ชันล่าสุดคืออะไร ถ้าไม่ตรงกับไฟล์ที่กำลังรันอยู่ ให้โหลดใหม่ให้เองหนึ่งครั้ง */
 async function checkVersion() {
@@ -1166,6 +1173,11 @@ const AI = {
 };
 
 /* ---------- Photo renderer (ไม่มีรูป = เว้นว่าง) ---------- */
+/* กรอบรูปหลักของหน้ารายละเอียดผลงาน: รูปจริงแบบเต็มรูป + รูปเดียวกันแบบเบลอเป็นพื้นหลัง */
+function pdView(img, alt) {
+  if (!img) return ph("", alt);
+  return `<div class="ph pd-view"><img class="pd-bg" src="${esc(img)}" alt="" aria-hidden="true"><img class="pd-fg" src="${esc(img)}" alt="${esc(alt || "")}"></div>`;
+}
 function ph(img, alt) {
   if (img) return `<div class="ph"><img src="${esc(img)}" alt="${esc(alt || "")}" loading="lazy"></div>`;
   return `<div class="ph ph-empty" role="img" aria-label="${esc(alt || "ยังไม่มีรูปภาพ")}"></div>`;
@@ -1464,8 +1476,8 @@ project(id) {
   <section class="sec" style="padding-top:36px">
     <div class="wrap">
       <a href="#/projects" class="back">${I.back} ${t("proj.back")}</a>
-      <div class="gallery">
-        <div class="main" id="pdMain">${views[0]}</div>
+      <div class="gallery${views.length > 1 ? "" : " single"}">
+        <div class="main" id="pdMain">${pdView(p.img, p.name)}</div>
         ${views.length > 1 ? `<div class="thumbs">${views.map((v,i)=>`<button type="button" data-view="${i}" aria-current="${i===0}" aria-label="${isEN() ? "Photo" : "ภาพที่"} ${i+1}">${v}</button>`).join("")}</div>` : ""}
       </div>
       <h1 class="pd-title">${esc(p.name)}</h1>
@@ -1580,7 +1592,8 @@ const after = {
     const main = $("#pdMain");
     const thumbs = [...app.querySelectorAll("[data-view]")];
     thumbs.forEach(b => b.addEventListener("click", () => {
-      main.innerHTML = b.innerHTML;
+      const im = b.querySelector("img");
+      main.innerHTML = pdView(im ? im.getAttribute("src") : "", im ? im.alt : "");
       thumbs.forEach(x => x.setAttribute("aria-current", x === b));
     }));
   }
@@ -2379,7 +2392,7 @@ function projectForm(id) {
             <label class="sw-row"><input type="checkbox" class="sw" name="published" ${p.published !== false ? "checked" : ""}> แสดงผลงานนี้บนเว็บไซต์</label>
           </section>
           <section class="card">
-            ${imgField("img", p.img, "รูปหน้าปก", "แนะนำ 1600 x 1100 px<br>ถ้าไม่ใส่ จะเว้นช่องรูปไว้ว่าง")}
+            ${imgField("img", p.img, "รูปหน้าปก", "แนะนำแนวนอน 1600 x 1100 px<br>ขนาดอื่นก็ใช้ได้ หน้ารายละเอียดจะแสดงเต็มรูป ไม่ตัดขอบ")}
             <div class="field"><label>รูปเพิ่มเติม (แกลเลอรี)</label>
               <div class="gal">${(p.gallery || []).map(galItem).join("")}<label class="gal-add">+ เพิ่มรูป<input type="file" accept="image/*" multiple hidden data-galpick></label></div>
               <small class="hint">เลือกได้หลายรูปพร้อมกัน ระบบย่อขนาดรูปให้อัตโนมัติ</small>
