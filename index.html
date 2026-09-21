@@ -595,7 +595,9 @@ body.is-admin .site-header,body.is-admin .site-footer{display:none}
 .tbl td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
 .tbl tr:last-child td{border-bottom:0}
 .tbl .tthumb{width:76px}
-.tbl .grow{width:55%}
+.tbl td{white-space:nowrap}
+.tbl .tgrow{width:100%;text-align:right;white-space:nowrap}
+.tbl .tgrow .row-act{justify-content:flex-end}
 .tbl .tthumb .ph{width:76px;aspect-ratio:4/3;border-radius:4px}
 .tbl b{display:block}
 .tbl small{color:var(--muted)}
@@ -759,7 +761,7 @@ const slugify = s => String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").
 const telHref = p => "tel:" + String(p).replace(/[^\d+]/g, "");
 
 /* ---------- เวอร์ชันของไฟล์นี้ (ต้องตรงกับไฟล์ version.txt ที่อัปขึ้นเซิร์ฟเวอร์) ---------- */
-const APP_VERSION = "2026.09.21-2";
+const APP_VERSION = "2026.09.21-3";
 /* GitHub Pages สั่งให้เบราว์เซอร์เก็บไฟล์ไว้ 10 นาที ถ้าเพิ่งอัปเดตเว็บ ผู้ใช้อาจยังเห็นของเก่า
    ตรงนี้จึงถามเซิร์ฟเวอร์ว่าเวอร์ชันล่าสุดคืออะไร ถ้าไม่ตรงกับไฟล์ที่กำลังรันอยู่ ให้โหลดใหม่ให้เองหนึ่งครั้ง */
 async function checkVersion() {
@@ -1904,7 +1906,7 @@ projects(a, b) {
     </div>
     <div class="tbl-wrap">
       <table class="tbl">
-        <thead><tr><th>รูป</th><th class="grow">ชื่อผลงาน</th><th>หมวด</th><th>ปี</th><th>แสดงบนเว็บ</th><th>ลำดับ</th><th>จัดการ</th></tr></thead>
+        <thead><tr><th>รูป</th><th>ชื่อผลงาน</th><th>หมวด</th><th>ปี</th><th>แสดงบนเว็บ</th><th class="tgrow">ลำดับ</th><th>จัดการ</th></tr></thead>
         <tbody id="ptb"></tbody>
       </table>
     </div>
@@ -1918,11 +1920,11 @@ projects(a, b) {
       tb.innerHTML = list.length ? list.map(({ p, i }) => `
         <tr data-id="${esc(p.id)}">
           <td class="tthumb">${ph(p.img, p.name)}</td>
-          <td class="grow"><b>${esc(p.name)}</b><small>${esc(p.type)}${p.location ? " · " + esc(p.location) : ""}</small></td>
+          <td><b>${esc(p.name)}</b><small>${esc(p.type)}${p.location ? " · " + esc(p.location) : ""}</small></td>
           <td><span class="tag">${CAT_LABEL[p.cat] || p.cat}</span></td>
           <td>${esc(p.year)}</td>
           <td><input type="checkbox" class="sw" data-pub ${p.published !== false ? "checked" : ""} aria-label="แสดง ${esc(p.name)} บนเว็บ"></td>
-          <td><div class="row-act">
+          <td class="tgrow"><div class="row-act">
             <button type="button" class="icon-btn" data-mv="-1" ${filtering || i === 0 ? "disabled" : ""} aria-label="เลื่อนขึ้น">${AI.up}</button>
             <button type="button" class="icon-btn" data-mv="1" ${filtering || i === P.length - 1 ? "disabled" : ""} aria-label="เลื่อนลง">${AI.down}</button>
           </div></td>
@@ -2272,7 +2274,7 @@ users() {
     <p class="lead-a">ทุกคนใช้ระบบจัดการเดียวกัน เข้าสู่ระบบด้วยชื่อผู้ใช้และรหัสผ่านของตัวเอง</p>
     <div class="tbl-wrap">
       <table class="tbl">
-        <thead><tr><th class="grow">ชื่อที่แสดง</th><th>ชื่อผู้ใช้</th><th>สิทธิ์</th><th>สถานะ</th><th>เข้าใช้ล่าสุด</th><th>จัดการ</th></tr></thead>
+        <thead><tr><th>ชื่อที่แสดง</th><th>ชื่อผู้ใช้</th><th>สิทธิ์</th><th>สถานะ</th><th>เข้าใช้ล่าสุด</th><th class="tgrow">จัดการ</th></tr></thead>
         <tbody id="utb"><tr><td colspan="6" class="tbl-empty">กำลังโหลด…</td></tr></tbody>
       </table>
     </div>
@@ -2285,12 +2287,12 @@ users() {
     const draw = () => {
       tb.innerHTML = list.length ? list.map(u => `
         <tr data-id="${esc(u.id)}">
-          <td class="grow"><b>${esc(u.name)}</b>${u.id === Store.me.id ? '<small>บัญชีของคุณ</small>' : ""}</td>
+          <td><b>${esc(u.name)}</b>${u.id === Store.me.id ? '<small>บัญชีของคุณ</small>' : ""}</td>
           <td>${esc(u.username)}</td>
           <td><span class="tag">${ROLE_TH[u.role] || u.role}</span></td>
           <td>${u.active ? '<span class="tag" style="background:#E6F6EC;color:#146C43">ใช้งานได้</span>' : '<span class="tag" style="background:#FDE8E8;color:#B42318">ถูกระงับ</span>'}</td>
           <td><small>${u.lastLogin ? fmtDate(u.lastLogin) : "ยังไม่เคยเข้า"}</small></td>
-          <td><div class="row-act">
+          <td class="tgrow"><div class="row-act">
             <button type="button" class="icon-btn" data-edit aria-label="แก้ไข ${esc(u.name)}">${AI.edit}</button>
             <button type="button" class="icon-btn" data-toggle aria-label="${u.active ? "ระงับ" : "เปิดใช้"} ${esc(u.name)}" title="${u.active ? "ระงับการใช้งาน" : "เปิดใช้งาน"}">${u.active ? AI.lock : AI.unlock}</button>
             <button type="button" class="icon-btn danger" data-del aria-label="ลบ ${esc(u.name)}">${AI.trash}</button>
