@@ -11,6 +11,20 @@
    3) ถอดพาธที่ 404.html ส่งต่อมา (รูปแบบ ?/พาธ) กลับเป็น URL ปกติ */
 (function (l, d) {
   var p = l.pathname;
+  /* เว็บตัวจริงอยู่บน Cloudflare เพราะมีระบบหลังบ้าน (/api) ให้ทุกคนใช้ข้อมูลชุดเดียวกัน
+     GitHub Pages เสิร์ฟได้แต่ไฟล์นิ่ง เข้าหลังบ้านไม่ได้ ลิงก์เก่าที่ยังส่งต่อกันอยู่
+     จึงพาผู้ใช้มาที่ตัวจริงให้เอง โดยคงหน้าที่เขากำลังจะเปิดไว้ */
+  if (/\.github\.io$/i.test(l.hostname)) {
+    var folder = p.slice(0, p.lastIndexOf("/") + 1);
+    var rest = l.search[1] === "/"
+      ? l.search.slice(2).split("&").map(function (s) { return s.replace(/~and~/g, "&"); }).join("?")
+      : p.slice(folder.length);
+    var h = l.hash;
+    /* ลิงก์รุ่นเก่ายังเป็นแบบ #/contact ให้แปลงเป็น URL แบบใหม่ */
+    if (!rest && h.indexOf("#/") === 0) { rest = h.slice(2); h = ""; }
+    l.replace("https://crystal-ideas-solution.pages.dev/" + rest + h);
+    return;
+  }
   /* โฟลเดอร์ที่เว็บติดตั้งอยู่
      - เปิดไฟล์ตรง ๆ : ใช้โฟลเดอร์ของไฟล์
      - GitHub Pages  : เว็บอยู่ในโฟลเดอร์ชื่อ repo และ 404.html พาเรากลับมาที่โฟลเดอร์นั้นเสมอ
@@ -721,7 +735,7 @@ const slugify = s => String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").
 const telHref = p => "tel:" + String(p).replace(/[^\d+]/g, "");
 
 /* ---------- เวอร์ชันของไฟล์นี้ (ต้องตรงกับไฟล์ version.txt ที่อัปขึ้นเซิร์ฟเวอร์) ---------- */
-const APP_VERSION = "2026.09.20-9";
+const APP_VERSION = "2026.09.21-1";
 /* GitHub Pages สั่งให้เบราว์เซอร์เก็บไฟล์ไว้ 10 นาที ถ้าเพิ่งอัปเดตเว็บ ผู้ใช้อาจยังเห็นของเก่า
    ตรงนี้จึงถามเซิร์ฟเวอร์ว่าเวอร์ชันล่าสุดคืออะไร ถ้าไม่ตรงกับไฟล์ที่กำลังรันอยู่ ให้โหลดใหม่ให้เองหนึ่งครั้ง */
 async function checkVersion() {
