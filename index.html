@@ -22,7 +22,7 @@
     var h = l.hash;
     /* ลิงก์รุ่นเก่ายังเป็นแบบ #/contact ให้แปลงเป็น URL แบบใหม่ */
     if (!rest && h.indexOf("#/") === 0) { rest = h.slice(2); h = ""; }
-    l.replace("https://crystal-ideas-solution.pages.dev/" + rest + h);
+    l.replace("https://crystalideasolution.com/" + rest + h);
     return;
   }
   /* โฟลเดอร์ที่เว็บติดตั้งอยู่
@@ -770,7 +770,7 @@ const slugify = s => String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").
 const telHref = p => "tel:" + String(p).replace(/[^\d+]/g, "");
 
 /* ---------- เวอร์ชันของไฟล์นี้ (ต้องตรงกับไฟล์ version.txt ที่อัปขึ้นเซิร์ฟเวอร์) ---------- */
-const APP_VERSION = "2026.09.21-6";
+const APP_VERSION = "2026.09.22-1";
 /* GitHub Pages สั่งให้เบราว์เซอร์เก็บไฟล์ไว้ 10 นาที ถ้าเพิ่งอัปเดตเว็บ ผู้ใช้อาจยังเห็นของเก่า
    ตรงนี้จึงถามเซิร์ฟเวอร์ว่าเวอร์ชันล่าสุดคืออะไร ถ้าไม่ตรงกับไฟล์ที่กำลังรันอยู่ ให้โหลดใหม่ให้เองหนึ่งครั้ง */
 async function checkVersion() {
