@@ -5,7 +5,10 @@
    ลิงก์ทดลองของแต่ละรอบ deploy (xxxx.crystal-ideas-solution.pages.dev) ไม่ถูกเด้ง
    จะได้มีทางเข้าสำรองไว้ตรวจงานเสมอ */
 const CANONICAL = "crystalideasolution.com";
-const MOVE_TO_CANONICAL = new Set(["www.crystalideasolution.com", "crystal-ideas-solution.pages.dev"]);
+/* ยังไม่เด้ง crystal-ideas-solution.pages.dev: โดเมนเพิ่งจดเมื่อ 21 ก.ย. 2569 และโปรแกรมป้องกันไวรัส
+   บางตัว (เช่น RAV Endpoint Protection) บล็อกโดเมนที่จดใหม่ ถ้าบังคับเด้งตอนนี้ คนที่ใช้โปรแกรมพวกนี้
+   จะเข้าเว็บไม่ได้เลย เมื่อโดเมนไม่ถูกบล็อกแล้วค่อยเติม "crystal-ideas-solution.pages.dev" กลับเข้าไป */
+const MOVE_TO_CANONICAL = new Set(["www.crystalideasolution.com"]);
 
 export async function onRequest(context) {
   const { request, env, next } = context;
