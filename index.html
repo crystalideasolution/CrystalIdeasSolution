@@ -47,18 +47,20 @@
 <title>บริษัท คริสตัล ไอเดีย โซลูชั่น จำกัด | Crystal Ideas Solution</title>
 <meta name="description" content="Crystal Ideas Solution ออกแบบ ผลิต และติดตั้งสื่อโฆษณาครบวงจร งานพิมพ์ไวนิล สติ๊กเกอร์ ป้ายไฟ กล่องไฟ และงานโครงสร้าง ในกรุงเทพฯ">
 <meta name="keywords" content="บริษัท คริสตัล ไอเดีย โซลูชั่น, Crystal Ideas Solution, Crystal Idea Solution, CIS Groups, พิมพ์ไวนิล, สติ๊กเกอร์, ป้ายไฟ, กล่องไฟ, สื่อโฆษณา, inkjet media">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow" id="metaRobots">
+<link rel="canonical" href="https://crystalideasolution.com/" id="canon">
+<meta property="og:url" content="https://crystalideasolution.com/" id="ogUrl">
 <meta name="author" content="Crystal Ideas Solution Co., Ltd.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="th_TH">
 <meta property="og:site_name" content="บริษัท คริสตัล ไอเดีย โซลูชั่น จำกัด">
 <meta property="og:title" content="บริษัท คริสตัล ไอเดีย โซลูชั่น จำกัด | Crystal Ideas Solution">
 <meta property="og:description" content="ผู้ผลิตและให้บริการสื่อโฆษณา งานพิมพ์ไวนิล สติ๊กเกอร์ ป้ายไฟ กล่องไฟ และงานติดตั้งครบวงจร">
-<meta property="og:image" content="CIS1.jpg">
+<meta property="og:image" content="https://crystalideasolution.com/CIS1.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="บริษัท คริสตัล ไอเดีย โซลูชั่น จำกัด">
 <meta name="twitter:description" content="บริการสื่อโฆษณา งานพิมพ์ไวนิล สติ๊กเกอร์ ป้ายไฟ กล่องไฟ และงานติดตั้งครบวงจร">
-<meta name="twitter:image" content="CIS1.jpg">
+<meta name="twitter:image" content="https://crystalideasolution.com/CIS1.jpg">
 <link rel="icon" href="CIS.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -67,11 +69,13 @@
 {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
+  "@id": "https://crystalideasolution.com/#business",
+  "url": "https://crystalideasolution.com/",
   "name": "บริษัท คริสตัล ไอเดีย โซลูชั่น จำกัด",
   "alternateName": ["Crystal Ideas Solution Co., Ltd.", "Crystal Idea Solution Co., Ltd.", "CIS Groups"],
   "description": "ผู้ผลิตและให้บริการสื่อโฆษณา งานพิมพ์ไวนิล สติ๊กเกอร์ ป้ายไฟ กล่องไฟ โครงสร้าง และงานติดตั้งครบวงจรในกรุงเทพฯ",
-  "image": "CIS1.jpg",
-  "logo": "CIS.png",
+  "image": "https://crystalideasolution.com/CIS1.jpg",
+  "logo": "https://crystalideasolution.com/CIS.png",
   "email": "crystalideasolution@gmail.com",
   "telephone": ["+66 64 775 5089", "+66 90 996 6147"],
   "address": {
@@ -770,7 +774,7 @@ const slugify = s => String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").
 const telHref = p => "tel:" + String(p).replace(/[^\d+]/g, "");
 
 /* ---------- เวอร์ชันของไฟล์นี้ (ต้องตรงกับไฟล์ version.txt ที่อัปขึ้นเซิร์ฟเวอร์) ---------- */
-const APP_VERSION = "2026.09.22-2";
+const APP_VERSION = "2026.09.22-3";
 /* GitHub Pages สั่งให้เบราว์เซอร์เก็บไฟล์ไว้ 10 นาที ถ้าเพิ่งอัปเดตเว็บ ผู้ใช้อาจยังเห็นของเก่า
    ตรงนี้จึงถามเซิร์ฟเวอร์ว่าเวอร์ชันล่าสุดคืออะไร ถ้าไม่ตรงกับไฟล์ที่กำลังรันอยู่ ให้โหลดใหม่ให้เองหนึ่งครั้ง */
 async function checkVersion() {
@@ -2511,6 +2515,7 @@ function drawCaptcha() {
 async function renderAdmin(sub, a, b) {
   document.body.classList.add("is-admin");
   document.title = "ระบบจัดการเว็บไซต์ | Crystal Ideas Solution";
+  setSeo(false);
 
   if (!authed) {
     const firstRun = Store.online && !Store.ready;
@@ -2594,7 +2599,19 @@ function route() {
     contact: t("nav.contact") + " | " + brand
   };
   document.title = page === "project" ? ((pubProjects().find(p => p.id === decodeURIComponent(parts[1] || "")) || {}).name || t("nav.projects")) + " | " + brand : titles[page];
+  setSeo(true);
   window.scrollTo(0, 0);
+}
+
+/* ที่อยู่หลักของเว็บสำหรับ Google: ทุกหน้าชี้ไปที่โดเมนบริษัท ไม่ว่าจะเปิดจากที่อยู่ไหน
+   หน้าระบบจัดการไม่ให้ Google เก็บเข้าผลค้นหา */
+function setSeo(indexable) {
+  const rel = location.pathname.slice((window.__BASE__ || "/").length);
+  const href = "https://crystalideasolution.com/" + rel;
+  const c = document.getElementById("canon"), o = document.getElementById("ogUrl"), r = document.getElementById("metaRobots");
+  if (c) c.href = href;
+  if (o) o.content = href;
+  if (r) r.content = indexable ? "index, follow" : "noindex, nofollow";
 }
 
 const header = document.querySelector(".site-header"), mbtn = document.querySelector(".menu-btn");
